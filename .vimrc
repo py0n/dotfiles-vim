@@ -410,6 +410,7 @@ if filereadable($NEOBUNDLEFILEPATH)
     NeoBundle 'Shougo/neobundle.vim.git'
     NeoBundle 'Shougo/neocomplcache.vim'
     NeoBundle 'Shougo/unite.vim'
+    NeoBundle 'airblade/vim-rooter'
     NeoBundle 'altercation/vim-colors-solarized'
     NeoBundle 'ervandew/supertab.git'
     NeoBundle 'h1mesuke/unite-outline.git'
@@ -542,6 +543,20 @@ function! s:bundle.hooks.on_source(bundle)
     let g:Align_xstrlen=3
     " AlignCtrlで変更した設定を初期状態に戻す
     command! -nargs=0 AlignReset call Align#AlignCtrl("default")
+endfunction
+unlet s:bundle
+" }}}
+
+" Plugin : vim-rooter ===================================== {{{
+" https://github.com/airblade/vim-rooter
+let s:bundle = neobundle#get('vim-rooter')
+function! s:bundle.hooks.on_source(bundle)
+    augroup myRooter
+        autocmd!
+        " 2013/05/24 プラグイン本体に含まれていないもの。
+        autocmd BufEnter *.hs,*.pl,*.pm,*.t :Rooter
+    augroup END
+    let g:rooter_use_lcd = 1
 endfunction
 unlet s:bundle
 " }}}
