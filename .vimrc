@@ -416,7 +416,6 @@ if filereadable($NEOBUNDLEFILEPATH)
     NeoBundle 'h1mesuke/vim-alignta'
     NeoBundle 'mojako/ref-sources.vim.git'
     NeoBundle 'thinca/vim-ref.git'
-    NeoBundle 'tpope/vim-fugitive.git'
     NeoBundle 'tpope/vim-surround.git'
     NeoBundle 'ujihisa/neco-ghc.git'
     NeoBundle 'vim-scripts/ShowMarks.git'
@@ -436,6 +435,14 @@ if filereadable($NEOBUNDLEFILEPATH)
     NeoBundleLazy 'eagletmt/ghcmod-vim', {
     \    'autoload' : { 'filetypes' : [ 'haskell' ] },
     \    'depends'  : [ 'Shougo/vimproc' ]
+    \}
+
+    " git
+    " http://d.hatena.ne.jp/cohama/20120417/1334679297
+    " http://d.hatena.ne.jp/cohama/20130517/1368806202
+    NeoBundle 'tpope/vim-fugitive'
+    NeoBundle 'gregsexton/gitv', {
+    \    'depends' : [ 'tpope/vim-fugitive' ]
     \}
 
     filetype plugin indent on     " Required!
