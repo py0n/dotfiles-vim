@@ -516,6 +516,19 @@ endfunction
 unlet s:bundle
 " }}}
 
+" Plugin : gitv =========================================== {{{
+" https://github.com/gregsexton/gitv
+let s:bundle = neobundle#get('gitv')
+function! s:bundle.hooks.on_source(bundle)
+    augroup Gitv
+        autocmd!
+        " http://d.hatena.ne.jp/cohama/20120417/1334679297
+        autocmd FileType git :setlocal foldlevel=99
+    augroup END
+endfunction
+unlet s:bundle
+" }}}
+
 " Plugin : neocomplcache.vim ============================== {{{
 " https://github.com/Shougo/neocomplcache.vim
 let s:bundle = neobundle#get('neocomplcache.vim')
@@ -656,6 +669,15 @@ if has('autocmd')
 		autocmd!
 		autocmd FileType css set omnifunc=csscomplete#CompleteCSS
 	augroup END
+endif
+" }}}
+
+" FileType : Git ========================================== {{{
+if has('autocmd')
+    augroup GitCommit
+        autocmd!
+        autocmd FileType gitcommit set fileencoding=utf-8
+    augroup End
 endif
 " }}}
 
