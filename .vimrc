@@ -24,12 +24,6 @@ else
     finish
 endif
 
-" NeoBundleのディレクトリ。
-" https://github.com/deris/Config/blob/master/.vimrc
-let $VIMBUNDLEDIRPATH=$CFGHOME.'/bundle'
-let $NEOBUNDLEDIRPATH=$VIMBUNDLEDIRPATH.'/neobundle.vim'
-let $NEOBUNDLEFILEPATH=$NEOBUNDLEDIRPATH.'/autoload/neobundle.vim'
-
 " テンプレートのディレクトリ。
 let $TEMPLATEDIRPATH=$CFGHOME.'/template'
 
@@ -390,6 +384,23 @@ endif
 " プラグイン読込 (NeoBundle) ============================== {{{
 " http://vim-users.jp/2011/10/hack238/
 " https://github.com/Shougo/neobundle.vim
+
+" NeoBundleのディレクトリ。
+" https://github.com/deris/Config/blob/master/.vimrc
+let $VIMBUNDLEDIRPATH=$CFGHOME.'/bundle'
+let $NEOBUNDLEDIRPATH=$VIMBUNDLEDIRPATH.'/neobundle.vim'
+let $NEOBUNDLEFILEPATH=$NEOBUNDLEDIRPATH.'/autoload/neobundle.vim'
+
+" $HOME/.vim/bundleを作成する。
+if !isdirectory($VIMBUNDLEDIRPATH)
+    if has('iconv')
+        call mkdir(iconv($VIMBUNDLEDIRPATH, &encoding, &termencoding), 'p')
+    else
+        echomsg "Without iconv, recompile with iconv."
+        finish
+    endif
+endif
+
 if filereadable($NEOBUNDLEFILEPATH)
     if has('vim_starting')
         set runtimepath+=$NEOBUNDLEDIRPATH
