@@ -24,12 +24,22 @@ else
     finish
 endif
 
+" 函數 ==================================================== {{{
+function! s:auto_mkdir(dir)
+    if !isdirectory(a:dir)
+        if has('iconv') && has('multi_byte')
+            call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
+        else
+            echomsg "Can't mkdir ".a:dir.", recompile with +iconv and +multi_bute."
+        endif
+    endif
+endfunction
+" }}}
+
 " ディレクトリ設定 ======================================== {{{
 " テンプレートのディレクトリ。
 let $TEMPLATEDIRPATH=$CFGHOME.'/template'
-if !isdirectory($TEMPLATEDIRPATH)
-    call mkdir(iconv($TEMPLATEDIRPATH, &encoding, &termencoding), 'p')
-endif
+call s:auto_mkdir($TEMPLATEDIRPATH)
 " }}}
 
 " 文字コード自動判定 ====================================== {{{
@@ -201,11 +211,6 @@ if has("autocmd")
     augroup vimrc-auto-mkdir
         autocmd!
         autocmd BufWritePre * call s:auto_mkdir(expand('<afile>:p:h'))
-        function! s:auto_mkdir(dir)
-            if !isdirectory(a:dir)
-                call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
-            endif
-        endfunction
     augroup END
 endif
 " }}}
@@ -397,14 +402,7 @@ let $NEOBUNDLEDIRPATH=$VIMBUNDLEDIRPATH.'/neobundle.vim'
 let $NEOBUNDLEFILEPATH=$NEOBUNDLEDIRPATH.'/autoload/neobundle.vim'
 
 " $HOME/.vim/bundleを作成する。
-if !isdirectory($VIMBUNDLEDIRPATH)
-    if has('iconv')
-        call mkdir(iconv($VIMBUNDLEDIRPATH, &encoding, &termencoding), 'p')
-    else
-        echomsg "Without iconv, recompile with iconv."
-        finish
-    endif
-endif
+call s:auto_mkdir($VIMBUNDLEDIRPATH)
 
 if filereadable($NEOBUNDLEFILEPATH)
     if has('vim_starting')
