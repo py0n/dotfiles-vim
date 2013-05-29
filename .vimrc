@@ -24,8 +24,13 @@ else
     finish
 endif
 
+" ディレクトリ設定 ======================================== {{{
 " テンプレートのディレクトリ。
 let $TEMPLATEDIRPATH=$CFGHOME.'/template'
+if !isdirectory($TEMPLATEDIRPATH)
+    call mkdir(iconv($TEMPLATEDIRPATH, &encoding, &termencoding), 'p')
+endif
+" }}}
 
 " 文字コード自動判定 ====================================== {{{
 " http://www.kawaz.jp/pukiwiki/?vim#cb691f26
@@ -723,13 +728,18 @@ endif
 " }}}
 
 " File Type : Markdown ==================================== {{{
-if has('autocmd')
-    let $TEMPLATEFILEPATH=$TEMPLATEDIRPATH.'/markdown.txt'
-    augroup EditMarkdown
-        autocmd!
-        autocmd BufRead,BufNewFile *.md set filetype=markdown
-        autocmd BufNewFile *.md 0r $TEMPLATEFILEPATH
-    augroup END
+let $TEMPLATEFILEPATH=$TEMPLATEDIRPATH.'/markdown.txt'
+if filereadable($TEMPLATEFILEPATH)
+    if has('autocmd')
+        augroup EditMarkdown
+            autocmd!
+            autocmd BufRead,BufNewFile *.md set filetype=markdown
+            autocmd BufNewFile *.md 0r $TEMPLATEFILEPATH
+        augroup END
+    endif
+else
+    echomsg "No markdown template, make template."
+    finish
 endif
 " }}}
 
