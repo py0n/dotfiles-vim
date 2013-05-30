@@ -36,10 +36,32 @@ function! s:auto_mkdir(dir)
 endfunction
 " }}}
 
-" ディレクトリ設定 ======================================== {{{
+" テンプレート設定 ======================================== {{{
 " テンプレートのディレクトリ。
 let $TEMPLATEDIRPATH=$CFGHOME.'/template'
 call s:auto_mkdir($TEMPLATEDIRPATH)
+" }}}
+
+" バックアップ(backup)設定 ================================ {{{
+" バックアップを作成しない
+set nobackup
+" backupファイルの保管場所
+if &backup
+    let $BACKUPPDIRPATH=$CFGHOME.'/tmp'
+    call s:auto_mkdir($BACKUPDIRPATH)
+    set backupdir=$BACKUPDIRPATH
+endif
+" }}}
+
+" スワップ(swap)設定 ====================================== {{{
+" スワップファイルを作成する
+set swapfile
+" swapファイルの保管場所。
+if  &swapfile
+    let $SWAPDIRPATH=$CFGHOME.'/tmp'
+    call s:auto_mkdir($SWAPDIRPATH)
+    set directory=$SWAPDIRPATH
+endif
 " }}}
 
 " 文字コード自動判定 ====================================== {{{
@@ -154,8 +176,6 @@ set cinoptions+=:0
 set clipboard+=unnamed
 " コマンドラインの高さ
 set cmdheight=1
-" バックアップを作成しない
-set nobackup
 "C プログラムの自動インデントを無効にする(smartindent の為)
 set nocindent
 " 日本語行を連結する際に空白を挿入しない
@@ -179,8 +199,6 @@ set smartindent
 "" http://vim-users.jp/2009/07/hack36/
 "autocmd CursorHold  * wall
 "autocmd CursorHoldI * wall
-"" スワップファイルを作成しない
-"set noswapfile
 " 8進数を無効にする (C-a, C-xなどに影響する)
 set nrformats-=octal
 " http://gajumaru.ddo.jp/wordpress/?p=1101
