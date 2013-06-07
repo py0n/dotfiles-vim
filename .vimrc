@@ -616,6 +616,8 @@ let s:bundle = neobundle#get('vim-colors-solarized')
 function! s:bundle.hooks.on_source(bundle)
     " http://ethanschoonover.com/solarized
     let g:solarized_termcolors=256
+    " let g:solarized_termtrans=1
+    let g:solarized_termtrans=1
     set background=dark
     colorscheme solarized
     " toggle bg
