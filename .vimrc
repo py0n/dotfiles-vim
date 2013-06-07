@@ -618,6 +618,8 @@ function! s:bundle.hooks.on_source(bundle)
     let g:solarized_termcolors=256
     set background=dark
     colorscheme solarized
+    " toggle bg
+    call togglebg#map("<F5>")
 endfunction
 unlet s:bundle
 " }}}
