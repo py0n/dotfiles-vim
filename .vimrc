@@ -385,7 +385,7 @@ nmap g# g#zz
 if has("gui_running")
 	" フォントを設定する
 	if has("gui_gtk2")
-		set guifont=MS\ Gothic\ 10
+		set guifont=Ricty\ 12
 		if has("xim")
 			" GTK2版gVimで"BadWindow (invalid Window parameter)"エラーが
 			" 出ない樣に。
@@ -394,8 +394,8 @@ if has("gui_running")
 			set imactivatekey=C-space
 		endif
 	elseif has("gui_win32")
-		set guifont=Migu_1M:h11:cSHIFTJIS
-		set guifontwide=Migu_1M:h11:cSHIFTJIS
+		set guifont=Ricty:h12
+		set guifontwide=Ricty:h12
 	endif
 	" 插入モードや檢索で日本語入力状態になるのを防ぐ。
 	" http://memo.officebrook.net/20080312.html
