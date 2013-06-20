@@ -12,8 +12,8 @@ set nocompatible
 if has('multi_byte')
 	scriptencoding utf-8
 endif
-" *NIX, Win32でのパスの違いを吸収する
-if has('win32') || has('win64')
+" *NIX, Win32, Cygwinでのパスの違いを吸収する
+if has('win32') || has('win32unix') || has('win64')
     let $CFGHOME=expand('~/vimfiles')
     let $LOCALRC=expand('~/_vimrc.local')
 elseif has('unix')
