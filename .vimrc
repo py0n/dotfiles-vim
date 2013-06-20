@@ -125,7 +125,7 @@ set fileformats=unix,dos,mac
 " □とか○の文字があってもカーソル位置がずれないようにする
 if exists('&ambiwidth')
 	"set ambiwidth=single
-	set ambiwidth=double
+	set ambiwidth=single
 endif
 " カーソル下の文字コードを取得する
 " http://vimwiki.net/?tips%2F98
@@ -438,7 +438,6 @@ if filereadable($NEOBUNDLEFILEPATH)
           \    },
           \ }
 
-    NeoBundle 'Lokaltog/vim-powerline.git'
     NeoBundle 'Shougo/neobundle.vim.git'
     NeoBundle 'Shougo/neocomplcache.vim'
     NeoBundle 'Shougo/unite.vim'
@@ -451,7 +450,6 @@ if filereadable($NEOBUNDLEFILEPATH)
     NeoBundle 'thinca/vim-ref.git'
     NeoBundle 'tpope/vim-surround.git'
     NeoBundle 'ujihisa/neco-ghc.git'
-    NeoBundle 'vim-scripts/ShowMarks.git'
     NeoBundle 'vim-scripts/cecutil.git'
     NeoBundle 'vim-scripts/newspaper.vim.git'
     NeoBundle 'vim-scripts/omniperl.git'
@@ -477,6 +475,11 @@ if filereadable($NEOBUNDLEFILEPATH)
     NeoBundle 'gregsexton/gitv', {
     \    'depends' : [ 'tpope/vim-fugitive' ]
     \}
+
+    " powerline
+    "NeoBundle 'Lokaltog/vim-powerline.git'
+    NeoBundle 'taichouchou2/alpaca_powertabline'
+    NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
 
     filetype plugin indent on     " Required!
 
@@ -575,6 +578,21 @@ unlet s:bundle
 let s:bundle = neobundle#get('perl-support.vim')
 function! s:bundle.hooks.on_source(bundle)
     let g:Perl_PerlcriticSeverity = 1
+endfunction
+unlet s:bundle
+" }}}
+
+" Plugin : powerline ====================================== {{{
+let s:bundle = neobundle#get('powerline')
+function! s:bundle.hooks.on_source(bundle)
+    let g:Powerline_symbols = "fancy"
+    let g:Powerline_dividers_override = ['', [0x2b81], '', [0x2b83]]
+    let g:Powerline_symbols_override = {
+      \ 'BRANCH': [0x2b60],
+      \ 'RO'    : 'RO',
+      \ 'FT'    : 'FT',
+      \ 'LINE'  : 'LN'
+      \ }
 endfunction
 unlet s:bundle
 " }}}
