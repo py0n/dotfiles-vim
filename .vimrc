@@ -6,12 +6,12 @@
 " http://vimwiki.net/?vimrc/9
 " http://www.kawaz.jp/pukiwiki/?vim#hb6f6961
 "
+" vi非互換(Vimの拡張機能を有効にする)
+set nocompatible
 " 本設定ファイルのエンコーディングを指定する
 if has('multi_byte')
 	scriptencoding utf-8
 endif
-" vi非互換(Vimの拡張機能を有効にする)
-set nocompatible
 " *NIX, Win32でのパスの違いを吸収する
 if has('win32') || has('win64')
     let $CFGHOME=expand('~/vimfiles')
