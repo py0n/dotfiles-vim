@@ -915,4 +915,4 @@ if filereadable(expand($LOCALRC))
 endif
 " }}}
 
-" vim:set foldmethod=marker:
+" vim:set fileencoding=utf-8:fileformat=unix:foldmethod=marker:
