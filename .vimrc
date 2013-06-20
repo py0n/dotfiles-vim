@@ -10,7 +10,7 @@
 set nocompatible
 " 本設定ファイルのエンコーディングを指定する
 if has('multi_byte')
-	scriptencoding utf-8
+    scriptencoding utf-8
 endif
 " *NIX, Win32, Cygwinでのパスの違いを吸収する
 if has('win32') || has('win32unix') || has('win64')
