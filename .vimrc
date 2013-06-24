@@ -332,8 +332,10 @@ set softtabstop=0
 set showcmd
 "検索結果文字列のハイライトを有効にする
 set hlsearch
-"ステータスラインを常に表示
+" https://powerline.readthedocs.org/en/latest/tipstricks.html#vim
+" ステータスラインを常に表示
 set laststatus=2
+set noshowmode
 " タイトルを表示
 set title
 " }}}
@@ -593,6 +595,15 @@ function! s:bundle.hooks.on_source(bundle)
       \ 'FT'    : 'FT',
       \ 'LINE'  : 'LN'
       \ }
+    " https://powerline.readthedocs.org/en/latest/tipstricks.html#vim
+    if ! has('gui_running')
+        set ttimeoutlen=10
+        augroup FastEscape
+            autocmd!
+            autocmd InsertEnter * set timeoutlen=0
+            autocmd InsertLeave * set timeoutlen=1000
+        augroup END
+    endif
 endfunction
 unlet s:bundle
 " }}}
