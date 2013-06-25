@@ -124,8 +124,7 @@ endif
 set fileformats=unix,dos,mac
 " □とか○の文字があってもカーソル位置がずれないようにする
 if exists('&ambiwidth')
-	"set ambiwidth=single
-	set ambiwidth=single
+    set ambiwidth=single
 endif
 " カーソル下の文字コードを取得する
 " http://vimwiki.net/?tips%2F98
