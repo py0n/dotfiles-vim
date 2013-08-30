@@ -124,7 +124,7 @@ endif
 set fileformats=unix,dos,mac
 " □とか○の文字があってもカーソル位置がずれないようにする
 if exists('&ambiwidth')
-    set ambiwidth=single
+    set ambiwidth=double
 endif
 " カーソル下の文字コードを取得する
 " http://vimwiki.net/?tips%2F98
@@ -263,7 +263,10 @@ if has("syntax")
 	syntax enable
 
     " http://vim-users.jp/2009/08/hack64/
-    set t_Co=256
+    " https://github.com/itchyny/lightline.vim
+    if !has('gui_running')
+        set t_Co=256
+    endif
 
     " ノーマルモードで行を目立たせる
     " http://blog.remora.cx/2012/10/spotlight-cursor-line.html
@@ -447,6 +450,7 @@ if filereadable($NEOBUNDLEFILEPATH)
     NeoBundle 'ervandew/supertab.git'
     NeoBundle 'h1mesuke/unite-outline.git'
     NeoBundle 'h1mesuke/vim-alignta'
+    NeoBundle 'itchyny/lightline.vim'
     NeoBundle 'mojako/ref-sources.vim.git'
     NeoBundle 'thinca/vim-ref.git'
     NeoBundle 'tpope/vim-surround.git'
@@ -477,10 +481,12 @@ if filereadable($NEOBUNDLEFILEPATH)
     \    'depends' : [ 'tpope/vim-fugitive' ]
     \}
 
-    " powerline
+    " vim-powerline
     "NeoBundle 'Lokaltog/vim-powerline.git'
-    NeoBundle 'taichouchou2/alpaca_powertabline'
-    NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
+
+    " powerline
+    "NeoBundle 'taichouchou2/alpaca_powertabline'
+    "NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
 
     filetype plugin indent on     " Required!
 
@@ -565,6 +571,81 @@ endfunction
 unlet s:bundle
 " }}}
 
+" Plugin : lightline.vim ================================== {{{
+" http://d.hatena.ne.jp/itchyny/20130828/1377653592
+" https://github.com/itchyny/lightline.vim
+let s:bundle = neobundle#get('lightline.vim')
+if !empty(s:bundle)
+    let s:colorscheme
+                \ = empty(neobundle#get('vim-colors-solarized'))
+                \ ? 'wombat'
+                \ : 'solarized'
+    let g:lightline = {
+                \ 'colorscheme': s:colorscheme,
+                \ 'mode_map': {'c': 'NORMAL'},
+                \ 'active': {
+                \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ]
+                \ },
+                \ 'component_function': {
+                \   'modified': 'MyModified',
+                \   'readonly': 'MyReadonly',
+                \   'fugitive': 'MyFugitive',
+                \   'filename': 'MyFilename',
+                \   'fileformat': 'MyFileformat',
+                \   'filetype': 'MyFiletype',
+                \   'fileencoding': 'MyFileencoding',
+                \   'mode': 'MyMode'
+                \ }
+                \ }
+
+    function! MyModified()
+        return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+    endfunction
+
+    function! MyReadonly()
+        return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? 'x' : ''
+    endfunction
+
+    function! MyFilename()
+        return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
+                    \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
+                    \  &ft == 'unite' ? unite#get_status_string() :
+                    \  &ft == 'vimshell' ? vimshell#get_status_string() :
+                    \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
+                    \ ('' != MyModified() ? ' ' . MyModified() : '')
+    endfunction
+
+    function! MyFugitive()
+        try
+            if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head')
+                return fugitive#head()
+            endif
+        catch
+        endtry
+        return ''
+    endfunction
+
+    function! MyFileformat()
+        return winwidth('.') > 70 ? &fileformat : ''
+    endfunction
+
+    function! MyFiletype()
+        return winwidth('.') > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+    endfunction
+
+    function! MyFileencoding()
+        return winwidth('.') > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+    endfunction
+
+    function! MyMode()
+        return winwidth('.') > 60 ? lightline#mode() : ''
+    endfunction
+
+    unlet s:colorscheme
+endif
+unlet s:bundle
+" }}}
+
 " Plugin : neocomplcache.vim ============================== {{{
 " https://github.com/Shougo/neocomplcache.vim
 let s:bundle = neobundle#get('neocomplcache.vim')
@@ -585,15 +666,15 @@ unlet s:bundle
 
 " Plugin : powerline ====================================== {{{
 let s:bundle = neobundle#get('powerline')
-function! s:bundle.hooks.on_source(bundle)
+if !empty(s:bundle)
     let g:Powerline_symbols = "fancy"
     let g:Powerline_dividers_override = ['', [0x2b81], '', [0x2b83]]
     let g:Powerline_symbols_override = {
-      \ 'BRANCH': [0x2b60],
-      \ 'RO'    : 'RO',
-      \ 'FT'    : 'FT',
-      \ 'LINE'  : 'LN'
-      \ }
+                \ 'BRANCH': [0x2b60],
+                \ 'RO'    : 'RO',
+                \ 'FT'    : 'FT',
+                \ 'LINE'  : 'LN'
+                \ }
     " https://powerline.readthedocs.org/en/latest/tipstricks.html#vim
     if ! has('gui_running')
         set ttimeoutlen=10
@@ -603,7 +684,7 @@ function! s:bundle.hooks.on_source(bundle)
             autocmd InsertLeave * set timeoutlen=1000
         augroup END
     endif
-endfunction
+endif
 unlet s:bundle
 " }}}
 
@@ -641,16 +722,17 @@ command! Kwbd let kwbd_bn= bufnr("%")|enew|exe "bdel ".kwbd_bn|unlet kwbd_bn
 
 " Plugin : vim-colors-solarized =========================== {{{
 let s:bundle = neobundle#get('vim-colors-solarized')
-function! s:bundle.hooks.on_source(bundle)
+if !empty(s:bundle)
     " http://ethanschoonover.com/solarized
+    let g:solarized_contrast="high"
     let g:solarized_termcolors=256
-    " let g:solarized_termtrans=1
     let g:solarized_termtrans=1
+    let g:solarized_visibility="high"
     set background=dark
     colorscheme solarized
     " toggle bg
     call togglebg#map("<F5>")
-endfunction
+endif
 unlet s:bundle
 " }}}
 
