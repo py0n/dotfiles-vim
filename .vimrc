@@ -704,14 +704,14 @@ unlet s:bundle
 " Plugin : vim-rooter ===================================== {{{
 " https://github.com/airblade/vim-rooter
 let s:bundle = neobundle#get('vim-rooter')
-function! s:bundle.hooks.on_source(bundle)
+if !empty(s:bundle)
     augroup myRooter
         autocmd!
         " 2013/05/24 プラグイン本体に含まれていないもの。
         autocmd BufEnter *.hs,*.pl,*.pm,*.t :Rooter
     augroup END
     let g:rooter_use_lcd = 1
-endfunction
+endif
 unlet s:bundle
 " }}}
 
