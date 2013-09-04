@@ -725,6 +725,7 @@ let s:bundle = neobundle#get('vim-colors-solarized')
 if !empty(s:bundle)
     " http://ethanschoonover.com/solarized
     let g:solarized_contrast="high"
+    let g:solarized_hitrail=1
     let g:solarized_termcolors=256
     let g:solarized_termtrans=1
     let g:solarized_visibility="high"
