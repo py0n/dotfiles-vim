@@ -459,7 +459,6 @@ if filereadable($NEOBUNDLEFILEPATH)
     NeoBundle 'vim-scripts/newspaper.vim.git'
     NeoBundle 'vim-scripts/omniperl.git'
     NeoBundle 'vim-scripts/perl-support.vim'
-    NeoBundle 'vim-scripts/vcscommand.vim.git'
 
     " ctrlp.vim
     NeoBundle 'kien/ctrlp.vim'
