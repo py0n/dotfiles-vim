@@ -126,35 +126,6 @@ set fileformats=unix,dos,mac
 if exists('&ambiwidth')
     set ambiwidth=double
 endif
-" カーソル下の文字コードを取得する
-" http://vimwiki.net/?tips%2F98
-function! GetB()
-	let c = matchstr(getline('.'), '.', col('.') - 1)
-	let c = iconv(c, &enc, &fenc)
-	return String2Hex(c)
-endfunction
-" :help eval-examples
-" The function Nr2Hex() returns the Hex string of a number.
-func! Nr2Hex(nr)
-	let n = a:nr
-	let r = ""
-	while n
-		let r = '0123456789ABCDEF'[n % 16] . r
-		let n = n / 16
-	endwhile
-	return r
-endfunc
-" The function String2Hex() converts each character in a string to a two
-" character Hex string.
-func! String2Hex(str)
-	let out = ''
-	let ix = 0
-	while ix < strlen(a:str)
-		let out = out . Nr2Hex(char2nr(a:str[ix]))
-		let ix = ix + 1
-	endwhile
-	return out
-endfunc
 " }}}
 
 " 編集設定 ================================================ {{{
@@ -559,6 +530,7 @@ unlet s:bundle
 
 " Plugin : lightline.vim ================================== {{{
 " http://d.hatena.ne.jp/itchyny/20130828/1377653592
+" http://qiita.com/yuyuchu3333/items/20a0acfe7e0d0e167ccc
 " https://github.com/itchyny/lightline.vim
 let s:bundle = neobundle#get('lightline.vim')
 if !empty(s:bundle)
@@ -570,17 +542,26 @@ if !empty(s:bundle)
                 \ 'colorscheme': s:colorscheme,
                 \ 'mode_map': {'c': 'NORMAL'},
                 \ 'active': {
-                \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ]
+                \   'left': [
+                \     [ 'mode', 'paste' ],
+                \     [ 'fugitive', 'filename' ]
+                \   ],
+                \   'right': [
+                \     [ 'lineinfo' ],
+                \     [ 'percent' ],
+                \     [ 'charcode', 'fileformat', 'fileencoding', 'filetype' ]
+                \   ],
                 \ },
                 \ 'component_function': {
-                \   'modified': 'MyModified',
-                \   'readonly': 'MyReadonly',
-                \   'fugitive': 'MyFugitive',
-                \   'filename': 'MyFilename',
-                \   'fileformat': 'MyFileformat',
-                \   'filetype': 'MyFiletype',
-                \   'fileencoding': 'MyFileencoding',
-                \   'mode': 'MyMode'
+                \   'charcode'     : 'MyCharCode',
+                \   'fileencoding' : 'MyFileencoding',
+                \   'fileformat'   : 'MyFileformat',
+                \   'filename'     : 'MyFilename',
+                \   'filetype'     : 'MyFiletype',
+                \   'fugitive'     : 'MyFugitive',
+                \   'mode'         : 'MyMode',
+                \   'modified'     : 'MyModified',
+                \   'readonly'     : 'MyReadonly',
                 \ }
                 \ }
 
@@ -627,6 +608,42 @@ if !empty(s:bundle)
         return winwidth('.') > 60 ? lightline#mode() : ''
     endfunction
 
+    " カーソル下にある文字の文字コードを取得する。
+    " https://github.com/Lokaltog/vim-powerline/blob/develop/autoload/Powerline/Functions.vim
+    function! MyCharCode()
+        if winwidth('.') <= 70
+            return ''
+        endif
+
+        " Get the output of :ascii
+        redir => ascii
+        silent! ascii
+        redir END
+
+        if match(ascii, 'NUL') != -1
+            return 'NUL'
+        endif
+
+        " Zero pad hex values
+        let nrformat = '0x%02x'
+
+        let encoding = (&fenc == '' ? &enc : &fenc)
+
+        if encoding == 'utf-8'
+            " Zero pad with 4 zeroes in unicode files
+            let nrformat = '0x%04x'
+        endif
+
+        " Get the character and the numeric value from the return value of :ascii
+        " This matches the two first pieces of the return value, e.g.
+        " "<F>  70" => char: 'F', nr: '70'
+        let [str, char, nr; rest] = matchlist(ascii, '\v\<(.{-1,})\>\s*([0-9]+)')
+
+        " Format the numeric value
+        let nr = printf(nrformat, nr)
+
+        return "'". char ."' ". nr
+    endfunction
     unlet s:colorscheme
 endif
 unlet s:bundle
@@ -768,8 +785,8 @@ unlet s:bundle
 " }}}
 
 " Plugin ================================================== {{{
+" lightline.vim, powerlineが共に無効である時の設定。
 if empty(neobundle#get('lightline.vim')) || empty(neobundle#get('powerline'))
-    " lightline.vim, powerlineが共に無効である時の設定。
     " 挿入モードの際、ステータスラインの色を変更する。
     if has('autocmd') && has('syntax')
         function! IntoInsertMode()
@@ -784,6 +801,35 @@ if empty(neobundle#get('lightline.vim')) || empty(neobundle#get('powerline'))
             autocmd InsertLeave * call OutInsertMode()
         augroup END
     endif
+    " カーソル下の文字コードを取得する
+    " http://vimwiki.net/?tips%2F98
+    function! GetB()
+        let c = matchstr(getline('.'), '.', col('.') - 1)
+        let c = iconv(c, &enc, &fenc)
+        return String2Hex(c)
+    endfunction
+    " :help eval-examples
+    " The function Nr2Hex() returns the Hex string of a number.
+    func! Nr2Hex(nr)
+        let n = a:nr
+        let r = ""
+        while n
+            let r = '0123456789ABCDEF'[n % 16] . r
+            let n = n / 16
+        endwhile
+        return r
+    endfunc
+    " The function String2Hex() converts each character in a string to a two
+    " character Hex string.
+    func! String2Hex(str)
+        let out = ''
+        let ix = 0
+        while ix < strlen(a:str)
+            let out = out . Nr2Hex(char2nr(a:str[ix]))
+            let ix = ix + 1
+        endwhile
+        return out
+    endfunc
 endif
 " }}}
 
