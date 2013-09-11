@@ -611,6 +611,7 @@ if !empty(s:bundle)
     endfunction
 
     " カーソル下にある文字の文字コードを取得する。
+    " http://qiita.com/yuyuchu3333/items/20a0acfe7e0d0e167ccc
     " https://github.com/Lokaltog/vim-powerline/blob/develop/autoload/Powerline/Functions.vim
     function! MyCharCode()
         if winwidth('.') <= 70
@@ -626,26 +627,31 @@ if !empty(s:bundle)
             return 'NUL'
         endif
 
-        " Zero pad hex values
-        let nrformat = '0x%02x'
-
-        let encoding = (&fenc == '' ? &enc : &fenc)
-
-        if encoding == 'utf-8'
-            " Zero pad with 4 zeroes in unicode files
-            let nrformat = '0x%04x'
-        endif
-
         " Get the character and the numeric value from the return value of :ascii
         " This matches the two first pieces of the return value, e.g.
         " "<F>  70" => char: 'F', nr: '70'
         let [str, char, nr; rest] = matchlist(ascii, '\v\<(.{-1,})\>\s*([0-9]+)')
 
-        " Format the numeric value
-        let nr = printf(nrformat, nr)
+        " Unicodeスカラ値
+        let uniHex = printf('%X', nr)
+        if strlen(uniHex) < 4
+            for i in range(4 - strlen(uniHex))
+                let uniHex = '0' . uniHex
+            endfor
+        endif
+        let uniHex = 'U+' . uniHex
 
-        return "'". char ."' ". nr
+        " fileencodingでの文字コード
+        let fencStr = iconv(char, &encoding, &fileencoding)
+        let fencHex = ''
+        for i in range(strlen(fencStr))
+            let fencHex = fencHex . printf('%X', char2nr(fencStr[i]))
+        endfor
+        let fencHex = '0x' . (strlen(fencHex) % 2 == 1 ? '0' : '') . fencHex
+
+        return "'". char ."' ".fencHex  . " (" . uniHex . ")"
     endfunction
+
     unlet s:colorscheme
 endif
 unlet s:bundle
