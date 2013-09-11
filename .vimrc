@@ -564,17 +564,30 @@ if !empty(s:bundle)
                 \   'lineinfo'     : 'MyLineinfo',
                 \   'mode'         : 'MyMode',
                 \   'percent'      : 'MyPercent',
+                \ },
+                \ 'separator': { 'left': '', 'right': '', },
+                \ 'subseparator': { 'left': '', 'right': '', },
                 \ }
-                \ }
+
+    let s:funcorder = [
+                \ 'MyMode'     , 'MyFilename'   , 'MyLineinfo'     ,
+                \ 'MyPercent'  , 'MyFugitive'   , 'MyFileencoding' ,
+                \ 'MyFiletype' , 'MyFileformat' , 'MyCharCode'     ,
+                \ ]
+
+    function! IsDisplay(width, funcname)
+        let l:index = index(s:funcorder, a:funcname)
+        let l:width = a:width
+        for i in range(l:index)
+            let l:width += strlen(call(s:funcorder[i], [])) + 2
+        endfor
+        return winwidth(0) >= l:width ? 1 : 0
+    endfunction
 
     " カーソル下にある文字の文字コードを取得する。
     " http://qiita.com/yuyuchu3333/items/20a0acfe7e0d0e167ccc
     " https://github.com/Lokaltog/vim-powerline/blob/develop/autoload/Powerline/Functions.vim
-    function! MyCharCode()
-        if winwidth('.') <= 70
-            return ''
-        endif
-
+    function! MyCharCode() " {{{
         " Get the output of :ascii
         redir => ascii
         silent! ascii
@@ -607,70 +620,83 @@ if !empty(s:bundle)
             endfor
             let fencHex = '0x' . (strlen(fencHex) % 2 == 1 ? '0' : '') . fencHex
 
-            return "'" . char . "' " . fencHex . " (" . uniHex . ")"
-        else
-            return "'" . char . "' " . uniHex
+            let l:ccl = "'" . char . "' " . fencHex . " (" . uniHex . ")"
+
+            if IsDisplay(strlen(l:ccl), 'MyCharCode')
+                return l:ccl
+            endif
         endif
-    endfunction
 
-    function! MyFileencoding()
-        return winwidth('.') > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
-    endfunction
+        let l:ccs = "'" . char . "' (" . uniHex . ")"
+        return IsDisplay(strlen(l:ccs), 'MyCharCode') ? l:ccs : ''
+    endfunction " }}}
 
-    function! MyFileformat()
-        return winwidth('.') > 70 ? &fileformat : ''
-    endfunction
+    function! MyFileencoding() " {{{
+        let l:en = strlen(&fileencoding) ? &fileencoding : &encoding
+        return IsDisplay(strlen(en), 'MyFileencoding') ? l:en : ''
+    endfunction " }}}
 
-    function! MyFilename()
+    function! MyFileformat() " {{{
+        return IsDisplay(strlen(&ff), 'MyFileformat') ? &ff : ''
+    endfunction " }}}
+
+    function! MyFilename() " {{{
         return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
                     \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
                     \  &ft == 'unite' ? unite#get_status_string() :
                     \  &ft == 'vimshell' ? vimshell#get_status_string() :
                     \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
                     \ ('' != MyModified() ? ' ' . MyModified() : '')
-    endfunction
+    endfunction " }}}
 
-    function! MyFiletype()
-        return winwidth('.') > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
-    endfunction
+    function! MyFiletype() " {{{
+        let l:ft = strlen(&filetype) ? &filetype : 'no ft'
+        return IsDisplay(strlen(l:ft), 'MyFiletype') ? l:ft : ''
+    endfunction " }}}
 
-    function! MyFugitive()
+    function! MyFugitive() " {{{
         try
-            if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head')
-                return fugitive#head()
+            if &filetype !~? '\v(vimfiler|gundo)' && exists('*fugitive#head')
+                let l:fg = fugitive#head()
             endif
         catch
+            let l:fg = ''
         endtry
-        return ''
-    endfunction
+        return IsDisplay(strlen(l:fg), 'MyFugitive') ? l:fg : ''
+    endfunction " }}}
 
     function! MyLineinfo() " {{{
         let l:cl = line('.')
         let l:cc = col('.')
-        return printf('%d:%d', l:cl, l:cc)
+        let l:li = printf('%d:%d', l:cl, l:cc)
+        return IsDisplay(strlen(l:li), 'MyLineinfo') ? l:li : ''
     endfunction " }}}
 
-    function! MyMode()
+    function! MyMode() " {{{
         let l:ps = ''
         if &paste
             let l:ps = ' P'
         endif
         return lightline#mode() . l:ps
-    endfunction
+    endfunction " }}}
 
-    function! MyModified()
-        return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
-    endfunction
+    function! MyModified() " {{{
+        return &filetype =~ '\v(help|vimfiler|gundo)'
+                    \ ? ''  : &modified
+                    \ ? '+' : &modifiable
+                    \ ? ''  : '-'
+    endfunction " }}}
 
     function! MyPercent() " {{{
         let l:cl = line('.')
         let l:ll = line('$')
-        return printf('%3d%%', 100 * l:cl / l:ll)
+        let l:pc = printf('%3d%%', 100 * l:cl / l:ll)
+        return IsDisplay(strlen(l:pc), 'MyPercent') ? l:pc : ''
     endfunction " }}}
 
-    function! MyReadonly()
-        return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? 'x' : ''
-    endfunction
+    function! MyReadonly() " {{{
+        return &ft !~? '\v(help|vimfiler|gundo)' && &ro ? 'x' : ''
+    endfunction " }}}
 
     unlet s:colorscheme
 endif
