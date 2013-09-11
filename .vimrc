@@ -545,7 +545,7 @@ if !empty(s:bundle)
                 \ 'mode_map': {'c': 'NORMAL'},
                 \ 'active': {
                 \   'left': [
-                \     [ 'mode', 'paste' ],
+                \     [ 'mode' ],
                 \     [ 'fugitive', 'filename' ]
                 \   ],
                 \   'right': [
@@ -562,53 +562,8 @@ if !empty(s:bundle)
                 \   'filetype'     : 'MyFiletype',
                 \   'fugitive'     : 'MyFugitive',
                 \   'mode'         : 'MyMode',
-                \   'modified'     : 'MyModified',
-                \   'readonly'     : 'MyReadonly',
                 \ }
                 \ }
-
-    function! MyModified()
-        return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
-    endfunction
-
-    function! MyReadonly()
-        return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? 'x' : ''
-    endfunction
-
-    function! MyFilename()
-        return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
-                    \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
-                    \  &ft == 'unite' ? unite#get_status_string() :
-                    \  &ft == 'vimshell' ? vimshell#get_status_string() :
-                    \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
-                    \ ('' != MyModified() ? ' ' . MyModified() : '')
-    endfunction
-
-    function! MyFugitive()
-        try
-            if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head')
-                return fugitive#head()
-            endif
-        catch
-        endtry
-        return ''
-    endfunction
-
-    function! MyFileformat()
-        return winwidth('.') > 70 ? &fileformat : ''
-    endfunction
-
-    function! MyFiletype()
-        return winwidth('.') > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
-    endfunction
-
-    function! MyFileencoding()
-        return winwidth('.') > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
-    endfunction
-
-    function! MyMode()
-        return winwidth('.') > 60 ? lightline#mode() : ''
-    endfunction
 
     " カーソル下にある文字の文字コードを取得する。
     " http://qiita.com/yuyuchu3333/items/20a0acfe7e0d0e167ccc
@@ -654,6 +609,53 @@ if !empty(s:bundle)
         else
             return "'" . char . "' " . uniHex
         endif
+    endfunction
+
+    function! MyFileencoding()
+        return winwidth('.') > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+    endfunction
+
+    function! MyFileformat()
+        return winwidth('.') > 70 ? &fileformat : ''
+    endfunction
+
+    function! MyFilename()
+        return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
+                    \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
+                    \  &ft == 'unite' ? unite#get_status_string() :
+                    \  &ft == 'vimshell' ? vimshell#get_status_string() :
+                    \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
+                    \ ('' != MyModified() ? ' ' . MyModified() : '')
+    endfunction
+
+    function! MyFiletype()
+        return winwidth('.') > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+    endfunction
+
+    function! MyFugitive()
+        try
+            if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head')
+                return fugitive#head()
+            endif
+        catch
+        endtry
+        return ''
+    endfunction
+
+    function! MyMode()
+        let l:ps = ''
+        if &paste
+            let l:ps = ' P'
+        endif
+        return lightline#mode() . l:ps
+    endfunction
+
+    function! MyModified()
+        return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+    endfunction
+
+    function! MyReadonly()
+        return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? 'x' : ''
     endfunction
 
     unlet s:colorscheme
