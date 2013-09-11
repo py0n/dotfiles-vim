@@ -440,12 +440,17 @@ if filereadable($NEOBUNDLEFILEPATH)
     \    'depends' : [ 'tpope/vim-fugitive' ]
     \}
 
-    " vim-powerline
-    "NeoBundle 'Lokaltog/vim-powerline.git'
-
     " powerline
     "NeoBundle 'taichouchou2/alpaca_powertabline'
     "NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
+
+    " vim-pandoc
+    if has('python')
+        NeoBundle 'vim-pandoc/vim-pandoc'
+    endif
+
+    " vim-powerline
+    "NeoBundle 'Lokaltog/vim-powerline.git'
 
     filetype plugin indent on     " Required!
 
@@ -758,6 +763,18 @@ endfunction
 unlet s:bundle
 " }}}
 
+" Plugin : vim-pandoc ===================================== {{{
+" https://github.com/vim-pandoc/vim-pandoc
+let s:bundle = neobundle#get('vim-pandoc')
+if !empty(s:bundle)
+    augroup EditPandoc
+        autocmd!
+        autocmd BufRead,BufNewFile *.md set filetype=pandoc
+    augroup END
+endif
+unlet s:bundle
+" }}}
+
 " Plugin : vim-rooter ===================================== {{{
 " https://github.com/airblade/vim-rooter
 let s:bundle = neobundle#get('vim-rooter')
@@ -973,7 +990,6 @@ if filereadable($TEMPLATEFILEPATH)
     if has('autocmd')
         augroup EditMarkdown
             autocmd!
-            autocmd BufRead,BufNewFile *.md set filetype=markdown
             autocmd BufNewFile *.md 0r $TEMPLATEFILEPATH
         augroup END
     endif
