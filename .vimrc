@@ -561,7 +561,9 @@ if !empty(s:bundle)
                 \   'filename'     : 'MyFilename',
                 \   'filetype'     : 'MyFiletype',
                 \   'fugitive'     : 'MyFugitive',
+                \   'lineinfo'     : 'MyLineinfo',
                 \   'mode'         : 'MyMode',
+                \   'percent'      : 'MyPercent',
                 \ }
                 \ }
 
@@ -642,6 +644,12 @@ if !empty(s:bundle)
         return ''
     endfunction
 
+    function! MyLineinfo() " {{{
+        let l:cl = line('.')
+        let l:cc = col('.')
+        return printf('%d:%d', l:cl, l:cc)
+    endfunction " }}}
+
     function! MyMode()
         let l:ps = ''
         if &paste
@@ -653,6 +661,12 @@ if !empty(s:bundle)
     function! MyModified()
         return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
     endfunction
+
+    function! MyPercent() " {{{
+        let l:cl = line('.')
+        let l:ll = line('$')
+        return printf('%3d%%', 100 * l:cl / l:ll)
+    endfunction " }}}
 
     function! MyReadonly()
         return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? 'x' : ''
