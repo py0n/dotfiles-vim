@@ -807,7 +807,9 @@ if empty(neobundle#get('lightline.vim')) || empty(neobundle#get('powerline'))
     " http://vimwiki.net/?tips%2F98
     function! GetB()
         let c = matchstr(getline('.'), '.', col('.') - 1)
-        let c = iconv(c, &enc, &fenc)
+        if has('iconv') && has('multi_byte')
+            let c = iconv(c, &enc, &fenc)
+        endif
         return String2Hex(c)
     endfunction
     " :help eval-examples
