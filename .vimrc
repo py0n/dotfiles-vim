@@ -290,20 +290,6 @@ if has('autocmd') && has('syntax')
 		autocmd BufEnter * call VisualizeInvisibleSpace()
 	augroup END
 endif
-" 挿入モードの際、ステータスラインの色を変更する
-if has('autocmd') && has('syntax')
-	function! IntoInsertMode()
-		highlight StatusLine guifg=darkblue guibg=darkyellow gui=none ctermfg=blue ctermbg=yellow cterm=none
-	endfunction
-	function! OutInsertMode()
-		highlight StatusLine guifg=darkblue guibg=white gui=none ctermfg=blue ctermbg=grey cterm=none
-	endfunction
-	augroup InsertHook
-		autocmd!
-		autocmd InsertEnter * call IntoInsertMode()
-		autocmd InsertLeave * call OutInsertMode()
-	augroup END
-endif
 "行番号を表示しない
 set nonumber
 " 音を鳴らさない、画面更新をしない
@@ -779,6 +765,26 @@ function! s:bundle.hooks.on_source(bundle)
     au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>q
 endfunction
 unlet s:bundle
+" }}}
+
+" Plugin ================================================== {{{
+if empty(neobundle#get('lightline.vim')) || empty(neobundle#get('powerline'))
+    " lightline.vim, powerlineが共に無効である時の設定。
+    " 挿入モードの際、ステータスラインの色を変更する。
+    if has('autocmd') && has('syntax')
+        function! IntoInsertMode()
+            highlight StatusLine guifg=darkblue guibg=darkyellow gui=none ctermfg=blue ctermbg=yellow cterm=none
+        endfunction
+        function! OutInsertMode()
+            highlight StatusLine guifg=darkblue guibg=white gui=none ctermfg=blue ctermbg=grey cterm=none
+        endfunction
+        augroup InsertHook
+            autocmd!
+            autocmd InsertEnter * call IntoInsertMode()
+            autocmd InsertLeave * call OutInsertMode()
+        augroup END
+    endif
+endif
 " }}}
 
 " Binary (File Type) ====================================== {{{
