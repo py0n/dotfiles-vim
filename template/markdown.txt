@@ -1,7 +1,0 @@
-----
-description:
-published:
-tags:
-title:
-----
-

@@ -440,6 +440,10 @@ if filereadable($NEOBUNDLEFILEPATH)
     \    'depends' : [ 'tpope/vim-fugitive' ]
     \}
 
+    " neosnippet.vim
+    NeoBundle 'Shougo/neosnippet.vim', {
+                \ 'depends' : [ 'Shougo/neocomplcache.vim' ]
+                \ }
     " powerline
     "NeoBundle 'taichouchou2/alpaca_powertabline'
     "NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
@@ -717,6 +721,27 @@ endfunction
 unlet s:bundle
 " }}}
 
+" Plugin : neosnippet.vim ================================= {{{
+" https://github.com/Shougo/neosnippet.vim
+let s:bundle = neobundle#get('neosnippet.vim')
+if !empty(s:bundle)
+    let $SNIPPETDIRPATH=$CFGHOME.'/snippets'
+    call s:auto_mkdir($SNIPPETDIRPATH)
+    let g:neosnippet#snippets_directory=$SNIPPETDIRPATH
+
+    " Plugin key-mappings.
+    imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+    smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+    xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+    " For snippet_complete marker.
+    if has('conceal')
+        set conceallevel=2 concealcursor=i
+    endif
+endif
+unlet s:bundle
+"}}}
+
 " Plugin : perl-support.vim =============================== {{{
 " https://github.com/vim-scripts/perl-support.vim
 let s:bundle = neobundle#get('perl-support.vim')
@@ -981,21 +1006,6 @@ if has('autocmd')
 		autocmd FileType javascript set tabstop=4
 		autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
 	augroup END
-endif
-" }}}
-
-" File Type : Markdown ==================================== {{{
-let $TEMPLATEFILEPATH=$TEMPLATEDIRPATH.'/markdown.txt'
-if filereadable($TEMPLATEFILEPATH)
-    if has('autocmd')
-        augroup EditMarkdown
-            autocmd!
-            autocmd BufNewFile *.md 0r $TEMPLATEFILEPATH
-        augroup END
-    endif
-else
-    echomsg "No markdown template, make template."
-    finish
 endif
 " }}}
 
