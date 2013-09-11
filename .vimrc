@@ -832,6 +832,7 @@ if empty(neobundle#get('lightline.vim')) || empty(neobundle#get('powerline'))
         endwhile
         return out
     endfunc
+    set statusline=%{GetB()}
 endif
 " }}}
 
