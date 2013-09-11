@@ -452,6 +452,7 @@ if filereadable($NEOBUNDLEFILEPATH)
     NeoBundle 'h1mesuke/vim-alignta'
     NeoBundle 'itchyny/lightline.vim'
     NeoBundle 'mojako/ref-sources.vim.git'
+    NeoBundle 'thinca/vim-quickrun'
     NeoBundle 'thinca/vim-ref.git'
     NeoBundle 'tpope/vim-surround.git'
     NeoBundle 'ujihisa/neco-ghc.git'
