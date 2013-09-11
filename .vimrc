@@ -641,15 +641,19 @@ if !empty(s:bundle)
         endif
         let uniHex = 'U+' . uniHex
 
-        " fileencodingでの文字コード
-        let fencStr = iconv(char, &encoding, &fileencoding)
-        let fencHex = ''
-        for i in range(strlen(fencStr))
-            let fencHex = fencHex . printf('%X', char2nr(fencStr[i]))
-        endfor
-        let fencHex = '0x' . (strlen(fencHex) % 2 == 1 ? '0' : '') . fencHex
+        " iconvが利用可能ならfileencodingでの文字コードも表示する
+        if has('iconv') && has('multi_byte')
+            let fencStr = iconv(char, &encoding, &fileencoding)
+            let fencHex = ''
+            for i in range(strlen(fencStr))
+                let fencHex = fencHex . printf('%X', char2nr(fencStr[i]))
+            endfor
+            let fencHex = '0x' . (strlen(fencHex) % 2 == 1 ? '0' : '') . fencHex
 
-        return "'". char ."' ".fencHex  . " (" . uniHex . ")"
+            return "'" . char . "' " . fencHex . " (" . uniHex . ")"
+        else
+            return "'" . char . "' " . uniHex
+        endif
     endfunction
 
     unlet s:colorscheme
