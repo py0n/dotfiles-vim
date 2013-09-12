@@ -794,6 +794,8 @@ unlet s:bundle
 " https://github.com/vim-pandoc/vim-pandoc
 let s:bundle = neobundle#get('vim-pandoc')
 if !empty(s:bundle)
+    let g:pandoc_no_folding = 1
+    let g:pandoc_use_hard_wraps = 1
     augroup EditPandoc
         autocmd!
         autocmd BufRead,BufNewFile *.md set filetype=pandoc
