@@ -429,6 +429,7 @@ if filereadable($NEOBUNDLEFILEPATH)
     NeoBundle 'itchyny/lightline.vim'
     NeoBundle 'kana/vim-filetype-haskell'
     NeoBundle 'mojako/ref-sources.vim.git'
+    NeoBundle 'osyo-manga/vim-anzu'
     NeoBundle 'thinca/vim-quickrun'
     NeoBundle 'thinca/vim-ref'
     NeoBundle 'tpope/vim-surround.git'
@@ -580,7 +581,7 @@ if !empty(s:bundle)
                 \ 'active': {
                 \   'left': [
                 \     [ 'mode' ],
-                \     [ 'fugitive', 'filename' ]
+                \     [ 'fugitive', 'filename', 'anzu' ]
                 \   ],
                 \   'right': [
                 \     [ 'lineinfo' ],
@@ -589,6 +590,7 @@ if !empty(s:bundle)
                 \   ],
                 \ },
                 \ 'component_function': {
+                \   'anzu'         : 'MyAnzu',
                 \   'charcode'     : 'MyCharCode',
                 \   'fileencoding' : 'MyFileencoding',
                 \   'fileformat'   : 'MyFileformat',
@@ -604,9 +606,10 @@ if !empty(s:bundle)
                 \ }
 
     let s:funcorder = [
-                \ 'MyMode'     , 'MyFilename'   , 'MyLineinfo'     ,
-                \ 'MyPercent'  , 'MyFugitive'   , 'MyFileencoding' ,
-                \ 'MyFiletype' , 'MyFileformat' , 'MyCharCode'     ,
+                \ 'MyMode'         , 'MyFilename' , 'MyLineinfo'   ,
+                \ 'MyPercent'      , 'MyFugitive' , 'MyAnzu'       ,
+                \ 'MyFileencoding' , 'MyFiletype' , 'MyFileformat' ,
+                \ 'MyCharCode'     ,
                 \ ]
 
     function! IsDisplay(width, funcname)
@@ -617,6 +620,12 @@ if !empty(s:bundle)
         endfor
         return winwidth(0) >= l:width ? 1 : 0
     endfunction
+
+    " http://qiita.com/shiena/items/f53959d62085b7980cb5
+    function! MyAnzu() " {{{
+        let l:anzu = anzu#search_status()
+        return IsDisplay(strlen(l:anzu), 'MyAnzu') ? l:anzu : ''
+    endfunction " }}}
 
     " カーソル下にある文字の文字コードを取得する。
     " http://qiita.com/yuyuchu3333/items/20a0acfe7e0d0e167ccc
@@ -820,6 +829,25 @@ if !empty(s:bundle)
     let g:gitgutter_sign_added = '✚'
     let g:gitgutter_sign_modified = '➜'
     let g:gitgutter_sign_removed = '✘'
+endif
+unlet s:bundle
+" }}}
+
+" Plugin : vim-anzu ======================================= {{{
+" https://github.com/osyo-manga/vim-anzu
+let s:bundle = neobundle#get('vim-anzu')
+if !empty(s:bundle)
+    nmap n <Plug>(anzu-n)
+    nmap N <Plug>(anzu-N)
+    nmap * <Plug>(anzu-star)
+    nmap # <Plug>(anzu-sharp)
+
+    augroup VimAnzu
+        " 一定時間キー入力がないとき、ウインドウを移動したとき、
+        " タブを移動したときに " 検索ヒット数の表示を消去する。
+        autocmd!
+        autocmd CursorHold,CursorHoldI,WinLeave,TabLeave * call anzu#clear_search_status()
+    augroup END 
 endif
 unlet s:bundle
 " }}}
