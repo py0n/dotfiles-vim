@@ -612,7 +612,7 @@ if !empty(s:bundle)
                 \ 'MyCharCode'     ,
                 \ ]
 
-    function! IsDisplay(width, funcname)
+    function! s:is_display(width, funcname)
         let l:index = index(s:funcorder, a:funcname)
         let l:width = a:width
         for i in range(l:index)
@@ -624,7 +624,7 @@ if !empty(s:bundle)
     " http://qiita.com/shiena/items/f53959d62085b7980cb5
     function! MyAnzu() " {{{
         let l:anzu = anzu#search_status()
-        return IsDisplay(strlen(l:anzu), 'MyAnzu') ? l:anzu : ''
+        return s:is_display(strlen(l:anzu), 'MyAnzu') ? l:anzu : ''
     endfunction " }}}
 
     " カーソル下にある文字の文字コードを取得する。
@@ -637,7 +637,7 @@ if !empty(s:bundle)
         redir END
 
         if match(ascii, 'NUL') != -1
-            return IsDisplay(strlen('NUL'), 'MyCharCode') ? 'NUL' : ''
+            return s:is_display(strlen('NUL'), 'MyCharCode') ? 'NUL' : ''
         endif
 
         " Get the character and the numeric value from the return value of :ascii
@@ -665,22 +665,22 @@ if !empty(s:bundle)
 
             let l:ccl = "'" . char . "' " . fencHex . " (" . uniHex . ")"
 
-            if IsDisplay(strlen(l:ccl), 'MyCharCode')
+            if s:is_display(strlen(l:ccl), 'MyCharCode')
                 return l:ccl
             endif
         endif
 
         let l:ccs = "'" . char . "' (" . uniHex . ")"
-        return IsDisplay(strlen(l:ccs), 'MyCharCode') ? l:ccs : ''
+        return s:is_display(strlen(l:ccs), 'MyCharCode') ? l:ccs : ''
     endfunction " }}}
 
     function! MyFileencoding() " {{{
         let l:en = strlen(&fileencoding) ? &fileencoding : &encoding
-        return IsDisplay(strlen(en), 'MyFileencoding') ? l:en : ''
+        return s:is_display(strlen(en), 'MyFileencoding') ? l:en : ''
     endfunction " }}}
 
     function! MyFileformat() " {{{
-        return IsDisplay(strlen(&ff), 'MyFileformat') ? &ff : ''
+        return s:is_display(strlen(&ff), 'MyFileformat') ? &ff : ''
     endfunction " }}}
 
     function! MyFilename() " {{{
@@ -694,7 +694,7 @@ if !empty(s:bundle)
 
     function! MyFiletype() " {{{
         let l:ft = strlen(&filetype) ? &filetype : 'no ft'
-        return IsDisplay(strlen(l:ft), 'MyFiletype') ? l:ft : ''
+        return s:is_display(strlen(l:ft), 'MyFiletype') ? l:ft : ''
     endfunction " }}}
 
     function! MyFugitive() " {{{
@@ -705,14 +705,14 @@ if !empty(s:bundle)
         catch
             let l:fg = ''
         endtry
-        return IsDisplay(strlen(l:fg), 'MyFugitive') ? l:fg : ''
+        return s:is_display(strlen(l:fg), 'MyFugitive') ? l:fg : ''
     endfunction " }}}
 
     function! MyLineinfo() " {{{
         let l:cl = line('.')
         let l:cc = col('.')
         let l:li = printf('%d:%d', l:cl, l:cc)
-        return IsDisplay(strlen(l:li), 'MyLineinfo') ? l:li : ''
+        return s:is_display(strlen(l:li), 'MyLineinfo') ? l:li : ''
     endfunction " }}}
 
     function! MyMode() " {{{
@@ -734,7 +734,7 @@ if !empty(s:bundle)
         let l:cl = line('.')
         let l:ll = line('$')
         let l:pc = printf('%3d%%', 100 * l:cl / l:ll)
-        return IsDisplay(strlen(l:pc), 'MyPercent') ? l:pc : ''
+        return s:is_display(strlen(l:pc), 'MyPercent') ? l:pc : ''
     endfunction " }}}
 
     function! MyReadonly() " {{{
