@@ -605,7 +605,7 @@ if !empty(s:bundle)
         redir END
 
         if match(ascii, 'NUL') != -1
-            return 'NUL'
+            return IsDisplay(strlen('NUL'), 'MyCharCode') ? 'NUL' : ''
         endif
 
         " Get the character and the numeric value from the return value of :ascii
