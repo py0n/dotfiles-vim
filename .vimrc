@@ -809,7 +809,7 @@ if !empty(s:bundle)
     augroup myRooter
         autocmd!
         " 2013/05/24 プラグイン本体に含まれていないもの。
-        autocmd BufEnter *.hs,*.pl,*.pm,*.t :Rooter
+        autocmd BufEnter *.hs,*.pl,*.pm,*.psgi,*.t :Rooter
     augroup END
     let g:rooter_use_lcd = 1
 endif
@@ -1043,6 +1043,7 @@ if has('autocmd')
     augroup EditPerl
         autocmd!
         autocmd BufRead,BufNewFile *.p[lm] set filetype=perl
+        autocmd BufRead,BufNewFile *.psgi  set filetype=perl
         autocmd BufRead,BufNewFile *.t     set filetype=perl
         autocmd BufRead,BufNewFile *.cgi   set filetype=perl
         autocmd BufRead,BufNewFile *.tdy   set filetype=perl
