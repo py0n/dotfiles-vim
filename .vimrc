@@ -278,6 +278,14 @@ if has('autocmd') && has('syntax')
 		autocmd BufEnter * call VisualizeInvisibleSpace()
 	augroup END
 endif
+" Vim使用中はtmuxのステータスラインを隠す。
+" http://qiita.com/Linda_pp/items/89aa2e4b55ea51ecdd59
+if !has('gui_running') && $TMUX !=# ''
+    augroup Tmux
+        autocmd!
+        autocmd VimEnter,VimLeave * silent !tmux set status
+    augroup END
+endif
 "行番号を表示しない
 set nonumber
 " 音を鳴らさない、画面更新をしない
