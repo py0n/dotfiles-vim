@@ -34,6 +34,9 @@ function! s:auto_mkdir(dir)
         endif
     endif
 endfunction
+function! s:existcommand(cmd)
+    return !empty(findfile(a:cmd, substitute($PATH, ':', ',', 'g')))
+endfunction
 " }}}
 
 " テンプレート設定 ======================================== {{{
@@ -218,15 +221,16 @@ set incsearch
 " http://blog.blueblack.net/item_160
 " http://d.hatena.ne.jp/secondlife/20080311/1205205348
 "set grepprg=ack\ --perl
-if findfile("ack-grep", "/usr/bin;") == "/usr/bin/ack-grep"
+if s:existcommand('ack-grep')
     set grepprg=ack-grep
-else
+elseif s:existcommand('ack')
     set grepprg=ack
 endif
 if has("autocmd")
-	augroup AckGrep
-		autocmd QuickfixCmdPost grep cw
-	augroup END
+    augroup MyAckGrep
+        autocmd!
+    augroup END
+    autocmd QuickfixCmdPost grep cw
 endif
 " }}}
 
@@ -416,7 +420,6 @@ if filereadable($NEOBUNDLEFILEPATH)
     NeoBundle 'thinca/vim-ref'
     NeoBundle 'tpope/vim-surround.git'
     NeoBundle 'ujihisa/neco-ghc.git'
-    NeoBundle 'ujihisa/ref-hoogle'
     NeoBundle 'vim-scripts/cecutil.git'
     NeoBundle 'vim-scripts/newspaper.vim.git'
     NeoBundle 'vim-scripts/omniperl.git'
@@ -449,6 +452,13 @@ if filereadable($NEOBUNDLEFILEPATH)
     " powerline
     "NeoBundle 'taichouchou2/alpaca_powertabline'
     "NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
+
+    " ref-hoogle
+    if s:existcommand('hoogle')
+        NeoBundle 'ujihisa/ref-hoogle', {
+                    \ 'depends' : [ 'thinca/vim-ref' ]
+                    \ }
+    endif
 
     " vim-pandoc
     if has('python')
