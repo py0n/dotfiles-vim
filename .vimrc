@@ -1014,8 +1014,10 @@ if has('autocmd')
         autocmd!
         autocmd BufRead,BufNewFile *.hs set filetype=haskell
         autocmd BufWritePost,FileWritePost *.hs :GhcModCheck
-        autocmd FileType haskell set noexpandtab
+        autocmd FileType haskell set expandtab
         autocmd FileType haskell set nosmartindent
+        autocmd FileType haskell set shiftwidth=2
+        autocmd FileType haskell set softtabstop=2
         autocmd FileType haskell set tabstop=8
         autocmd FileType haskell nnoremap [ghcmod] <Nop>
         autocmd FileType haskell nmap     <Space>g [ghcmod]
