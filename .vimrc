@@ -1177,9 +1177,10 @@ function! Scouter(file, ...)
                 \   : expand(<q-args>), <bang>0)
 " }}}
 
-" リソースファイル再読込 ================================== {{{
+" リソースファイル編輯・再讀込 ============================ {{{
 " vimrcをリロードする
-command! ReloadVimrc source $MYVIMRC
+command! Ev edit   $MYVIMRC
+command! Rv source $MYVIMRC
 " }}}
 
 " 外部リソースファイル読込 ================================ {{{
