@@ -99,6 +99,7 @@ if has('vim_starting')
             unlet s:fileencodings_default
         else
             let &fileencodings = &fileencodings .','. s:enc_jis
+            set fileencodings&
             set fileencodings+=utf-8,ucs-2le,ucs-2
             if &encoding =~# '^\(euc-jp\|euc-jisx0213\|eucjp-ms\)$'
                 set fileencodings+=cp932
@@ -122,7 +123,10 @@ if has('vim_starting')
                 let &fileencoding=&encoding
             endif
         endfunction
-        autocmd BufReadPost * call AU_ReCheck_FENC()
+        augroup MyCheckEnc
+            autocmd!
+        augroup END
+        autocmd MyCheckEnc BufReadPost * call AU_ReCheck_FENC()
     endif
     " 改行コードの自動認識
     set fileformats=unix,dos,mac
@@ -146,14 +150,17 @@ set autoindent
 "削除できるようにする
 set backspace=indent,eol,start
 " Cインデントの設定
+set cinoptions&
 set cinoptions+=:0
 " クリップボードを共有する
+set clipboard&
 set clipboard+=unnamed
 " コマンドラインの高さ
 set cmdheight=1
 "C プログラムの自動インデントを無効にする(smartindent の為)
 set nocindent
 " 日本語行を連結する際に空白を挿入しない
+set formatoptions&
 set formatoptions+=mM
 " 新しいバッファを開く際にメッセージを出力しない
 " バッファを保存しなくても他のバッファを表示できるようにする
@@ -175,6 +182,7 @@ set smartindent
 "autocmd CursorHold  * wall
 "autocmd CursorHoldI * wall
 " 8進数を無効にする (C-a, C-xなどに影響する)
+set nrformats&
 set nrformats-=octal
 " http://gajumaru.ddo.jp/wordpress/?p=1101
 set timeout timeoutlen=1000 ttimeoutlen=75
@@ -249,8 +257,11 @@ if has("syntax")
     " http://blog.remora.cx/2012/10/spotlight-cursor-line.html
     set cursorline
     if has("autocmd")
-        autocmd InsertEnter * set nocursorline
-        autocmd InsertLeave * set cursorline
+        augroup MyCursorLine
+            autocmd!
+        augroup END
+        autocmd MyCursorLine InsertEnter * set nocursorline
+        autocmd MyCursorLine InsertLeave * set cursorline
     endif
 endif
 " 行末の空白を目立たせる。
@@ -391,6 +402,7 @@ call s:auto_mkdir($VIMBUNDLEDIRPATH)
 
 if filereadable($NEOBUNDLEFILEPATH)
     if has('vim_starting')
+        set runtimepath&
         set runtimepath+=$NEOBUNDLEDIRPATH
     endif
 
@@ -872,7 +884,6 @@ function! s:bundle.hooks.on_source(bundle)
     nnoremap <silent> ,ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
 
     " unite.vim上でのキーマッピング
-    autocmd FileType unite call s:unite_my_settings()
     function! s:unite_my_settings()
         " 単語単位からパス単位で削除するように変更
         imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
@@ -881,15 +892,19 @@ function! s:bundle.hooks.on_source(bundle)
         imap <silent><buffer> <ESC><ESC> <ESC>q
     endfunction
 
+    augroup MyUnite
+        autocmd!
+    augroup END
+    autocmd MyUnite FileType unite call s:unite_my_settings()
     " ウィンドウを分割して開く
-    au FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
-    au FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
+    autocmd MyUnite FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
+    autocmd MyUnite FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
     " ウィンドウを縦に分割して開く
-    au FileType unite nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
-    au FileType unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
+    autocmd MyUnite FileType unite nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
+    autocmd MyUnite FileType unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
     " ESCキーを2回押すと終了する
-    au FileType unite nnoremap <silent> <buffer> <ESC><ESC> q
-    au FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>q
+    autocmd MyUnite FileType unite nnoremap <silent> <buffer> <ESC><ESC> q
+    autocmd MyUnite FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>q
 endfunction
 unlet s:bundle
 " }}}
@@ -922,7 +937,7 @@ if empty(neobundle#get('lightline.vim')) || empty(neobundle#get('powerline'))
     endfunction
     " :help eval-examples
     " The function Nr2Hex() returns the Hex string of a number.
-    func! Nr2Hex(nr)
+    function! Nr2Hex(nr)
         let n = a:nr
         let r = ""
         while n
@@ -930,10 +945,10 @@ if empty(neobundle#get('lightline.vim')) || empty(neobundle#get('powerline'))
             let n = n / 16
         endwhile
         return r
-    endfunc
+    endfunction
     " The function String2Hex() converts each character in a string to a two
     " character Hex string.
-    func! String2Hex(str)
+    function! String2Hex(str)
         let out = ''
         let ix = 0
         while ix < strlen(a:str)
@@ -941,7 +956,7 @@ if empty(neobundle#get('lightline.vim')) || empty(neobundle#get('powerline'))
             let ix = ix + 1
         endwhile
         return out
-    endfunc
+    endfunction
     set statusline=%{GetB()}
 endif
 " }}}
@@ -1030,7 +1045,7 @@ endif
 if has('autocmd')
 	augroup EditPHP
 		autocmd!
-		autocmd! BufRead,BufNewFile *.inc set filetype=php
+		autocmd BufRead,BufNewFile *.inc set filetype=php
 		autocmd FileType php set omnifunc=phpcomplete#CompletePHP
 "	Exuberant ctags 5.7j1 が UTF-8 のソースでは
 "	うまく動かないのでコメントアウト。
