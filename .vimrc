@@ -589,7 +589,7 @@ if !empty(s:bundle)
                 \ 'active': {
                 \   'left': [
                 \     [ 'mode' ],
-                \     [ 'fugitive', 'filename', 'anzu' ]
+                \     [ 'fugitive', 'gitgutter', 'filename', 'anzu' ]
                 \   ],
                 \   'right': [
                 \     [ 'lineinfo' ],
@@ -605,6 +605,7 @@ if !empty(s:bundle)
                 \   'filename'     : 'MyFilename',
                 \   'filetype'     : 'MyFiletype',
                 \   'fugitive'     : 'MyFugitive',
+                \   'gitgutter'    : 'MyGitgutter',
                 \   'lineinfo'     : 'MyLineinfo',
                 \   'mode'         : 'MyMode',
                 \   'percent'      : 'MyPercent',
@@ -617,7 +618,7 @@ if !empty(s:bundle)
                 \ 'MyMode'         , 'MyFilename' , 'MyLineinfo'   ,
                 \ 'MyPercent'      , 'MyFugitive' , 'MyAnzu'       ,
                 \ 'MyFileencoding' , 'MyFiletype' , 'MyFileformat' ,
-                \ 'MyCharCode'     ,
+                \ 'MyGitgutter'    , 'MyCharCode'     ,
                 \ ]
 
     function! s:is_display(width, funcname)
@@ -714,6 +715,30 @@ if !empty(s:bundle)
             let l:fg = ''
         endtry
         return s:is_display(strlen(l:fg), 'MyFugitive') ? l:fg : ''
+    endfunction " }}}
+
+    function! MyGitgutter() " {{{
+        " http://qiita.com/yuyuchu3333/items/20a0acfe7e0d0e167ccc
+        if !empty(neobundle#get('vim-gitgutter'))
+            return ''
+        endif
+        if !exists('*GitGutterGetHunkSummary')
+            return ''
+        endif
+        let symbols = [
+                    \ g:gitgutter_sign_added . ' ',
+                    \ g:gitgutter_sign_modified . ' ',
+                    \ g:gitgutter_sign_removed . ' '
+                    \ ]
+        let hunks = GitGutterGetHunkSummary()
+        let ret = []
+        for i in [0, 1, 2]
+            if hunks[i] > 0
+                call add(ret, symbols[i] . hunks[i])
+            endif
+        endfor
+        let l:gg = join(ret, ' ')
+        return s:is_display(strlen(l:gg), 'MyGitgutter') ? l:gg : ''
     endfunction " }}}
 
     function! MyLineinfo() " {{{
@@ -856,6 +881,17 @@ if !empty(s:bundle)
         autocmd!
         autocmd CursorHold,CursorHoldI,WinLeave,TabLeave * call anzu#clear_search_status()
     augroup END 
+endif
+unlet s:bundle
+" }}}
+
+" Plugin : vim-gitgutter ================================== {{{
+" https://github.com/airblade/vim-gitgutter
+let s:bundle = neobundle#get('vim-gitgutter')
+if !empty(s:bundle)
+    let g:gitgutter_sign_added = '✚'
+    let g:gitgutter_sign_modified = '➜'
+    let g:gitgutter_sign_removed = '✘'
 endif
 unlet s:bundle
 " }}}
