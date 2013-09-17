@@ -420,6 +420,7 @@ if filereadable($NEOBUNDLEFILEPATH)
     NeoBundle 'Shougo/neobundle.vim.git'
     NeoBundle 'Shougo/neocomplcache.vim'
     NeoBundle 'Shougo/unite.vim'
+    NeoBundle 'airblade/vim-gitgutter'
     NeoBundle 'airblade/vim-rooter'
     NeoBundle 'altercation/vim-colors-solarized'
     NeoBundle 'ervandew/supertab.git'
@@ -809,6 +810,17 @@ function! s:bundle.hooks.on_source(bundle)
     " AlignCtrlで変更した設定を初期状態に戻す
     command! -nargs=0 AlignReset call Align#AlignCtrl("default")
 endfunction
+unlet s:bundle
+" }}}
+
+" Plugin : vim-gitgutter ================================== {{{
+" https://github.com/airblade/vim-gitgutter
+let s:bundle = neobundle#get('vim-gitgutter')
+if !empty(s:bundle)
+    let g:gitgutter_sign_added = '✚'
+    let g:gitgutter_sign_modified = '➜'
+    let g:gitgutter_sign_removed = '✘'
+endif
 unlet s:bundle
 " }}}
 
