@@ -1244,7 +1244,8 @@ endif
 if has('autocmd')
 	augroup EditHTML
 		autocmd!
-		autocmd! BufRead,BufNewFile *.tmpl set filetype=html
+    autocmd BufRead,BufNewFile *.ep   set filetype=html
+		autocmd BufRead,BufNewFile *.tmpl set filetype=html
 		autocmd FileType html set expandtab
 		autocmd FileType html set shiftwidth=2
 		autocmd FileType html set smarttab
