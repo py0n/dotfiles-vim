@@ -659,6 +659,9 @@ if !empty(s:bundle)
 
     " http://qiita.com/shiena/items/f53959d62085b7980cb5
     function! MyAnzu() " {{{
+        if empty(neobundle#get('vim-anzu'))
+            return ''
+        endif
         let l:anzu = anzu#search_status()
         return s:is_display(strlen(l:anzu), 'MyAnzu') ? l:anzu : ''
     endfunction " }}}
@@ -818,9 +821,11 @@ unlet s:bundle
 " Plugin : neocomplcache.vim ============================== {{{
 " https://github.com/Shougo/neocomplcache.vim
 let s:bundle = neobundle#get('neocomplcache.vim')
-function! s:bundle.hooks.on_source(bundle)
-    let g:neocomplcache_enable_at_startup = 1
-endfunction
+if !empty(s:bundle)
+    function! s:bundle.hooks.on_source(bundle)
+        let g:neocomplcache_enable_at_startup = 1
+    endfunction
+endif
 unlet s:bundle
 " }}}
 
