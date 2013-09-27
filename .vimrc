@@ -601,11 +601,11 @@ if !empty(s:bundle)
                 \ 'mode_map': {'c': 'NORMAL'},
                 \ 'active': {
                 \   'left': [
-                \     [ 'syntastic', 'mode' ],
+                \     [ 'mode' ],
                 \     [ 'fugitive', 'gitgutter', 'filename', 'anzu' ]
                 \   ],
                 \   'right': [
-                \     [ 'lineinfo' ],
+                \     [ 'lineinfo', 'syntastic' ],
                 \     [ 'percent' ],
                 \     [ 'charcode', 'fileformat', 'fileencoding', 'filetype' ]
                 \   ],
