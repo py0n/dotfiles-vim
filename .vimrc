@@ -416,6 +416,9 @@ if filereadable($NEOBUNDLEFILEPATH)
 
     call neobundle#rc($VIMBUNDLEDIRPATH)
 
+    " neobundleをneobundle地震で管理する。
+    NeoBundleFetch 'Shougo/neobundle.vim'
+
     NeoBundle 'Shougo/vimproc', {
           \ 'build' : {
           \     'windows' : 'make -f make_mingw32.mak',
@@ -425,27 +428,28 @@ if filereadable($NEOBUNDLEFILEPATH)
           \    },
           \ }
 
-    NeoBundle 'Shougo/neobundle.vim.git'
     NeoBundle 'Shougo/neocomplcache.vim'
     NeoBundle 'Shougo/unite.vim'
     NeoBundle 'airblade/vim-gitgutter'
     NeoBundle 'airblade/vim-rooter'
     NeoBundle 'altercation/vim-colors-solarized'
+    NeoBundle 'c9s/perlomni.vim'
     NeoBundle 'ervandew/supertab.git'
     NeoBundle 'h1mesuke/unite-outline.git'
     NeoBundle 'h1mesuke/vim-alignta'
     NeoBundle 'itchyny/lightline.vim'
     NeoBundle 'kana/vim-filetype-haskell'
+    NeoBundle 'mattn/perlvalidate-vim'
     NeoBundle 'mojako/ref-sources.vim.git'
     NeoBundle 'osyo-manga/vim-anzu'
+    NeoBundle 'scrooloose/syntastic'
     NeoBundle 'thinca/vim-quickrun'
     NeoBundle 'thinca/vim-ref'
     NeoBundle 'tpope/vim-surround.git'
     NeoBundle 'ujihisa/neco-ghc.git'
+    NeoBundle 'vim-perl/vim-perl'
     NeoBundle 'vim-scripts/cecutil.git'
     NeoBundle 'vim-scripts/newspaper.vim.git'
-    NeoBundle 'vim-scripts/omniperl.git'
-    NeoBundle 'vim-scripts/perl-support.vim'
 
     " ctrlp.vim
     NeoBundle 'kien/ctrlp.vim'
@@ -483,8 +487,12 @@ if filereadable($NEOBUNDLEFILEPATH)
     endif
 
     " vim-pandoc
-    if has('python')
-        NeoBundle 'vim-pandoc/vim-pandoc'
+    " http://lambdalisue.hatenablog.com/entry/2013/06/23/071344
+    if has('python') && s:existcommand('pandoc')
+        NeoBundleLazy 'vim-pandoc/vim-pandoc', {
+        \   'autoload': { 'filetpys': [
+        \       'markdown', 'pandoc', 'rst', 'text', 'textile'
+        \   ]}}
     endif
 
     " vim-powerline
@@ -496,6 +504,10 @@ if filereadable($NEOBUNDLEFILEPATH)
     " :NeoBundleList          - list configured bundles
     " :NeoBundleInstall(!)    - install(update) bundles
     " :NeoBundleClean(!)      - confirm(or auto-approve) removal of unused bundles
+
+    " 未インストールのplguinが存在する場合は
+    " 自動でインストール。
+    NeoBundleCheck
 
     " Installation check.
     if neobundle#exists_not_installed_bundles()
@@ -588,7 +600,7 @@ if !empty(s:bundle)
                 \ 'mode_map': {'c': 'NORMAL'},
                 \ 'active': {
                 \   'left': [
-                \     [ 'mode' ],
+                \     [ 'syntastic', 'mode' ],
                 \     [ 'fugitive', 'gitgutter', 'filename', 'anzu' ]
                 \   ],
                 \   'right': [
@@ -596,6 +608,9 @@ if !empty(s:bundle)
                 \     [ 'percent' ],
                 \     [ 'charcode', 'fileformat', 'fileencoding', 'filetype' ]
                 \   ],
+                \ },
+                \ 'component_expand': {
+                \   'syntastic': 'SyntasticStatuslineFlag'
                 \ },
                 \ 'component_function': {
                 \   'anzu'         : 'MyAnzu',
@@ -609,6 +624,9 @@ if !empty(s:bundle)
                 \   'lineinfo'     : 'MyLineinfo',
                 \   'mode'         : 'MyMode',
                 \   'percent'      : 'MyPercent',
+                \ },
+                \ 'component_type': {
+                \   'syntastic': 'error'
                 \ },
                 \ 'separator': { 'left': '', 'right': '', },
                 \ 'subseparator': { 'left': '', 'right': '', },
@@ -763,6 +781,15 @@ if !empty(s:bundle)
                     \ ? ''  : '-'
     endfunction " }}}
 
+    " http://d.hatena.ne.jp/itchyny/20130918/1379461406
+    function! MySyntasticStatuslineFlag() "{{{
+        if !empty(neobundle#get('syntastic'))
+            return SyntasicStatuslineFlag()
+        else
+            return ''
+        endif
+    endfunction " }}}
+
     function! MyPercent() " {{{
         let l:cl = line('.')
         let l:ll = line('$')
@@ -809,15 +836,6 @@ endif
 unlet s:bundle
 "}}}
 
-" Plugin : perl-support.vim =============================== {{{
-" https://github.com/vim-scripts/perl-support.vim
-let s:bundle = neobundle#get('perl-support.vim')
-function! s:bundle.hooks.on_source(bundle)
-    let g:Perl_PerlcriticSeverity = 1
-endfunction
-unlet s:bundle
-" }}}
-
 " Plugin : powerline ====================================== {{{
 let s:bundle = neobundle#get('powerline')
 if !empty(s:bundle)
@@ -838,6 +856,27 @@ if !empty(s:bundle)
             autocmd InsertLeave * set timeoutlen=1000
         augroup END
     endif
+endif
+unlet s:bundle
+" }}}
+
+" Plugin : syntastic ====================================== {{{
+" https://github.com/scrooloose/syntastic
+" http://d.hatena.ne.jp/heavenshell/20120106/1325866974
+" http://d.hatena.ne.jp/itchyny/20130918/1379461406
+let s:bundle = neobundle#get('syntastic')
+if !empty(s:bundle)
+    let g:syntastic_mode_map = { 'mode': 'passive' }
+    augroup AutoSyntastic
+        autocmd!
+        autocmd BufWritePost *.pl,*.pm,*.t call s:syntastic()
+    augroup END
+    function s:syntastic()
+        SyntasticCheck
+        if !empty(neobundle#get('lightline.vim'))
+            call lightline#update()
+        endif
+    endfunction
 endif
 unlet s:bundle
 " }}}
@@ -1229,6 +1268,12 @@ if has('autocmd')
 endif
 " }}}
 
+" FileType : Vim ========================================== {{{
+" http://kannokanno.hatenablog.com/entry/20120805/1344115812
+" ':help ft-vim-indent' を参照。
+let g:vim_indent_cont=0
+" }}}
+
 " XML (File Type) ========================================= {{{
 " ':h ft-xml-omni' を参照
 if has('autocmd')
@@ -1244,7 +1289,8 @@ endif
 if has('autocmd')
 	augroup EditHTML
 		autocmd!
-		autocmd! BufRead,BufNewFile *.tmpl set filetype=html
+    autocmd BufRead,BufNewFile *.ep   set filetype=html
+		autocmd BufRead,BufNewFile *.tmpl set filetype=html
 		autocmd FileType html set expandtab
 		autocmd FileType html set shiftwidth=2
 		autocmd FileType html set smarttab
