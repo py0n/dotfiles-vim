@@ -308,7 +308,7 @@ set showmatch matchtime=1
 set listchars=tab:\ \ 
 set list
 "タブ幅を設定する
-set noexpandtab
+set expandtab
 set tabstop=4
 set shiftwidth=4
 set softtabstop=0
@@ -480,6 +480,7 @@ NeoBundle 'gregsexton/gitv', {
 NeoBundle 'Shougo/neosnippet.vim', {
  \  'depends' : [ 'Shougo/neocomplcache.vim' ]
  \  }
+
 " powerline
 "NeoBundle 'taichouchou2/alpaca_powertabline'
 "NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
