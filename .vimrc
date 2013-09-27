@@ -490,7 +490,7 @@ if filereadable($NEOBUNDLEFILEPATH)
     " http://lambdalisue.hatenablog.com/entry/2013/06/23/071344
     if has('python') && s:existcommand('pandoc')
         NeoBundleLazy 'vim-pandoc/vim-pandoc', {
-        \   'autoload': { 'filetpys': [
+        \   'autoload': { 'filetypes': [
         \       'markdown', 'pandoc', 'rst', 'text', 'textile'
         \   ]}}
     endif
