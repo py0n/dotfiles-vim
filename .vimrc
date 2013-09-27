@@ -902,10 +902,6 @@ let s:bundle = neobundle#get('vim-pandoc')
 if !empty(s:bundle)
     let g:pandoc_no_folding = 1
     let g:pandoc_use_hard_wraps = 1
-    augroup EditPandoc
-        autocmd!
-        autocmd BufRead,BufNewFile *.md set filetype=pandoc
-    augroup END
 endif
 unlet s:bundle
 " }}}
@@ -1150,6 +1146,15 @@ if has('autocmd')
 "		\ --PHP-kinds=+cf-v %:p:h<CR>
 "	autocmd FileType php set tags=./tags,tags
 	augroup END
+endif
+" }}}
+
+" FileType : Pandoc ======================================= {{{
+if has('autocmd')
+    augroup MyFileTypePandoc
+        autocmd!
+        autocmd BufRead,BufNewFile *.md set filetype=pandoc
+    augroup END
 endif
 " }}}
 
