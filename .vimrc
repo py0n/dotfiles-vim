@@ -912,10 +912,12 @@ unlet s:bundle
 let s:bundle = neobundle#get('vim-anzu')
 if !empty(s:bundle)
     function! s:bundle.hooks.on_source(undle)
-        nmap n <Plug>(anzu-n)
-        nmap N <Plug>(anzu-N)
-        nmap * <Plug>(anzu-star)
-        nmap # <Plug>(anzu-sharp)
+        " ヒットした檢索語が畫面中段に來るやうに
+        " `zz'を付加してゐる。
+        nmap n <Plug>(anzu-n)zz
+        nmap N <Plug>(anzu-N)zz
+        nmap * <Plug>(anzu-star)zz
+        nmap # <Plug>(anzu-sharp)zz
 
         augroup MyVimAnzu
             " 一定時間キー入力がないとき、ウインドウを移動したとき、
