@@ -487,8 +487,12 @@ if filereadable($NEOBUNDLEFILEPATH)
     endif
 
     " vim-pandoc
-    if has('python')
-        NeoBundle 'vim-pandoc/vim-pandoc'
+    " http://lambdalisue.hatenablog.com/entry/2013/06/23/071344
+    if has('python') && s:existcommand('pandoc')
+        NeoBundleLazy 'vim-pandoc/vim-pandoc', {
+        \   'autoload': { 'filetpys': [
+        \       'markdown', 'pandoc', 'rst', 'text', 'textile'
+        \   ]}}
     endif
 
     " vim-powerline
