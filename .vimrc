@@ -431,6 +431,7 @@ if filereadable($NEOBUNDLEFILEPATH)
     NeoBundle 'airblade/vim-gitgutter'
     NeoBundle 'airblade/vim-rooter'
     NeoBundle 'altercation/vim-colors-solarized'
+    NeoBundle 'c9s/perlomni.vim'
     NeoBundle 'ervandew/supertab.git'
     NeoBundle 'h1mesuke/unite-outline.git'
     NeoBundle 'h1mesuke/vim-alignta'
@@ -445,7 +446,6 @@ if filereadable($NEOBUNDLEFILEPATH)
     NeoBundle 'ujihisa/neco-ghc.git'
     NeoBundle 'vim-scripts/cecutil.git'
     NeoBundle 'vim-scripts/newspaper.vim.git'
-    NeoBundle 'vim-scripts/omniperl.git'
     NeoBundle 'vim-scripts/perl-support.vim'
 
     " ctrlp.vim
