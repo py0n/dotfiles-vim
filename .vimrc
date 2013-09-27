@@ -406,13 +406,19 @@ let $VIMBUNDLEDIRPATH=$CFGHOME.'/bundle'
 let $NEOBUNDLEDIRPATH=$VIMBUNDLEDIRPATH.'/neobundle.vim'
 let $NEOBUNDLEFILEPATH=$NEOBUNDLEDIRPATH.'/autoload/neobundle.vim'
 
-" $HOME/.vim/bundleを作成する。
+" ディレクトリが存在しなければ作成する。
 call s:mkdir($VIMBUNDLEDIRPATH)
 
 " neobundle.vimが無い場合は終了。
 if !filereadable($NEOBUNDLEFILEPATH)
-    echomsg "Not installed NeoBundle (neobundle.vim) plugin"
-    finish
+    if (has('unix') || has('win32unix')) && s:existcommand('git')
+        " https://github.com/joedicastro/dotfiles/blob/master/vim/vimrc
+        silent !git clone https://github.com/Shougo/neobundle.vim
+         \  $NEOBUNDLEDIRPATH
+    else
+        echomsg "Not installed NeoBundle (neobundle.vim) plugin"
+        finish
+    endif
 endif
 
 if has('vim_starting')
