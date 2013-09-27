@@ -494,7 +494,7 @@ endif
 
 " vim-pandoc
 " http://lambdalisue.hatenablog.com/entry/2013/06/23/071344
-if has('python') && s:existcommand('pandoc')
+if has('python')
     NeoBundleLazy 'vim-pandoc/vim-pandoc', {
      \  'autoload': { 'filetypes': [
      \      'markdown', 'pandoc', 'rst', 'text', 'textile'
