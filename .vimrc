@@ -490,9 +490,9 @@ if filereadable($NEOBUNDLEFILEPATH)
     " http://lambdalisue.hatenablog.com/entry/2013/06/23/071344
     if has('python') && s:existcommand('pandoc')
         NeoBundleLazy 'vim-pandoc/vim-pandoc', {
-        \   'autoload': { 'filetypes': [
-        \       'markdown', 'pandoc', 'rst', 'text', 'textile'
-        \   ]}}
+         \  'autoload': { 'filetypes': [
+         \      'markdown', 'pandoc', 'rst', 'text', 'textile'
+         \  ]}}
     endif
 
     " vim-powerline
@@ -1276,7 +1276,11 @@ endif
 " FileType : Vim ========================================== {{{
 " http://kannokanno.hatenablog.com/entry/20120805/1344115812
 " ':help ft-vim-indent' を参照。
-let g:vim_indent_cont=0
+if &sw >= 3
+    let g:vim_indent_cont=&sw-3
+else
+    let g:vim_indent_cont=0
+endif
 " }}}
 
 " XML (File Type) ========================================= {{{
