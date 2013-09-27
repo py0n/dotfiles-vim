@@ -416,6 +416,9 @@ if filereadable($NEOBUNDLEFILEPATH)
 
     call neobundle#rc($VIMBUNDLEDIRPATH)
 
+    " neobundleをneobundle地震で管理する。
+    NeoBundleFetch 'Shougo/neobundle.vim'
+
     NeoBundle 'Shougo/vimproc', {
           \ 'build' : {
           \     'windows' : 'make -f make_mingw32.mak',
@@ -425,7 +428,6 @@ if filereadable($NEOBUNDLEFILEPATH)
           \    },
           \ }
 
-    NeoBundle 'Shougo/neobundle.vim.git'
     NeoBundle 'Shougo/neocomplcache.vim'
     NeoBundle 'Shougo/unite.vim'
     NeoBundle 'airblade/vim-gitgutter'
@@ -498,6 +500,10 @@ if filereadable($NEOBUNDLEFILEPATH)
     " :NeoBundleList          - list configured bundles
     " :NeoBundleInstall(!)    - install(update) bundles
     " :NeoBundleClean(!)      - confirm(or auto-approve) removal of unused bundles
+
+    " 未インストールのplguinが存在する場合は
+    " 自動でインストール。
+    NeoBundleCheck
 
     " Installation check.
     if neobundle#exists_not_installed_bundles()
