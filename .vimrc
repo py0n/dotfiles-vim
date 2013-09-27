@@ -1264,6 +1264,12 @@ if has('autocmd')
 endif
 " }}}
 
+" FileType : Vim ========================================== {{{
+" http://kannokanno.hatenablog.com/entry/20120805/1344115812
+" ':help ft-vim-indent' を参照。
+let g:vim_indent_cont=0
+" }}}
+
 " XML (File Type) ========================================= {{{
 " ':h ft-xml-omni' を参照
 if has('autocmd')
