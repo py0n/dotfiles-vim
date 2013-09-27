@@ -25,7 +25,7 @@ else
 endif
 
 " 函數 ==================================================== {{{
-function! s:auto_mkdir(dir)
+function! s:mkdir(dir)
     if !isdirectory(a:dir)
         if has('iconv') && has('multi_byte')
             call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
@@ -42,7 +42,7 @@ endfunction
 " テンプレート設定 ======================================== {{{
 " テンプレートのディレクトリ。
 let $TEMPLATEDIRPATH=$CFGHOME.'/template'
-call s:auto_mkdir($TEMPLATEDIRPATH)
+call s:mkdir($TEMPLATEDIRPATH)
 " }}}
 
 " バックアップ(backup)設定 ================================ {{{
@@ -51,7 +51,7 @@ set nobackup
 " backupファイルの保管場所
 if &backup
     let $BACKUPPDIRPATH=$CFGHOME.'/tmp'
-    call s:auto_mkdir($BACKUPDIRPATH)
+    call s:mkdir($BACKUPDIRPATH)
     set backupdir=$BACKUPDIRPATH
 endif
 " }}}
@@ -62,7 +62,7 @@ set swapfile
 " swapファイルの保管場所。
 if &swapfile
     let $SWAPDIRPATH=$CFGHOME.'/tmp'
-    call s:auto_mkdir($SWAPDIRPATH)
+    call s:mkdir($SWAPDIRPATH)
     set directory=$SWAPDIRPATH
 endif
 " }}}
@@ -209,9 +209,9 @@ endif
 " 自動的にディレクトリを作成する。
 " http://vim-users.jp/2011/02/hack202/
 if has("autocmd")
-    augroup vimrc-auto-mkdir
+    augroup MyAutoMkdir
         autocmd!
-        autocmd BufWritePre * call s:auto_mkdir(expand('<afile>:p:h'))
+        autocmd BufWritePre * call s:mkdir(expand('<afile>:p:h'))
     augroup END
 endif
 " }}}
@@ -407,7 +407,7 @@ let $NEOBUNDLEDIRPATH=$VIMBUNDLEDIRPATH.'/neobundle.vim'
 let $NEOBUNDLEFILEPATH=$NEOBUNDLEDIRPATH.'/autoload/neobundle.vim'
 
 " $HOME/.vim/bundleを作成する。
-call s:auto_mkdir($VIMBUNDLEDIRPATH)
+call s:mkdir($VIMBUNDLEDIRPATH)
 
 " neobundle.vimが無い場合は終了。
 if !filereadable($NEOBUNDLEFILEPATH)
@@ -835,7 +835,7 @@ unlet s:bundle
 let s:bundle = neobundle#get('neosnippet.vim')
 if !empty(s:bundle)
     let $SNIPPETDIRPATH=$CFGHOME.'/snippets'
-    call s:auto_mkdir($SNIPPETDIRPATH)
+    call s:mkdir($SNIPPETDIRPATH)
     let g:neosnippet#snippets_directory=$SNIPPETDIRPATH
 
     " Plugin key-mappings.
