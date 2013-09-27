@@ -396,6 +396,7 @@ endif
 " }}}
 
 " プラグイン読込 (NeoBundle) ============================== {{{
+" http://qiita.com/rbtnn/items/39d9ba817329886e626b
 " http://vim-users.jp/2011/10/hack238/
 " https://github.com/Shougo/neobundle.vim
 
@@ -408,116 +409,116 @@ let $NEOBUNDLEFILEPATH=$NEOBUNDLEDIRPATH.'/autoload/neobundle.vim'
 " $HOME/.vim/bundleを作成する。
 call s:auto_mkdir($VIMBUNDLEDIRPATH)
 
-if filereadable($NEOBUNDLEFILEPATH)
-    if has('vim_starting')
-        set runtimepath&
-        set runtimepath+=$NEOBUNDLEDIRPATH
-    endif
+" neobundle.vimが無い場合は終了。
+if !filereadable($NEOBUNDLEFILEPATH)
+    echomsg "Not installed NeoBundle (neobundle.vim) plugin"
+    finish
+endif
 
-    call neobundle#rc($VIMBUNDLEDIRPATH)
+if has('vim_starting')
+    set runtimepath&
+    set runtimepath+=$NEOBUNDLEDIRPATH
+endif
 
-    " neobundleをneobundle地震で管理する。
-    NeoBundleFetch 'Shougo/neobundle.vim'
+call neobundle#rc($VIMBUNDLEDIRPATH)
 
-    NeoBundle 'Shougo/vimproc', {
-          \ 'build' : {
-          \     'windows' : 'make -f make_mingw32.mak',
-          \     'cygwin' : 'make -f make_cygwin.mak',
-          \     'mac' : 'make -f make_mac.mak',
-          \     'unix' : 'make -f make_unix.mak',
-          \    },
-          \ }
+" neobundle.vimをneobundle自信で管理する。
+NeoBundleFetch 'Shougo/neobundle.vim'
 
-    NeoBundle 'Shougo/neocomplcache.vim'
-    NeoBundle 'Shougo/unite.vim'
-    NeoBundle 'airblade/vim-gitgutter'
-    NeoBundle 'airblade/vim-rooter'
-    NeoBundle 'altercation/vim-colors-solarized'
-    NeoBundle 'c9s/perlomni.vim'
-    NeoBundle 'ervandew/supertab.git'
-    NeoBundle 'h1mesuke/unite-outline.git'
-    NeoBundle 'h1mesuke/vim-alignta'
-    NeoBundle 'itchyny/lightline.vim'
-    NeoBundle 'kana/vim-filetype-haskell'
-    NeoBundle 'mattn/perlvalidate-vim'
-    NeoBundle 'mojako/ref-sources.vim.git'
-    NeoBundle 'osyo-manga/vim-anzu'
-    NeoBundle 'scrooloose/syntastic'
-    NeoBundle 'thinca/vim-quickrun'
-    NeoBundle 'thinca/vim-ref'
-    NeoBundle 'tpope/vim-surround.git'
-    NeoBundle 'ujihisa/neco-ghc.git'
-    NeoBundle 'vim-perl/vim-perl'
-    NeoBundle 'vim-scripts/cecutil.git'
-    NeoBundle 'vim-scripts/newspaper.vim.git'
+NeoBundle 'Shougo/vimproc', {
+ \  'build' : {
+ \      'cygwin'  : 'make -f make_cygwin.mak',
+ \      'mac'     : 'make -f make_mac.mak',
+ \      'unix'    : 'make -f make_unix.mak',
+ \      'windows' : 'make -f make_mingw32.mak'
+ \  }}
 
-    " ctrlp.vim
-    NeoBundle 'kien/ctrlp.vim'
-    NeoBundle 'sgur/ctrlp-extensions.vim', {
-    \    'depends'  : [ 'kien/ctrlp.vim' ]
-    \}
+NeoBundle 'Shougo/neocomplcache.vim'
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'airblade/vim-gitgutter'
+NeoBundle 'airblade/vim-rooter'
+NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'c9s/perlomni.vim'
+NeoBundle 'ervandew/supertab.git'
+NeoBundle 'h1mesuke/unite-outline.git'
+NeoBundle 'h1mesuke/vim-alignta'
+NeoBundle 'itchyny/lightline.vim'
+NeoBundle 'kana/vim-filetype-haskell'
+NeoBundle 'mattn/perlvalidate-vim'
+NeoBundle 'mojako/ref-sources.vim.git'
+NeoBundle 'osyo-manga/vim-anzu'
+NeoBundle 'scrooloose/syntastic'
+NeoBundle 'thinca/vim-quickrun'
+NeoBundle 'thinca/vim-ref'
+NeoBundle 'tpope/vim-surround.git'
+NeoBundle 'ujihisa/neco-ghc.git'
+NeoBundle 'vim-perl/vim-perl'
+NeoBundle 'vim-scripts/cecutil.git'
+NeoBundle 'vim-scripts/newspaper.vim.git'
 
-    " ghcmod-vim
-    NeoBundleLazy 'eagletmt/ghcmod-vim', {
-    \    'autoload' : { 'filetypes' : [ 'haskell' ] },
-    \    'depends'  : [ 'Shougo/vimproc' ]
-    \}
+" ctrlp.vim
+NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'sgur/ctrlp-extensions.vim', {
+ \  'depends' : [ 'kien/ctrlp.vim' ]
+ \  }
 
-    " git
-    " http://d.hatena.ne.jp/cohama/20120417/1334679297
-    " http://d.hatena.ne.jp/cohama/20130517/1368806202
-    NeoBundle 'tpope/vim-fugitive'
-    NeoBundle 'gregsexton/gitv', {
-    \    'depends' : [ 'tpope/vim-fugitive' ]
-    \}
+" ghcmod-vim
+NeoBundleLazy 'eagletmt/ghcmod-vim', {
+ \  'autoload' : { 'filetypes' : [ 'haskell' ] },
+ \  'depends'  : [ 'Shougo/vimproc' ]
+ \  }
 
-    " neosnippet.vim
-    NeoBundle 'Shougo/neosnippet.vim', {
-                \ 'depends' : [ 'Shougo/neocomplcache.vim' ]
-                \ }
-    " powerline
-    "NeoBundle 'taichouchou2/alpaca_powertabline'
-    "NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
+" git
+" http://d.hatena.ne.jp/cohama/20120417/1334679297
+" http://d.hatena.ne.jp/cohama/20130517/1368806202
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'gregsexton/gitv', {
+ \  'depends' : [ 'tpope/vim-fugitive' ]
+ \  }
 
-    " ref-hoogle
-    if s:existcommand('hoogle')
-        NeoBundle 'ujihisa/ref-hoogle', {
-                    \ 'depends' : [ 'thinca/vim-ref' ]
-                    \ }
-    endif
+" neosnippet.vim
+NeoBundle 'Shougo/neosnippet.vim', {
+ \  'depends' : [ 'Shougo/neocomplcache.vim' ]
+ \  }
+" powerline
+"NeoBundle 'taichouchou2/alpaca_powertabline'
+"NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
 
-    " vim-pandoc
-    " http://lambdalisue.hatenablog.com/entry/2013/06/23/071344
-    if has('python') && s:existcommand('pandoc')
-        NeoBundleLazy 'vim-pandoc/vim-pandoc', {
-         \  'autoload': { 'filetypes': [
-         \      'markdown', 'pandoc', 'rst', 'text', 'textile'
-         \  ]}}
-    endif
+" ref-hoogle
+if s:existcommand('hoogle')
+    NeoBundle 'ujihisa/ref-hoogle', {
+     \  'depends' : [ 'thinca/vim-ref' ]
+     \  }
+endif
 
-    " vim-powerline
-    "NeoBundle 'Lokaltog/vim-powerline.git'
+" vim-pandoc
+" http://lambdalisue.hatenablog.com/entry/2013/06/23/071344
+if has('python') && s:existcommand('pandoc')
+    NeoBundleLazy 'vim-pandoc/vim-pandoc', {
+     \  'autoload': { 'filetypes': [
+     \      'markdown', 'pandoc', 'rst', 'text', 'textile'
+     \  ]}}
+endif
 
-    filetype plugin indent on     " Required!
+" vim-powerline
+"NeoBundle 'Lokaltog/vim-powerline.git'
 
-    " Brief help
-    " :NeoBundleList          - list configured bundles
-    " :NeoBundleInstall(!)    - install(update) bundles
-    " :NeoBundleClean(!)      - confirm(or auto-approve) removal of unused bundles
+filetype plugin indent on     " Required!
 
-    " 未インストールのplguinが存在する場合は
-    " 自動でインストール。
-    NeoBundleCheck
+" Brief help
+" :NeoBundleList          - list configured bundles
+" :NeoBundleInstall(!)    - install(update) bundles
+" :NeoBundleClean(!)      - confirm(or auto-approve) removal of unused bundles
 
-    " Installation check.
-    if neobundle#exists_not_installed_bundles()
-        echomsg 'Not installed bundles : ' .
-            \ string(neobundle#get_not_installed_bundle_names())
-        echomsg 'Please execute ":NeoBundleInstall" command.'
-        finish
-    endif
-else
-    echomsg "Not installed NeoBundle plugin"
+" 未インストールのplguinが存在する場合は
+" 自動でインストール。
+NeoBundleCheck
+
+" Installation check.
+if neobundle#exists_not_installed_bundles()
+    echomsg 'Not installed bundles : ' .
+        \ string(neobundle#get_not_installed_bundle_names())
+    echomsg 'Please execute ":NeoBundleInstall" command.'
     finish
 endif
 " }}}
