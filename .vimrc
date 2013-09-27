@@ -547,42 +547,50 @@ endif
 " Plugin : ctrlp.vim ====================================== {{{
 " https://github.com/kien/ctrlp.vim
 let s:bundle = neobundle#get('ctrlp.vim')
-function! s:bundle.hooks.on_source(bundle)
-    " http://qiita.com/items/5ece3f39481f6aab9bc5
-    let g:ctrlp_clear_cache_on_exit = 0
-    let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-    let g:ctrlp_max_depth = 40
-    let g:ctrlp_max_files = 1000000
-endfunction
+if !empty(s:bundle)
+    function! s:bundle.hooks.on_source(bundle)
+        " http://qiita.com/items/5ece3f39481f6aab9bc5
+        let g:ctrlp_clear_cache_on_exit = 0
+        let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
+        let g:ctrlp_max_depth = 40
+        let g:ctrlp_max_files = 1000000
+    endfunction
+endif
 unlet s:bundle
 
 let s:bundle = neobundle#get('ctrlp-extensions.vim')
-function! s:bundle.hooks.on_source(bundle)
-    " http://sgur.tumblr.com/post/21848239550/ctrlp-vim
-    let g:ctrlp_extensions = ['cmdline', 'yankring', 'menu']
-endfunction
+if !empty(s:bundle)
+    function! s:bundle.hooks.on_source(bundle)
+        " http://sgur.tumblr.com/post/21848239550/ctrlp-vim
+        let g:ctrlp_extensions = [
+         \  'cmdline', 'yankring', 'menu'
+         \  ]
+    endfunction
+endif
 unlet s:bundle
 " }}}
 "
 " Plugin : ghcmod-vim ===================================== {{{
 " https://github.com/eagletmt/ghcmod-vim
 let s:bundle = neobundle#get('ghcmod-vim')
-function! s:bundle.hooks.on_source(bundle)
+if !empty(s:bundle)
     let g:haddock_browser = "firefox"
-endfunction
+endif
 unlet s:bundle
 " }}}
 
 " Plugin : gitv =========================================== {{{
 " https://github.com/gregsexton/gitv
 let s:bundle = neobundle#get('gitv')
-function! s:bundle.hooks.on_source(bundle)
-    augroup Gitv
-        autocmd!
-        " http://d.hatena.ne.jp/cohama/20120417/1334679297
-        autocmd FileType git :setlocal foldlevel=99
-    augroup END
-endfunction
+if !empty(s:bundle)
+    function! s:bundle.hooks.on_source(bundle)
+        augroup Gitv
+            autocmd!
+            " http://d.hatena.ne.jp/cohama/20120417/1334679297
+            autocmd FileType git :setlocal foldlevel=99
+        augroup END
+    endfunction
+endif
 unlet s:bundle
 " }}}
 
@@ -867,16 +875,18 @@ unlet s:bundle
 " http://d.hatena.ne.jp/itchyny/20130918/1379461406
 let s:bundle = neobundle#get('syntastic')
 if !empty(s:bundle)
-    let g:syntastic_mode_map = { 'mode': 'passive' }
-    augroup AutoSyntastic
-        autocmd!
-        autocmd BufWritePost *.pl,*.pm,*.t call s:syntastic()
-    augroup END
-    function s:syntastic()
-        SyntasticCheck
-        if !empty(neobundle#get('lightline.vim'))
-            call lightline#update()
-        endif
+    function! s:bundle.hooks.on_source(bundle)
+        let g:syntastic_mode_map = { 'mode': 'passive' }
+        augroup AutoSyntastic
+            autocmd!
+            autocmd BufWritePost *.pl,*.pm,*.t call s:syntastic()
+        augroup END
+        function s:syntastic()
+            SyntasticCheck
+            if !empty(neobundle#get('lightline.vim'))
+                call lightline#update()
+            endif
+        endfunction
     endfunction
 endif
 unlet s:bundle
@@ -885,23 +895,14 @@ unlet s:bundle
 " Plugin : vim-alignta ==================================== {{{
 " https://github.com/h1mesuke/vim-alignta
 let s:bundle = neobundle#get('vim-alignta')
-function! s:bundle.hooks.on_source(bundle)
-    " http://nanasi.jp/articles/vim/align/align_vim_ext.html
-    " Alignを日本語環境で使用する
-    let g:Align_xstrlen=3
-    " AlignCtrlで変更した設定を初期状態に戻す
-    command! -nargs=0 AlignReset call Align#AlignCtrl("default")
-endfunction
-unlet s:bundle
-" }}}
-
-" Plugin : vim-gitgutter ================================== {{{
-" https://github.com/airblade/vim-gitgutter
-let s:bundle = neobundle#get('vim-gitgutter')
 if !empty(s:bundle)
-    let g:gitgutter_sign_added = '✚'
-    let g:gitgutter_sign_modified = '➜'
-    let g:gitgutter_sign_removed = '✘'
+    function! s:bundle.hooks.on_source(bundle)
+        " http://nanasi.jp/articles/vim/align/align_vim_ext.html
+        " Alignを日本語環境で使用する
+        let g:Align_xstrlen=3
+        " AlignCtrlで変更した設定を初期状態に戻す
+        command! -nargs=0 AlignReset call Align#AlignCtrl("default")
+    endfunction
 endif
 unlet s:bundle
 " }}}
@@ -910,17 +911,22 @@ unlet s:bundle
 " https://github.com/osyo-manga/vim-anzu
 let s:bundle = neobundle#get('vim-anzu')
 if !empty(s:bundle)
-    nmap n <Plug>(anzu-n)
-    nmap N <Plug>(anzu-N)
-    nmap * <Plug>(anzu-star)
-    nmap # <Plug>(anzu-sharp)
+    function! s:bundle.hooks.on_source(undle)
+        nmap n <Plug>(anzu-n)
+        nmap N <Plug>(anzu-N)
+        nmap * <Plug>(anzu-star)
+        nmap # <Plug>(anzu-sharp)
 
-    augroup VimAnzu
-        " 一定時間キー入力がないとき、ウインドウを移動したとき、
-        " タブを移動したときに " 検索ヒット数の表示を消去する。
-        autocmd!
-        autocmd CursorHold,CursorHoldI,WinLeave,TabLeave * call anzu#clear_search_status()
-    augroup END 
+        augroup MyVimAnzu
+            " 一定時間キー入力がないとき、ウインドウを移動したとき、
+            " タブを移動したときに検索ヒット数の表示を消去する。
+            autocmd!
+            autocmd CursorHold  * call anzu#clear_search_status()
+            autocmd CursorHoldI * call anzu#clear_search_status()
+            autocmd WinLeave    * call anzu#clear_search_status()
+            autocmd TabLeave    * call anzu#clear_search_status()
+        augroup END
+    endfunction
 endif
 unlet s:bundle
 " }}}
@@ -929,6 +935,8 @@ unlet s:bundle
 " https://github.com/airblade/vim-gitgutter
 let s:bundle = neobundle#get('vim-gitgutter')
 if !empty(s:bundle)
+    " global變數はhookで設定しても反映されないので
+    " empty()で判定する。
     let g:gitgutter_sign_added = '✚'
     let g:gitgutter_sign_modified = '➜'
     let g:gitgutter_sign_removed = '✘'
@@ -987,45 +995,47 @@ unlet s:bundle
 " http://d.hatena.ne.jp/ruedap/20110110/vim_unite_plugin
 " http://d.hatena.ne.jp/ruedap/20110117/vim_unite_plugin_1_week
 let s:bundle = neobundle#get('unite.vim')
-function! s:bundle.hooks.on_source(bundle)
-    " 入力モードで開始する
-    let g:unite_enable_start_insert=1
-    " バッファ一覧
-    nnoremap <silent> ,ub :<C-u>Unite buffer<CR>
-    " ファイル一覧
-    nnoremap <silent> ,uf :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
-    " レジスタ一覧
-    nnoremap <silent> ,ur :<C-u>Unite -buffer-name=register register<CR>
-    " 最近使用したファイル一覧
-    nnoremap <silent> ,um :<C-u>Unite file_mru<CR>
-    " 常用セット
-    nnoremap <silent> ,uu :<C-u>Unite buffer file_mru<CR>
-    " 全部乗せ
-    nnoremap <silent> ,ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
+if !empty(s:bundle)
+    function! s:bundle.hooks.on_source(bundle)
+        " 入力モードで開始する
+        let g:unite_enable_start_insert=1
+        " バッファ一覧
+        nnoremap <silent> ,ub :<C-u>Unite buffer<CR>
+        " ファイル一覧
+        nnoremap <silent> ,uf :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+        " レジスタ一覧
+        nnoremap <silent> ,ur :<C-u>Unite -buffer-name=register register<CR>
+        " 最近使用したファイル一覧
+        nnoremap <silent> ,um :<C-u>Unite file_mru<CR>
+        " 常用セット
+        nnoremap <silent> ,uu :<C-u>Unite buffer file_mru<CR>
+        " 全部乗せ
+        nnoremap <silent> ,ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
 
-    " unite.vim上でのキーマッピング
-    function! s:unite_my_settings()
-        " 単語単位からパス単位で削除するように変更
-        imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
+        " unite.vim上でのキーマッピング
+        function! s:unite_my_settings()
+            " 単語単位からパス単位で削除するように変更
+            imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
+            " ESCキーを2回押すと終了する
+            nmap <silent><buffer> <ESC><ESC> q
+            imap <silent><buffer> <ESC><ESC> <ESC>q
+        endfunction
+
+        augroup MyUnite
+            autocmd!
+        augroup END
+        autocmd MyUnite FileType unite call s:unite_my_settings()
+        " ウィンドウを分割して開く
+        autocmd MyUnite FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
+        autocmd MyUnite FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
+        " ウィンドウを縦に分割して開く
+        autocmd MyUnite FileType unite nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
+        autocmd MyUnite FileType unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
         " ESCキーを2回押すと終了する
-        nmap <silent><buffer> <ESC><ESC> q
-        imap <silent><buffer> <ESC><ESC> <ESC>q
+        autocmd MyUnite FileType unite nnoremap <silent> <buffer> <ESC><ESC> q
+        autocmd MyUnite FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>q
     endfunction
-
-    augroup MyUnite
-        autocmd!
-    augroup END
-    autocmd MyUnite FileType unite call s:unite_my_settings()
-    " ウィンドウを分割して開く
-    autocmd MyUnite FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
-    autocmd MyUnite FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
-    " ウィンドウを縦に分割して開く
-    autocmd MyUnite FileType unite nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
-    autocmd MyUnite FileType unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
-    " ESCキーを2回押すと終了する
-    autocmd MyUnite FileType unite nnoremap <silent> <buffer> <ESC><ESC> q
-    autocmd MyUnite FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>q
-endfunction
+endif
 unlet s:bundle
 " }}}
 
