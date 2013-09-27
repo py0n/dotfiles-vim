@@ -437,6 +437,7 @@ if filereadable($NEOBUNDLEFILEPATH)
     NeoBundle 'h1mesuke/vim-alignta'
     NeoBundle 'itchyny/lightline.vim'
     NeoBundle 'kana/vim-filetype-haskell'
+    NeoBundle 'mattn/perlvalidate-vim'
     NeoBundle 'mojako/ref-sources.vim.git'
     NeoBundle 'osyo-manga/vim-anzu'
     NeoBundle 'scrooloose/syntastic'
@@ -444,9 +445,9 @@ if filereadable($NEOBUNDLEFILEPATH)
     NeoBundle 'thinca/vim-ref'
     NeoBundle 'tpope/vim-surround.git'
     NeoBundle 'ujihisa/neco-ghc.git'
+    NeoBundle 'vim-perl/vim-perl'
     NeoBundle 'vim-scripts/cecutil.git'
     NeoBundle 'vim-scripts/newspaper.vim.git'
-    NeoBundle 'vim-scripts/perl-support.vim'
 
     " ctrlp.vim
     NeoBundle 'kien/ctrlp.vim'
@@ -824,15 +825,6 @@ if !empty(s:bundle)
 endif
 unlet s:bundle
 "}}}
-
-" Plugin : perl-support.vim =============================== {{{
-" https://github.com/vim-scripts/perl-support.vim
-let s:bundle = neobundle#get('perl-support.vim')
-function! s:bundle.hooks.on_source(bundle)
-    let g:Perl_PerlcriticSeverity = 1
-endfunction
-unlet s:bundle
-" }}}
 
 " Plugin : powerline ====================================== {{{
 let s:bundle = neobundle#get('powerline')
