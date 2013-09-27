@@ -1311,21 +1311,20 @@ if has('autocmd')
 endif
 " }}}
 
-" XHTML (File Type) ======================================= {{{
+" FileType : (X)HTML ====================================== {{{
 " ':h ft-xhtml-omni' を参照
 if has('autocmd')
-	augroup EditHTML
-		autocmd!
-    autocmd BufRead,BufNewFile *.ep   set filetype=html
-		autocmd BufRead,BufNewFile *.tmpl set filetype=html
-		autocmd FileType html set expandtab
-		autocmd FileType html set shiftwidth=2
-		autocmd FileType html set smarttab
-		autocmd FileType html set softtabstop=2
-		autocmd FileType html set tabstop=2
-		autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-		set expandtab
-	augroup END
+    augroup MyEditHTML
+        autocmd!
+        autocmd BufRead,BufNewFile *.ep   set filetype=html
+        autocmd BufRead,BufNewFile *.tmpl set filetype=html
+        autocmd FileType html set expandtab
+        autocmd FileType html set shiftwidth=2
+        autocmd FileType html set smarttab
+        autocmd FileType html set softtabstop=2
+        autocmd FileType html set tabstop=2
+        autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+    augroup END
 endif
 " }}}
 
