@@ -438,6 +438,7 @@ if filereadable($NEOBUNDLEFILEPATH)
     NeoBundle 'kana/vim-filetype-haskell'
     NeoBundle 'mojako/ref-sources.vim.git'
     NeoBundle 'osyo-manga/vim-anzu'
+    NeoBundle 'scrooloose/syntastic'
     NeoBundle 'thinca/vim-quickrun'
     NeoBundle 'thinca/vim-ref'
     NeoBundle 'tpope/vim-surround.git'
@@ -588,7 +589,7 @@ if !empty(s:bundle)
                 \ 'mode_map': {'c': 'NORMAL'},
                 \ 'active': {
                 \   'left': [
-                \     [ 'mode' ],
+                \     [ 'syntastic', 'mode' ],
                 \     [ 'fugitive', 'gitgutter', 'filename', 'anzu' ]
                 \   ],
                 \   'right': [
@@ -596,6 +597,9 @@ if !empty(s:bundle)
                 \     [ 'percent' ],
                 \     [ 'charcode', 'fileformat', 'fileencoding', 'filetype' ]
                 \   ],
+                \ },
+                \ 'component_expand': {
+                \   'syntastic': 'SyntasticStatuslineFlag'
                 \ },
                 \ 'component_function': {
                 \   'anzu'         : 'MyAnzu',
@@ -609,6 +613,9 @@ if !empty(s:bundle)
                 \   'lineinfo'     : 'MyLineinfo',
                 \   'mode'         : 'MyMode',
                 \   'percent'      : 'MyPercent',
+                \ },
+                \ 'component_type': {
+                \   'syntastic': 'error'
                 \ },
                 \ 'separator': { 'left': '', 'right': '', },
                 \ 'subseparator': { 'left': '', 'right': '', },
@@ -763,6 +770,15 @@ if !empty(s:bundle)
                     \ ? ''  : '-'
     endfunction " }}}
 
+    " http://d.hatena.ne.jp/itchyny/20130918/1379461406
+    function! MySyntasticStatuslineFlag() "{{{
+        if !empty(neobundle#get('syntastic'))
+            return SyntasicStatuslineFlag()
+        else
+            return ''
+        endif
+    endfunction " }}}
+
     function! MyPercent() " {{{
         let l:cl = line('.')
         let l:ll = line('$')
@@ -838,6 +854,27 @@ if !empty(s:bundle)
             autocmd InsertLeave * set timeoutlen=1000
         augroup END
     endif
+endif
+unlet s:bundle
+" }}}
+
+" Plugin : syntastic ====================================== {{{
+" https://github.com/scrooloose/syntastic
+" http://d.hatena.ne.jp/heavenshell/20120106/1325866974
+" http://d.hatena.ne.jp/itchyny/20130918/1379461406
+let s:bundle = neobundle#get('syntastic')
+if !empty(s:bundle)
+    let g:syntastic_mode_map = { 'mode': 'passive' }
+    augroup AutoSyntastic
+        autocmd!
+        autocmd BufWritePost *.pl,*.pm,*.t call s:syntastic()
+    augroup END
+    function s:syntastic()
+        SyntasticCheck
+        if !empty(neobundle#get('lightline.vim'))
+            call lightline#update()
+        endif
+    endfunction
 endif
 unlet s:bundle
 " }}}
