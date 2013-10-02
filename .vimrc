@@ -498,6 +498,10 @@ if s:existcommand('hoogle')
      \  }
 endif
 
+" vim-localrc
+" https://github.com/thinca/vim-localrc
+NeoBundle 'thinca/vim-localrc'
+
 " vim-pandoc
 " http://lambdalisue.hatenablog.com/entry/2013/06/23/071344
 if has('python')
