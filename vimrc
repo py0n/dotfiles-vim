@@ -954,6 +954,16 @@ endif
 unlet s:bundle
 " }}}
 
+" Plugin : vim-localrc ==================================== {{{
+" https://github.com/thinca/vim-localrc
+" http://d.hatena.ne.jp/thinca/20110108/1294427418
+let s:bundle = neobundle#get('vim-localrc')
+if !empty(s:bundle)
+"    call localrc#load('.local.vimrc', getcwd())
+endif
+unlet s:bundle
+" }}}
+
 " Plugin : vim-pandoc ===================================== {{{
 " https://github.com/vim-pandoc/vim-pandoc
 let s:bundle = neobundle#get('vim-pandoc')
@@ -1234,7 +1244,7 @@ if has('autocmd')
         autocmd FileType perl set isfname-=-
         autocmd FileType perl nnoremap [perl]   <Nop>
         autocmd FileType perl nmap     <Space>p [perl]
-        autocmd FileType perl nnoremap <buffer> [perl]t  :%!perltidy<CR>
+        autocmd FileType perl nnoremap <buffer> [perl]t :%!perltidy<CR>
         autocmd FileType perl vnoremap [perl]   <Nop>
         autocmd FileType perl vmap     <Space>p [perl]
         autocmd FileType perl vnoremap <buffer> [perl]t :!perltidy<CR>
