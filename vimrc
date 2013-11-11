@@ -492,7 +492,10 @@ endif
 
 " vim-localrc
 " https://github.com/thinca/vim-localrc
-NeoBundle 'thinca/vim-localrc'
+if !has('win32unix')
+    " Cygwin + vimではファイルを開くのが遅くなるので使用しない。
+    NeoBundle 'thinca/vim-localrc'
+endif
 
 " vim-pandoc
 " http://lambdalisue.hatenablog.com/entry/2013/06/23/071344
