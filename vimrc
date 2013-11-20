@@ -1256,7 +1256,7 @@ if has('autocmd')
 endif
 " }}}
 
-" Python (File Type) ====================================== {{{
+" FileType : Python ======================================= {{{
 if has('autocmd')
 	augroup EditPython
 		autocmd!
@@ -1266,12 +1266,14 @@ if has('autocmd')
 		" http://vim.sourceforge.net/scripts/script.php?script_id=30
 		" autocmd FileType python source $HOME/.vim/plugin/python.vim
 	augroup END
+    " http://stackoverflow.com/questions/15285032/autopep8-with-vim
+    if executable('autopep8')
+        augroup Autopep8
+            autocmd!
+            autocmd BufWritePost *.py,*.pt !autopep8 --in-place <afile>
+        augroup END
+    endif
 endif
-
-" PythonTidy
-" http://cheeseshop.python.org/pypi/PythonTidy/
-map ,yt <ESC>:%! pythontidy<CR>
-map ,ytv <ESC>:%'<, '>! pythontidy<CR>
 " }}}
 
 " R (File Type) =========================================== {{{
