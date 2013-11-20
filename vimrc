@@ -891,6 +891,7 @@ if !empty(s:bundle)
         augroup AutoSyntastic
             autocmd!
             autocmd BufWritePost *.pl,*.pm,*.t call s:syntastic()
+            autocmd BufWritePost *.py,*.pt     call s:syntastic()
         augroup END
         function s:syntastic()
             SyntasticCheck
