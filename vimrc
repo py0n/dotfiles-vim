@@ -1258,14 +1258,14 @@ endif
 
 " FileType : Python ======================================= {{{
 if has('autocmd')
-	augroup EditPython
-		autocmd!
-		autocmd FileType python set expandtab
-		autocmd FileType python set smarttab
-		autocmd FileType python set omnifunc=pythoncomplete#Complete
-		" http://vim.sourceforge.net/scripts/script.php?script_id=30
-		" autocmd FileType python source $HOME/.vim/plugin/python.vim
-	augroup END
+    augroup EditPython
+        autocmd!
+        autocmd FileType python set expandtab
+        autocmd FileType python set smarttab
+        autocmd FileType python set omnifunc=pythoncomplete#Complete
+        " http://vim.sourceforge.net/scripts/script.php?script_id=30
+        " autocmd FileType python source $HOME/.vim/plugin/python.vim
+    augroup END
     " http://stackoverflow.com/questions/15285032/autopep8-with-vim
     if executable('autopep8')
         augroup Autopep8
