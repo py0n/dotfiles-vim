@@ -771,7 +771,7 @@ if !empty(s:bundle)
 
     function! MyGitgutter() " {{{
         " http://qiita.com/yuyuchu3333/items/20a0acfe7e0d0e167ccc
-        if !empty(neobundle#get('vim-gitgutter'))
+        if !neobundle#is_installed('vim-gitgutter')
             return ''
         endif
         if !exists('*GitGutterGetHunkSummary')
