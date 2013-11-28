@@ -443,11 +443,9 @@ NeoBundle 'h1mesuke/vim-alignta'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'kana/vim-filetype-haskell'
 NeoBundle 'mattn/perlvalidate-vim'
-NeoBundle 'mojako/ref-sources.vim.git'
 NeoBundle 'osyo-manga/vim-anzu'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'thinca/vim-quickrun'
-NeoBundle 'thinca/vim-ref'
 NeoBundle 'tpope/vim-surround.git'
 NeoBundle 'ujihisa/neco-ghc.git'
 NeoBundle 'vim-perl/vim-perl'
@@ -482,13 +480,6 @@ NeoBundle 'Shougo/neosnippet.vim', {
 "NeoBundle 'taichouchou2/alpaca_powertabline'
 "NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
 
-" ref-hoogle
-if s:existcommand('hoogle')
-    NeoBundle 'ujihisa/ref-hoogle', {
-     \  'depends' : [ 'thinca/vim-ref' ]
-     \  }
-endif
-
 " vim-localrc
 " https://github.com/thinca/vim-localrc
 if !has('win32unix')
@@ -500,6 +491,16 @@ endif
 " http://lambdalisue.hatenablog.com/entry/2013/06/23/071344
 if has('python')
     NeoBundleLazy 'vim-pandoc/vim-pandoc'
+endif
+
+" vim-ref
+" https://github.com/thinca/vim-ref
+" https://github.com/mojako/ref-sources.vim
+" https://github.com/ujihisa/ref-hoogle
+NeoBundleLazy 'thinca/vim-ref'
+NeoBundleLazy 'mojako/ref-sources.vim', {'depends': ['thinca/vim-ref']}
+if s:existcommand('hoogle')
+    NeoBundleLazy 'ujihisa/ref-hoogle', {'depends': ['thinca/vim-ref']}
 endif
 
 " vim-powerline
@@ -550,7 +551,7 @@ endif
 " https://github.com/kien/ctrlp.vim
 if neobundle#tap('ctrlp.vim')
     call neobundle#config({
-     \ 'autoload': {'commands': ['CtrlP'] }
+     \ 'autoload': {'commands': ['CtrlP']}
      \ })
 
     function! neobundle#tapped.hooks.on_source(bundle)
@@ -987,6 +988,54 @@ if neobundle#tap('vim-pandoc')
         let g:pandoc_use_hard_wraps = 1
     endfunction
 
+    call neobundle#untap()
+endif
+" }}}
+
+" Plugin : vim-ref ======================================== {{{
+" https://github.com/thinca/vim-ref
+" https://github.com/mojako/ref-sources.vim
+" https://github.com/ujihisa/ref-hoogle
+if neobundle#tap('vim-ref')
+    call neobundle#config({
+     \  'autoload': {
+     \      'commands': [{
+     \          'name': 'Ref',
+     \          'complete': 'customlist,ref#complete',
+     \      }],
+     \      'on_source': [
+     \          'ref-hoogle',
+     \          'ref-sources.vim',
+     \      ],
+     \  }})
+    call neobundle#untap()
+endif
+
+if neobundle#tap('ref-sources.vim')
+    call neobundle#config({
+     \  'autoload': {
+     \      'functions': [
+     \          'ref#complete',
+     \          'ref#ref',
+     \      ]
+     \  }})
+
+    function! neobundle#tapped.hooks.on_source(bundle)
+        let g:ref_auto_resize = 1
+    endfunction
+
+    call neobundle#untap()
+endif
+
+if neobundle#tap('ref-hoogle')
+    call neobundle#config({
+     \  'autoload': {
+     \      'filetpyes': ['haskell'],
+     \      'functions': [
+     \          'ref#complete',
+     \          'ref#ref',
+     \      ],
+     \  }})
     call neobundle#untap()
 endif
 " }}}
