@@ -462,8 +462,7 @@ NeoBundleLazy 'sgur/ctrlp-extensions.vim', {
 
 " ghcmod-vim
 NeoBundleLazy 'eagletmt/ghcmod-vim', {
- \  'autoload' : { 'filetypes' : [ 'haskell' ] },
- \  'depends'  : [ 'Shougo/vimproc' ]
+ \  'depends': ['Shougo/vimproc']
  \  }
 
 " git
@@ -582,11 +581,17 @@ endif
 "
 " Plugin : ghcmod-vim ===================================== {{{
 " https://github.com/eagletmt/ghcmod-vim
-let s:bundle = neobundle#get('ghcmod-vim')
-if !empty(s:bundle)
-    let g:haddock_browser = "firefox"
+if neobundle#tap('ghcmod-vim')
+    call neobundle#config({
+     \  'autoload': {'filetypes': ['haskell']},
+     \ })
+
+    function! neobundle#tapped.hooks.on_source(bundel)
+        let g:haddock_browser = "firefox"
+    endfunction
+
+    call neobundle#untap()
 endif
-unlet s:bundle
 " }}}
 
 " Plugin : gitv =========================================== {{{
