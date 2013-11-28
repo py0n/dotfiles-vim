@@ -900,24 +900,25 @@ unlet s:bundle
 " https://github.com/scrooloose/syntastic
 " http://d.hatena.ne.jp/heavenshell/20120106/1325866974
 " http://d.hatena.ne.jp/itchyny/20130918/1379461406
-let s:bundle = neobundle#get('syntastic')
-if !empty(s:bundle)
-    function! s:bundle.hooks.on_source(bundle)
-        let g:syntastic_mode_map = { 'mode': 'passive' }
+if neobundle#tap('syntastic')
+    function! neobundle#tapped.hooks.on_source(bundle)
+        let g:syntastic_mode_map = {'mode': 'passive'}
         augroup AutoSyntastic
             autocmd!
-            autocmd BufWritePost *.pl,*.pm,*.t call s:syntastic()
-            autocmd BufWritePost *.py,*.pt     call s:syntastic()
+            autocmd BufWritePost *.pl,*.pm call s:syntastic()
+            autocmd BufWritePost *.py      call s:syntastic()
+            autocmd BufWritePost *.t       call s:syntastic()
         augroup END
         function s:syntastic()
             SyntasticCheck
-            if !empty(neobundle#get('lightline.vim'))
+            if neobundle#is_installed('lightline.vim'))
                 call lightline#update()
             endif
         endfunction
     endfunction
+
+    call neobundle#untap()
 endif
-unlet s:bundle
 " }}}
 
 " Plugin : vim-alignta ==================================== {{{
