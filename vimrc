@@ -317,14 +317,6 @@ set title
 " }}}
 
 " キーマップ設定 ========================================== {{{
-"" バッファ移動用キーマップ
-"" QuickBuf を入れたのでコメントアウト。
-"" F2: 前のバッファ
-"" F3: 次のバッファ
-"" F4: バッファ削除
-"map <F2> <ESC>:bp<CR>
-"map <F3> <ESC>:bn<CR>
-map <F4> <ESC>:bw<CR>
 " 表示行単位で行移動する
 " http://deris.hatenablog.jp/entry/2013/05/02/192415
 nnoremap j  gj
@@ -337,7 +329,7 @@ noremap <Space>h ^
 noremap <Space>l $
 noremap <Space>m %
 nnoremap <Space>/ *
-" 中断を維持しながら上下移動
+" 中段を維持しながら上下移動
 nmap <Space>j <C-f>zz
 nmap <Space>k <C-b>zz
 " フレームサイズを怠惰に変更する
@@ -605,7 +597,7 @@ if neobundle#tap('ctrlp-extensions.vim')
     call neobundle#untap()
 endif
 " }}}
-"
+
 " Plugin : ghcmod-vim ===================================== {{{
 " https://github.com/eagletmt/ghcmod-vim
 if neobundle#tap('ghcmod-vim')
