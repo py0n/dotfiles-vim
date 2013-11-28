@@ -455,9 +455,9 @@ NeoBundle 'vim-scripts/cecutil.git'
 NeoBundle 'vim-scripts/newspaper.vim.git'
 
 " ctrlp.vim
-NeoBundle 'kien/ctrlp.vim'
-NeoBundle 'sgur/ctrlp-extensions.vim', {
- \  'depends' : [ 'kien/ctrlp.vim' ]
+NeoBundleLazy 'kien/ctrlp.vim'
+NeoBundleLazy 'sgur/ctrlp-extensions.vim', {
+ \  'depends': ['kien/ctrlp.vim']
  \  }
 
 " ghcmod-vim
@@ -552,28 +552,32 @@ endif
 
 " Plugin : ctrlp.vim ====================================== {{{
 " https://github.com/kien/ctrlp.vim
-let s:bundle = neobundle#get('ctrlp.vim')
-if !empty(s:bundle)
-    function! s:bundle.hooks.on_source(bundle)
+if neobundle#tap('ctrlp.vim')
+    call neobundle#config({
+     \ 'autoload': {'commands': ['CtrlP'] }
+     \ })
+
+    function! neobundle#tapped.hooks.on_source(bundle)
         " http://qiita.com/items/5ece3f39481f6aab9bc5
         let g:ctrlp_clear_cache_on_exit = 0
         let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
         let g:ctrlp_max_depth = 40
         let g:ctrlp_max_files = 1000000
     endfunction
-endif
-unlet s:bundle
 
-let s:bundle = neobundle#get('ctrlp-extensions.vim')
-if !empty(s:bundle)
-    function! s:bundle.hooks.on_source(bundle)
+    call neobundle#untap()
+endif
+
+if neobundle#tap('ctrlp-extensions.vim')
+    function! neobundle#tapped.hooks.on_source(bundle)
         " http://sgur.tumblr.com/post/21848239550/ctrlp-vim
         let g:ctrlp_extensions = [
          \  'cmdline', 'yankring', 'menu'
          \  ]
     endfunction
+
+    call neobundle#untap()
 endif
-unlet s:bundle
 " }}}
 "
 " Plugin : ghcmod-vim ===================================== {{{
