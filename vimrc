@@ -447,7 +447,6 @@ NeoBundle 'osyo-manga/vim-anzu'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'tpope/vim-surround.git'
-NeoBundle 'ujihisa/neco-ghc.git'
 NeoBundle 'vim-perl/vim-perl'
 NeoBundle 'vim-scripts/cecutil.git'
 NeoBundle 'vim-scripts/newspaper.vim.git'
@@ -460,7 +459,8 @@ NeoBundleLazy 'sgur/ctrlp-extensions.vim', {
 
 " ghcmod-vim
 NeoBundleLazy 'eagletmt/ghcmod-vim', {
- \  'depends': ['Shougo/vimproc']
+ \  'depends': ['Shougo/vimproc'],
+ \  'external_commands': ['ghc-mod'],
  \  }
 
 " git
@@ -469,6 +469,11 @@ NeoBundleLazy 'eagletmt/ghcmod-vim', {
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'gregsexton/gitv', {
  \  'depends' : [ 'tpope/vim-fugitive' ]
+ \  }
+
+" neco-ghc
+NeoBundleLazy 'ujihisa/neco-ghc', {
+ \  'external_commands': ['ghc-mod']
  \  }
 
 " neosnippet.vim
@@ -498,10 +503,14 @@ endif
 " https://github.com/mojako/ref-sources.vim
 " https://github.com/ujihisa/ref-hoogle
 NeoBundleLazy 'thinca/vim-ref'
-NeoBundleLazy 'mojako/ref-sources.vim', {'depends': ['thinca/vim-ref']}
-if s:existcommand('hoogle')
-    NeoBundleLazy 'ujihisa/ref-hoogle', {'depends': ['thinca/vim-ref']}
-endif
+NeoBundleLazy 'mojako/ref-sources.vim', {
+ \  'depends': ['thinca/vim-ref'],
+ \  'external_commands': ['curl'],
+ \  }
+NeoBundleLazy 'ujihisa/ref-hoogle', {
+ \  'depends': ['thinca/vim-ref'],
+ \  'external_commands': ['hoogle'],
+ \  }
 
 " vim-powerline
 "NeoBundle 'Lokaltog/vim-powerline.git'
