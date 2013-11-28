@@ -462,14 +462,6 @@ NeoBundleLazy 'eagletmt/ghcmod-vim', {
  \  'external_commands': ['ghc-mod'],
  \  }
 
-" git
-" http://d.hatena.ne.jp/cohama/20120417/1334679297
-" http://d.hatena.ne.jp/cohama/20130517/1368806202
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'gregsexton/gitv', {
- \  'depends' : [ 'tpope/vim-fugitive' ]
- \  }
-
 " neco-ghc
 NeoBundleLazy 'ujihisa/neco-ghc', {
  \  'external_commands': ['ghc-mod']
@@ -483,6 +475,15 @@ NeoBundle 'Shougo/neosnippet.vim', {
 " powerline
 "NeoBundle 'taichouchou2/alpaca_powertabline'
 "NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
+
+" vim-fugitive & gitv
+NeoBundleLazy 'tpope/vim-fugitive', {
+ \  'external_commands': ['git']
+ \  }
+NeoBundleLazy 'gregsexton/gitv', {
+ \  'depends' : ['tpope/vim-fugitive'],
+ \  'external_commands': ['git'],
+ \  }
 
 " vim-gitgutter
 NeoBundleLazy 'airblade/vim-gitgutter'
@@ -601,21 +602,6 @@ if neobundle#tap('ghcmod-vim')
 
     call neobundle#untap()
 endif
-" }}}
-
-" Plugin : gitv =========================================== {{{
-" https://github.com/gregsexton/gitv
-let s:bundle = neobundle#get('gitv')
-if !empty(s:bundle)
-    function! s:bundle.hooks.on_source(bundle)
-        augroup Gitv
-            autocmd!
-            " http://d.hatena.ne.jp/cohama/20120417/1334679297
-            autocmd FileType git :setlocal foldlevel=99
-        augroup END
-    endfunction
-endif
-unlet s:bundle
 " }}}
 
 " Plugin : lightline.vim ================================== {{{
@@ -761,8 +747,11 @@ if !empty(s:bundle)
     endfunction " }}}
 
     function! MyFugitive() " {{{
+        if !neobundle#is_installed('vim-fugitive')
+            return ''
+        endif
         try
-            if &filetype !~? '\v(vimfiler|gundo)' && exists('*fugitive#head')
+            if &filetype !~? '\v(vimfiler|gundo)'
                 let l:fg = fugitive#head()
             endif
         catch
@@ -959,6 +948,38 @@ if !empty(s:bundle)
     endfunction
 endif
 unlet s:bundle
+" }}}
+
+" Plugin : vim-fugitive =================================== {{{
+" https://github.com/tpope/vim-fugitive
+if neobundle#tap('vim-fugitive')
+    call neobundle#config({
+     \  'autoload': {
+     \      'commands': ['Gblame', 'Gdiff', 'Gwrite'],
+     \      'function_prefix': 'fugitive',
+     \      'on_source': ['gitv', 'lightline.vim'],
+     \  }})
+    call neobundle#untap()
+endif
+
+" https://github.com/gregsexton/gitv
+" http://cohama.hateblo.jp/entry/20120417/1334679297
+" http://cohama.hateblo.jp/entry/20130517/1368806202
+if neobundle#tap('gitv')
+    call neobundle#config({
+     \  'autoload': {
+     \      'commands': ['Gitv'],
+     \  }})
+
+    function! neobundle#tapped.hooks.on_source(bundle)
+        augroup Gitv
+            autocmd!
+            autocmd FileType git :setlocal foldlevel=99
+        augroup END
+    endfunction
+
+    call neobundle#untap()
+endif
 " }}}
 
 " Plugin : vim-gitgutter ================================== {{{
