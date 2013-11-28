@@ -499,10 +499,7 @@ endif
 " vim-pandoc
 " http://lambdalisue.hatenablog.com/entry/2013/06/23/071344
 if has('python')
-    NeoBundleLazy 'vim-pandoc/vim-pandoc', {
-     \  'autoload': { 'filetypes': [
-     \      'markdown', 'pandoc', 'rst', 'text', 'textile'
-     \  ]}}
+    NeoBundleLazy 'vim-pandoc/vim-pandoc'
 endif
 
 " vim-powerline
@@ -979,12 +976,19 @@ unlet s:bundle
 
 " Plugin : vim-pandoc ===================================== {{{
 " https://github.com/vim-pandoc/vim-pandoc
-let s:bundle = neobundle#get('vim-pandoc')
-if !empty(s:bundle)
-    let g:pandoc_no_folding = 1
-    let g:pandoc_use_hard_wraps = 1
+if neobundle#tap('vim-pandoc')
+    call neobundle#config({
+     \  'autoload': {
+     \      'filetypes': ['markdown', 'pandoc', 'rst', 'text', 'textile']
+     \  }})
+
+    function! neobundle#tapped.hooks.on_source(bundle)
+        let g:pandoc_no_folding     = 1
+        let g:pandoc_use_hard_wraps = 1
+    endfunction
+
+    call neobundle#untap()
 endif
-unlet s:bundle
 " }}}
 
 " Plugin : vim-rooter ===================================== {{{
