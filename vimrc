@@ -997,6 +997,8 @@ endif
 " https://github.com/mojako/ref-sources.vim
 " https://github.com/ujihisa/ref-hoogle
 if neobundle#tap('vim-ref')
+    " http://blog.supermomonga.com/articles/vim/neobundle-sugoi-setting.html
+    " http://d.hatena.ne.jp/osyo-manga/20130201/1359699217
     call neobundle#config({
      \  'autoload': {
      \      'commands': [{
