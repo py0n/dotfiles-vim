@@ -433,7 +433,6 @@ NeoBundle 'Shougo/vimproc', {
 
 NeoBundle 'Shougo/neocomplcache.vim'
 NeoBundle 'Shougo/unite.vim'
-NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'airblade/vim-rooter'
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'c9s/perlomni.vim'
@@ -484,6 +483,9 @@ NeoBundle 'Shougo/neosnippet.vim', {
 " powerline
 "NeoBundle 'taichouchou2/alpaca_powertabline'
 "NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
+
+" vim-gitgutter
+NeoBundleLazy 'airblade/vim-gitgutter'
 
 " vim-localrc
 " https://github.com/thinca/vim-localrc
@@ -774,15 +776,12 @@ if !empty(s:bundle)
         if !neobundle#is_installed('vim-gitgutter')
             return ''
         endif
-        if !exists('*GitGutterGetHunkSummary')
-            return ''
-        endif
-        let symbols = [
-                    \ g:gitgutter_sign_added . ' ',
-                    \ g:gitgutter_sign_modified . ' ',
-                    \ g:gitgutter_sign_removed . ' '
-                    \ ]
         let hunks = GitGutterGetHunkSummary()
+        let symbols = [
+         \  g:gitgutter_sign_added . ' ',
+         \  g:gitgutter_sign_modified . ' ',
+         \  g:gitgutter_sign_removed . ' '
+         \  ]
         let ret = []
         for i in [0, 1, 2]
             if hunks[i] > 0
@@ -964,15 +963,21 @@ unlet s:bundle
 
 " Plugin : vim-gitgutter ================================== {{{
 " https://github.com/airblade/vim-gitgutter
-let s:bundle = neobundle#get('vim-gitgutter')
-if !empty(s:bundle)
-    " global變數はhookで設定しても反映されないので
-    " empty()で判定する。
-    let g:gitgutter_sign_added = '✚'
-    let g:gitgutter_sign_modified = '➜'
-    let g:gitgutter_sign_removed = '✘'
+if neobundle#tap('vim-gitgutter')
+    call neobundle#config({
+     \  'autoload': {
+     \      'functions': ['GitGutterGetHunkSummary'],
+     \      'on_source': ['lightline.vim'],
+     \  }})
+
+    function! neobundle#tapped.hooks.on_source(bundle)
+        let g:gitgutter_sign_added = '✚'
+        let g:gitgutter_sign_modified = '➜'
+        let g:gitgutter_sign_removed = '✘'
+    endfunction
+
+    call neobundle#untap()
 endif
-unlet s:bundle
 " }}}
 
 " Plugin : vim-localrc ==================================== {{{
