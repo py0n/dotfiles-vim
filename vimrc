@@ -442,7 +442,6 @@ NeoBundle 'h1mesuke/vim-alignta'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'kana/vim-filetype-haskell'
 NeoBundle 'mattn/perlvalidate-vim'
-NeoBundle 'osyo-manga/vim-anzu'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'tpope/vim-surround.git'
@@ -475,6 +474,9 @@ NeoBundle 'Shougo/neosnippet.vim', {
 " powerline
 "NeoBundle 'taichouchou2/alpaca_powertabline'
 "NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
+
+" vim-anzu
+NeoBundleLazy 'osyo-manga/vim-anzu'
 
 " vim-fugitive & gitv
 NeoBundleLazy 'tpope/vim-fugitive', {
@@ -669,7 +671,7 @@ if !empty(s:bundle)
 
     " http://qiita.com/shiena/items/f53959d62085b7980cb5
     function! MyAnzu() " {{{
-        if empty(neobundle#get('vim-anzu'))
+        if !neobundle#is_installed('vim-anzu')
             return ''
         endif
         let l:anzu = anzu#search_status()
@@ -927,6 +929,11 @@ endif
 " Plugin : vim-anzu ======================================= {{{
 " https://github.com/osyo-manga/vim-anzu
 if neobundle#tap('vim-anzu')
+    call neobundle#config({
+     \  'autoload': {
+     \      'function_prefix': 'anzu',
+     \  }})
+
     function! neobundle#tapped.hooks.on_source(undle)
         " ヒットした檢索語が畫面中段に來るやうに
         " `zz'を付加してゐる。
