@@ -442,7 +442,6 @@ NeoBundle 'h1mesuke/vim-alignta'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'kana/vim-filetype-haskell'
 NeoBundle 'mattn/perlvalidate-vim'
-NeoBundle 'scrooloose/syntastic'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'tpope/vim-surround.git'
 NeoBundle 'vim-perl/vim-perl'
@@ -474,6 +473,9 @@ NeoBundle 'Shougo/neosnippet.vim', {
 " powerline
 "NeoBundle 'taichouchou2/alpaca_powertabline'
 "NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
+
+" syntastic
+NeoBundleLazy 'scrooloose/syntastic'
 
 " vim-anzu
 NeoBundleLazy 'osyo-manga/vim-anzu'
@@ -891,6 +893,14 @@ endif
 " http://d.hatena.ne.jp/heavenshell/20120106/1325866974
 " http://d.hatena.ne.jp/itchyny/20130918/1379461406
 if neobundle#tap('syntastic')
+    call neobundle#config({
+     \  'autoload': {
+     \      'functions': [
+     \          'SyntasticCheck',
+     \          'SyntasticStatuslineFlag',
+     \      ],
+     \  }})
+
     function! neobundle#tapped.hooks.on_source(bundle)
         let g:syntastic_mode_map = {'mode': 'passive'}
         augroup AutoSyntastic
@@ -964,7 +974,7 @@ if neobundle#tap('vim-fugitive')
      \  'autoload': {
      \      'commands': ['Gblame', 'Gdiff', 'Gwrite'],
      \      'function_prefix': 'fugitive',
-     \      'on_source': ['gitv', 'lightline.vim'],
+     \      'on_source': ['gitv'],
      \  }})
     call neobundle#untap()
 endif
@@ -995,7 +1005,6 @@ if neobundle#tap('vim-gitgutter')
     call neobundle#config({
      \  'autoload': {
      \      'functions': ['GitGutterGetHunkSummary'],
-     \      'on_source': ['lightline.vim'],
      \  }})
 
     function! neobundle#tapped.hooks.on_source(bundle)
