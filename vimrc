@@ -573,9 +573,15 @@ endif
 " Plugin : ctrlp.vim ====================================== {{{
 " https://github.com/kien/ctrlp.vim
 if neobundle#tap('ctrlp.vim')
+    let g:ctrlp_map = '<C-p>'
+    let g:ctrlp_cmd = 'CtrlP'
+    nnoremap <silent> <C-p> :<C-u>CtrlP<CR>
+
     call neobundle#config({
-     \ 'autoload': {'commands': ['CtrlP']}
-     \ })
+     \ 'autoload': {
+     \      'commands': ['CtrlP'],
+     \      'mappings': ['<C-p>'],
+     \ }})
 
     function! neobundle#tapped.hooks.on_source(bundle)
         " http://qiita.com/items/5ece3f39481f6aab9bc5
