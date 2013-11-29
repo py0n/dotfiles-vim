@@ -897,9 +897,9 @@ if neobundle#tap('syntastic')
             autocmd BufWritePost *.py      call s:syntastic()
             autocmd BufWritePost *.t       call s:syntastic()
         augroup END
-        function s:syntastic()
+        function! s:syntastic()
             SyntasticCheck
-            if neobundle#is_installed('lightline.vim'))
+            if neobundle#is_installed('lightline.vim')
                 call lightline#update()
             endif
         endfunction
