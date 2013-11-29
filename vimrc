@@ -337,7 +337,10 @@ noremap <Space>h ^
 noremap <Space>l $
 noremap <Space>m %
 nnoremap <Space>/ *
-"フレームサイズを怠惰に変更する
+" 中断を維持しながら上下移動
+nmap <Space>j <C-f>zz
+nmap <Space>k <C-b>zz
+" フレームサイズを怠惰に変更する
 map <kPlus>  <C-W>+
 map <kMinus> <C-W>-
 "" ヘルプ検索
