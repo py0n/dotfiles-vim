@@ -830,19 +830,18 @@ unlet s:bundle
 
 " Plugin : neocomplcache.vim ============================== {{{
 " https://github.com/Shougo/neocomplcache.vim
-let s:bundle = neobundle#get('neocomplcache.vim')
-if !empty(s:bundle)
-    function! s:bundle.hooks.on_source(bundle)
+if neobundle#tap('neocomplcache.vim')
+    function! neobundle#tapped.hooks.on_source(bundle)
         let g:neocomplcache_enable_at_startup = 1
     endfunction
+
+    call neobundle#untap()
 endif
-unlet s:bundle
 " }}}
 
 " Plugin : neosnippet.vim ================================= {{{
 " https://github.com/Shougo/neosnippet.vim
-let s:bundle = neobundle#get('neosnippet.vim')
-if !empty(s:bundle)
+if neobundle#tap('neosnippet.vim')
     let $SNIPPETDIRPATH=$CFGHOME.'/snippets'
     call s:mkdir($SNIPPETDIRPATH)
     let g:neosnippet#snippets_directory=$SNIPPETDIRPATH
@@ -856,13 +855,13 @@ if !empty(s:bundle)
     if has('conceal')
         set conceallevel=2 concealcursor=i
     endif
+
+    call neobundle#untap()
 endif
-unlet s:bundle
 "}}}
 
 " Plugin : powerline ====================================== {{{
-let s:bundle = neobundle#get('powerline')
-if !empty(s:bundle)
+if neobundle#tap('powerline')
     let g:Powerline_symbols = "fancy"
     let g:Powerline_dividers_override = ['', [0x2b81], '', [0x2b83]]
     let g:Powerline_symbols_override = {
@@ -880,8 +879,9 @@ if !empty(s:bundle)
             autocmd InsertLeave * set timeoutlen=1000
         augroup END
     endif
+
+    call neobundle#untap()
 endif
-unlet s:bundle
 " }}}
 
 " Plugin : syntastic ====================================== {{{
@@ -911,24 +911,23 @@ endif
 
 " Plugin : vim-alignta ==================================== {{{
 " https://github.com/h1mesuke/vim-alignta
-let s:bundle = neobundle#get('vim-alignta')
-if !empty(s:bundle)
-    function! s:bundle.hooks.on_source(bundle)
+if neobundle#tap('vim-alignta')
+    function! neobundle#tapped.hooks.on_source(bundle)
         " http://nanasi.jp/articles/vim/align/align_vim_ext.html
         " Alignを日本語環境で使用する
         let g:Align_xstrlen=3
         " AlignCtrlで変更した設定を初期状態に戻す
         command! -nargs=0 AlignReset call Align#AlignCtrl("default")
     endfunction
+
+    call neobundle#untap()
 endif
-unlet s:bundle
 " }}}
 
 " Plugin : vim-anzu ======================================= {{{
 " https://github.com/osyo-manga/vim-anzu
-let s:bundle = neobundle#get('vim-anzu')
-if !empty(s:bundle)
-    function! s:bundle.hooks.on_source(undle)
+if neobundle#tap('vim-anzu')
+    function! neobundle#tapped.hooks.on_source(undle)
         " ヒットした檢索語が畫面中段に來るやうに
         " `zz'を付加してゐる。
         nmap n <Plug>(anzu-n)zz
@@ -946,8 +945,9 @@ if !empty(s:bundle)
             autocmd TabLeave    * call anzu#clear_search_status()
         augroup END
     endfunction
+
+    call neobundle#untap()
 endif
-unlet s:bundle
 " }}}
 
 " Plugin : vim-fugitive =================================== {{{
@@ -1004,11 +1004,11 @@ endif
 " Plugin : vim-localrc ==================================== {{{
 " https://github.com/thinca/vim-localrc
 " http://d.hatena.ne.jp/thinca/20110108/1294427418
-let s:bundle = neobundle#get('vim-localrc')
-if !empty(s:bundle)
+if neobundle#tap('vim-localrc')
 "    call localrc#load('.local.vimrc', getcwd())
+
+    call neobundle#untap()
 endif
-unlet s:bundle
 " }}}
 
 " Plugin : vim-pandoc ===================================== {{{
@@ -1080,16 +1080,18 @@ endif
 
 " Plugin : vim-rooter ===================================== {{{
 " https://github.com/airblade/vim-rooter
-let s:bundle = neobundle#get('vim-rooter')
-if !empty(s:bundle)
-    augroup myRooter
-        autocmd!
-        " 2013/05/24 プラグイン本体に含まれていないもの。
-        autocmd BufEnter *.hs,*.pl,*.pm,*.psgi,*.t :Rooter
-    augroup END
-    let g:rooter_use_lcd = 1
+if neobundle#tap('vim-rooter')
+    function! neobundle#tapped.hooks.on_source(bundle)
+        augroup myRooter
+            autocmd!
+            " 2013/05/24 プラグイン本体に含まれていないもの。
+            autocmd BufEnter *.hs,*.pl,*.pm,*.psgi,*.t,vimrc :Rooter
+        augroup END
+        let g:rooter_use_lcd = 1
+    endfunction
+
+    call neobundle#untap()
 endif
-unlet s:bundle
 " }}}
 
 " Kwbd
@@ -1098,8 +1100,8 @@ unlet s:bundle
 command! Kwbd let kwbd_bn= bufnr("%")|enew|exe "bdel ".kwbd_bn|unlet kwbd_bn
 
 " Plugin : vim-colors-solarized =========================== {{{
-let s:bundle = neobundle#get('vim-colors-solarized')
-if !empty(s:bundle)
+"  https://github.com/altercation/vim-colors-solarized
+if neobundle#tap('vim-colors-solarized')
     " http://ethanschoonover.com/solarized
     let g:solarized_contrast="high"
     let g:solarized_hitrail=1
@@ -1110,17 +1112,17 @@ if !empty(s:bundle)
     colorscheme solarized
     " toggle bg
     call togglebg#map("<F5>")
+
+    call neobundle#untap()
 endif
-unlet s:bundle
 " }}}
 
 " Plugun : unite.vim ====================================== {{{
 " https://github.com/Shougo/unite.vim
 " http://d.hatena.ne.jp/ruedap/20110110/vim_unite_plugin
 " http://d.hatena.ne.jp/ruedap/20110117/vim_unite_plugin_1_week
-let s:bundle = neobundle#get('unite.vim')
-if !empty(s:bundle)
-    function! s:bundle.hooks.on_source(bundle)
+if neobundle#tap('unite.vim')
+    function! neobundle#tapped.hooks.on_source(bundle)
         " 入力モードで開始する
         let g:unite_enable_start_insert=1
         " バッファ一覧
@@ -1159,8 +1161,9 @@ if !empty(s:bundle)
         autocmd MyUnite FileType unite nnoremap <silent> <buffer> <ESC><ESC> q
         autocmd MyUnite FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>q
     endfunction
+
+    call neobundle#untap()
 endif
-unlet s:bundle
 " }}}
 
 " Plugin ================================================== {{{
