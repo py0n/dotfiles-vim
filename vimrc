@@ -432,12 +432,10 @@ NeoBundle 'Shougo/vimproc', {
  \  }}
 
 NeoBundle 'Shougo/neocomplcache.vim'
-NeoBundle 'Shougo/unite.vim'
 NeoBundle 'airblade/vim-rooter'
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'c9s/perlomni.vim'
 NeoBundle 'ervandew/supertab.git'
-NeoBundle 'h1mesuke/unite-outline.git'
 NeoBundle 'h1mesuke/vim-alignta'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'kana/vim-filetype-haskell'
@@ -473,6 +471,12 @@ NeoBundle 'Shougo/neosnippet.vim', {
 " powerline
 "NeoBundle 'taichouchou2/alpaca_powertabline'
 "NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
+
+" unite.vim
+NeoBundleLazy 'Shougo/unite.vim'
+NeoBundleLazy 'h1mesuke/unite-outline', {
+ \  'depends': ['Shougo/unite.vim'],
+ \  }
 
 " syntastic
 NeoBundleLazy 'scrooloose/syntastic'
@@ -1138,6 +1142,19 @@ endif
 " http://d.hatena.ne.jp/ruedap/20110110/vim_unite_plugin
 " http://d.hatena.ne.jp/ruedap/20110117/vim_unite_plugin_1_week
 if neobundle#tap('unite.vim')
+    " http://deris.hatenablog.jp/entry/2013/05/02/192415
+    nnoremap [unite]  <Nop>
+    nmap     <Space>u [unite]
+
+    " http://qiita.com/martini3oz/items/2cebdb805f45e7b4b901
+    nnoremap <silent> [unite]o :<C-u>Unite -vertical -no-quit outline<CR>
+
+    call neobundle#config({
+     \  'autoload': {
+     \      'commands': ['Unite'],
+     \      'on_source': ['unite-outline'],
+     \  }})
+
     function! neobundle#tapped.hooks.on_source(bundle)
         " 入力モードで開始する
         let g:unite_enable_start_insert=1
@@ -1178,6 +1195,14 @@ if neobundle#tap('unite.vim')
         autocmd MyUnite FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>q
     endfunction
 
+    call neobundle#untap()
+endif
+
+if neobundle#tap('unite-outline')
+    call neobundle#config({
+     \  'autoload': {
+     \      'unite_sources': ['outline'],
+     \  }})
     call neobundle#untap()
 endif
 " }}}
