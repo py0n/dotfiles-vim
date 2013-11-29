@@ -629,7 +629,7 @@ if !empty(s:bundle)
                 \   ],
                 \ },
                 \ 'component_expand': {
-                \   'syntastic': 'SyntasticStatuslineFlag'
+                \   'syntastic': 'MySyntasticStatuslineFlag'
                 \ },
                 \ 'component_function': {
                 \   'anzu'         : 'MyAnzu',
@@ -805,8 +805,8 @@ if !empty(s:bundle)
 
     " http://d.hatena.ne.jp/itchyny/20130918/1379461406
     function! MySyntasticStatuslineFlag() "{{{
-        if !empty(neobundle#get('syntastic'))
-            return SyntasicStatuslineFlag()
+        if neobundle#is_installed('syntastic')
+            return SyntasticStatuslineFlag()
         else
             return ''
         endif
