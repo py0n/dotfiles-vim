@@ -427,7 +427,6 @@ NeoBundle 'Shougo/vimproc', {
  \  }}
 
 NeoBundle 'Shougo/neocomplcache.vim'
-NeoBundle 'airblade/vim-rooter'
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'c9s/perlomni.vim'
 NeoBundle 'ervandew/supertab.git'
@@ -504,6 +503,8 @@ if has('python')
     NeoBundleLazy 'vim-pandoc/vim-pandoc'
 endif
 
+"NeoBundle 'Lokaltog/vim-powerline.git'
+
 " vim-ref
 " https://github.com/thinca/vim-ref
 " https://github.com/mojako/ref-sources.vim
@@ -518,8 +519,7 @@ NeoBundleLazy 'ujihisa/ref-hoogle', {
  \  'external_commands': ['hoogle'],
  \  }
 
-" vim-powerline
-"NeoBundle 'Lokaltog/vim-powerline.git'
+NeoBundleLazy 'airblade/vim-rooter'
 
 filetype plugin indent on     " Required!
 
@@ -1102,12 +1102,18 @@ endif
 " Plugin : vim-rooter ===================================== {{{
 " https://github.com/airblade/vim-rooter
 if neobundle#tap('vim-rooter')
+    augroup myRooter
+        autocmd!
+        " 2013/05/24 プラグイン本体に含まれていないもの。
+        autocmd BufEnter *.hs,*.pl,*.pm,*.psgi,*.t,vimrc :Rooter
+    augroup END
+
+    call neobundle#config({
+     \  'autoload': {
+     \      'commands': ['Rooter'],
+     \  }})
+
     function! neobundle#tapped.hooks.on_source(bundle)
-        augroup myRooter
-            autocmd!
-            " 2013/05/24 プラグイン本体に含まれていないもの。
-            autocmd BufEnter *.hs,*.pl,*.pm,*.psgi,*.t,vimrc :Rooter
-        augroup END
         let g:rooter_use_lcd = 1
     endfunction
 
