@@ -462,10 +462,6 @@ NeoBundle 'Shougo/neosnippet.vim', {
  \  'depends' : [ 'Shougo/neocomplcache.vim' ]
  \  }
 
-" powerline
-"NeoBundle 'taichouchou2/alpaca_powertabline'
-"NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
-
 " unite.vim
 NeoBundleLazy 'Shougo/unite.vim'
 NeoBundleLazy 'h1mesuke/unite-outline', {
@@ -503,9 +499,6 @@ NeoBundle 'thinca/vim-localrc', {
 NeoBundleLazy 'vim-pandoc/vim-pandoc', {
  \  'disabled': !has('python')
  \  }
-
-"vim-powerline
-"NeoBundle 'Lokaltog/vim-powerline'
 
 " vim-ref
 NeoBundleLazy 'thinca/vim-ref'
@@ -869,30 +862,6 @@ if neobundle#tap('neosnippet.vim')
 endif
 "}}}
 
-" Plugin : powerline ====================================== {{{
-if neobundle#tap('powerline')
-    let g:Powerline_symbols = "fancy"
-    let g:Powerline_dividers_override = ['', [0x2b81], '', [0x2b83]]
-    let g:Powerline_symbols_override = {
-                \ 'BRANCH': [0x2b60],
-                \ 'RO'    : 'RO',
-                \ 'FT'    : 'FT',
-                \ 'LINE'  : 'LN'
-                \ }
-    " https://powerline.readthedocs.org/en/latest/tipstricks.html#vim
-    if ! has('gui_running')
-        set ttimeoutlen=10
-        augroup FastEscape
-            autocmd!
-            autocmd InsertEnter * set timeoutlen=0
-            autocmd InsertLeave * set timeoutlen=1000
-        augroup END
-    endif
-
-    call neobundle#untap()
-endif
-" }}}
-
 " Plugin : syntastic ====================================== {{{
 " https://github.com/scrooloose/syntastic
 " http://d.hatena.ne.jp/heavenshell/20120106/1325866974
@@ -1216,8 +1185,8 @@ endif
 " }}}
 
 " Plugin ================================================== {{{
-" lightline.vim, powerlineが共に無効である時の設定。
-if !neobundle#is_installed('lightline.vim') && !neobundle#is_installed('powerline')
+" lightline.vimが共に無効である時の設定。
+if !neobundle#is_installed('lightline.vim')
     " 挿入モードの際、ステータスラインの色を変更する。
     if has('autocmd') && has('syntax')
         function! IntoInsertMode()
