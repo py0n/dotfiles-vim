@@ -316,7 +316,13 @@ set noshowmode
 set title
 " }}}
 
-" キーマップ設定 ========================================== {{{
+" Keymap : キーマップ設定 ================================= {{{
+"  特殊文字
+inoremap <C-v>a â
+inoremap <C-v>e ê
+inoremap <C-v>i î
+inoremap <C-v>o ô
+inoremap <C-v>u û
 " 表示行単位で行移動する
 " http://deris.hatenablog.jp/entry/2013/05/02/192415
 nnoremap j  gj
