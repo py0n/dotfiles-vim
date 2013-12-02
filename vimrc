@@ -501,7 +501,8 @@ NeoBundleLazy 'vim-pandoc/vim-pandoc', {
  \  'disabled': !has('python')
  \  }
 
-"NeoBundle 'Lokaltog/vim-powerline.git'
+"vim-powerline
+"NeoBundle 'Lokaltog/vim-powerline'
 
 " vim-ref
 NeoBundleLazy 'thinca/vim-ref'
@@ -514,6 +515,7 @@ NeoBundleLazy 'ujihisa/ref-hoogle', {
  \  'external_commands': ['hoogle'],
  \  }
 
+" vim-rooter
 NeoBundleLazy 'airblade/vim-rooter'
 
 filetype plugin indent on     " Required!
