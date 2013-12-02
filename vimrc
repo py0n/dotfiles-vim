@@ -491,24 +491,19 @@ NeoBundleLazy 'gregsexton/gitv', {
 NeoBundleLazy 'airblade/vim-gitgutter'
 
 " vim-localrc
-" https://github.com/thinca/vim-localrc
-if !has('win32unix')
-    " Cygwin + vimではファイルを開くのが遅くなるので使用しない。
-    NeoBundle 'thinca/vim-localrc'
-endif
+" Cygwin + vimではファイルを開くのが遅くなるので使用しない。
+NeoBundle 'thinca/vim-localrc', {
+ \  'disabled': has('win32unix')
+ \  }
 
 " vim-pandoc
-" http://lambdalisue.hatenablog.com/entry/2013/06/23/071344
-if has('python')
-    NeoBundleLazy 'vim-pandoc/vim-pandoc'
-endif
+NeoBundleLazy 'vim-pandoc/vim-pandoc', {
+ \  'disabled': !has('python')
+ \  }
 
 "NeoBundle 'Lokaltog/vim-powerline.git'
 
 " vim-ref
-" https://github.com/thinca/vim-ref
-" https://github.com/mojako/ref-sources.vim
-" https://github.com/ujihisa/ref-hoogle
 NeoBundleLazy 'thinca/vim-ref'
 NeoBundleLazy 'mojako/ref-sources.vim', {
  \  'depends': ['thinca/vim-ref'],
@@ -1034,6 +1029,7 @@ endif
 
 " Plugin : vim-pandoc ===================================== {{{
 " https://github.com/vim-pandoc/vim-pandoc
+" http://lambdalisue.hatenablog.com/entry/2013/06/23/071344
 if neobundle#tap('vim-pandoc')
     call neobundle#config({
      \  'autoload': {
