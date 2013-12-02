@@ -383,9 +383,10 @@ endif
 " }}}
 
 " プラグイン読込 (NeoBundle) ============================== {{{
+" https://github.com/Shougo/neobundle.vim
+" http://blog.supermomonga.com/articles/vim/neobundle-sugoibenri.html
 " http://qiita.com/rbtnn/items/39d9ba817329886e626b
 " http://vim-users.jp/2011/10/hack238/
-" https://github.com/Shougo/neobundle.vim
 
 " NeoBundleのディレクトリ。
 " https://github.com/deris/Config/blob/master/.vimrc
