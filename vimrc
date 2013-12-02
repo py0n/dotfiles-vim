@@ -431,7 +431,6 @@ NeoBundle 'Shougo/neocomplcache.vim'
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'c9s/perlomni.vim'
 NeoBundle 'ervandew/supertab.git'
-NeoBundle 'h1mesuke/vim-alignta'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'kana/vim-filetype-haskell'
 NeoBundle 'mattn/perlvalidate-vim'
@@ -475,6 +474,9 @@ NeoBundleLazy 'h1mesuke/unite-outline', {
 
 " syntastic
 NeoBundleLazy 'scrooloose/syntastic'
+
+" vim-alignta
+NeoBundle 'h1mesuke/vim-alignta'
 
 " vim-anzu
 NeoBundleLazy 'osyo-manga/vim-anzu'
