@@ -472,7 +472,7 @@ NeoBundleLazy 'h1mesuke/unite-outline', {
 NeoBundleLazy 'scrooloose/syntastic'
 
 " vim-alignta
-NeoBundle 'h1mesuke/vim-alignta'
+NeoBundleLazy 'h1mesuke/vim-alignta'
 
 " vim-anzu
 NeoBundleLazy 'osyo-manga/vim-anzu'
@@ -898,6 +898,11 @@ endif
 " Plugin : vim-alignta ==================================== {{{
 " https://github.com/h1mesuke/vim-alignta
 if neobundle#tap('vim-alignta')
+    call neobundle#config({
+     \  'autoload': {
+     \      'commands': ['Alignta', 'Align'],
+     \  }})
+
     function! neobundle#tapped.hooks.on_source(bundle)
         " http://nanasi.jp/articles/vim/align/align_vim_ext.html
         " Alignを日本語環境で使用する
