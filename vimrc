@@ -617,12 +617,11 @@ endif
 " http://d.hatena.ne.jp/itchyny/20130828/1377653592
 " http://qiita.com/yuyuchu3333/items/20a0acfe7e0d0e167ccc
 " https://github.com/itchyny/lightline.vim
-let s:bundle = neobundle#get('lightline.vim')
-if !empty(s:bundle)
+if neobundle#tap('lightline.vim')
     let s:colorscheme
-                \ = empty(neobundle#get('vim-colors-solarized'))
-                \ ? 'wombat'
-                \ : 'solarized'
+                \ = neobundle#is_installed('vim-colors-solarized')
+                \ ? 'solarized'
+                \ : 'wombat'
     let g:lightline = {
                 \ 'colorscheme': s:colorscheme,
                 \ 'mode_map': {'c': 'NORMAL'},
@@ -833,8 +832,9 @@ if !empty(s:bundle)
     endfunction " }}}
 
     unlet s:colorscheme
+
+    call neobundle#untap()
 endif
-unlet s:bundle
 " }}}
 
 " Plugin : neocomplcache.vim ============================== {{{
@@ -1210,7 +1210,7 @@ endif
 
 " Plugin ================================================== {{{
 " lightline.vim, powerlineが共に無効である時の設定。
-if empty(neobundle#get('lightline.vim')) || empty(neobundle#get('powerline'))
+if !neobundle#is_installed('lightline.vim') && !neobundle#is_installed('powerline')
     " 挿入モードの際、ステータスラインの色を変更する。
     if has('autocmd') && has('syntax')
         function! IntoInsertMode()
