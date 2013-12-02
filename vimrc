@@ -1417,8 +1417,6 @@ if has('autocmd')
             autocmd!
             autocmd BufWritePost *.py,*.pt !autopep8 --in-place <afile>
         augroup END
-    else
-        echomsg "Please install autopep8. `pip install autopep8'"
     endif
 endif
 " }}}
