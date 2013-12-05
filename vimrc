@@ -1092,7 +1092,10 @@ if neobundle#tap('vim-rooter')
     augroup myRooter
         autocmd!
         " 2013/05/24 プラグイン本体に含まれていないもの。
-        autocmd BufEnter *.hs,*.pl,*.pm,*.psgi,*.t,vimrc :Rooter
+        autocmd BufEnter *.hs                 :Rooter
+        autocmd BufEnter *.pl,*.pm,*.psgi,*.t :Rooter
+        autocmd BufEnter *.py                 :Rooter
+        autocmd BufEnter vimrc                :Rooter
     augroup END
 
     call neobundle#config({
