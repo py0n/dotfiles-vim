@@ -961,6 +961,12 @@ if neobundle#tap('vim-fugitive')
      \      'function_prefix': 'fugitive',
      \      'on_source': ['gitv'],
      \  }})
+
+    " http://leafcage.hateblo.jp/entry/nebulavim_intro
+    function! neobundle#tapped.hooks.on_post_source(bundle)
+        doautoall fugitive BufNewFile
+    endfunction
+
     call neobundle#untap()
 endif
 
