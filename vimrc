@@ -458,6 +458,9 @@ NeoBundleLazy 'eagletmt/ghcmod-vim', {
  \  'external_commands': ['ghc-mod'],
  \  }
 
+" linediff.vim
+NeoBundleLazy 'AndrewRadev/linediff.vim'
+
 " neco-ghc
 NeoBundleLazy 'ujihisa/neco-ghc', {
  \  'external_commands': ['ghc-mod']
@@ -831,6 +834,19 @@ if neobundle#tap('lightline.vim')
     endfunction " }}}
 
     unlet s:colorscheme
+
+    call neobundle#untap()
+endif
+" }}}
+
+" Plugin : linediff.vim =================================== {{{
+" https://github.com/AndrewRadev/linediff.vim
+" http://deris.hatenablog.jp/entry/2013/12/15/235606
+if neobundle#tap('linediff.vim')
+    call neobundle#config({
+     \  'autoload': {
+     \      'commands': ['Linediff', 'LinediffReset']
+     \  }})
 
     call neobundle#untap()
 endif
