@@ -1494,12 +1494,12 @@ if has('autocmd')
         autocmd!
         autocmd BufRead,BufNewFile *.ep   set filetype=html
         autocmd BufRead,BufNewFile *.tmpl set filetype=html
-        autocmd FileType html set expandtab
-        autocmd FileType html set shiftwidth=2
-        autocmd FileType html set smarttab
-        autocmd FileType html set softtabstop=2
-        autocmd FileType html set tabstop=2
-        autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+        autocmd FileType html setlocal expandtab
+        autocmd FileType html setlocal shiftwidth=2
+        autocmd FileType html setlocal smarttab
+        autocmd FileType html setlocal softtabstop=2
+        autocmd FileType html setlocal tabstop=2
+        autocmd FileType html setlocal omnifunc=htmlcomplete#CompleteTags
     augroup END
 endif
 " }}}
