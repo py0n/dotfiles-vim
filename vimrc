@@ -153,8 +153,10 @@ set backspace=indent,eol,start
 set cinoptions&
 set cinoptions+=:0
 " クリップボードを共有する
+" 選択した際に自動でクリップボードにコピーする
+" http://pky.jp/?p=24
 set clipboard&
-set clipboard+=unnamed
+set clipboard+=unnamed,autoselect
 " コマンドラインの高さ
 set cmdheight=1
 "C プログラムの自動インデントを無効にする(smartindent の為)
