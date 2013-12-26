@@ -1385,6 +1385,11 @@ if has('autocmd')
     augroup MyFileTypePandoc
         autocmd!
         autocmd BufRead,BufNewFile *.md set filetype=pandoc
+        " https://sites.google.com/site/vimdocja/usr_25-html#25.4
+        " 禁則処理關係。
+        autocmd FileType pandoc setlocal display=lastline
+        autocmd FileType pandoc setlocal linebreak
+        autocmd FileType pandoc setlocal textwidth=0
     augroup END
 endif
 " }}}
