@@ -153,8 +153,10 @@ set backspace=indent,eol,start
 set cinoptions&
 set cinoptions+=:0
 " クリップボードを共有する
+" 選択した際に自動でクリップボードにコピーする
+" http://pky.jp/?p=24
 set clipboard&
-set clipboard+=unnamed
+set clipboard+=unnamed,autoselect
 " コマンドラインの高さ
 set cmdheight=1
 "C プログラムの自動インデントを無効にする(smartindent の為)
@@ -1385,6 +1387,11 @@ if has('autocmd')
     augroup MyFileTypePandoc
         autocmd!
         autocmd BufRead,BufNewFile *.md set filetype=pandoc
+        " https://sites.google.com/site/vimdocja/usr_25-html#25.4
+        " 禁則処理關係。
+        autocmd FileType pandoc setlocal display=lastline
+        autocmd FileType pandoc setlocal linebreak
+        autocmd FileType pandoc setlocal textwidth=0
     augroup END
 endif
 " }}}
