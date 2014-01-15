@@ -1511,6 +1511,18 @@ if has('autocmd')
 endif
 " }}}
 
+" FileType : YAML ========================================= {{{
+if has('autocmd')
+    augroup EditYAML
+        autocmd!
+        autocmd FileType yaml setlocal expandtab
+        autocmd FileType yaml setlocal shiftwidth=2
+        autocmd FileType yaml setlocal softtabstop=2
+        autocmd FileType yaml setlocal tabstop=8
+    augroup END
+endif
+" }}}
+
 " その他 (File Type) ====================================== {{{
 " ':h ft-syntax-omni' を参照
 " ※これが一番最後。
