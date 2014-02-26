@@ -446,7 +446,6 @@ NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'tpope/vim-surround.git'
 NeoBundle 'vim-perl/vim-perl'
 NeoBundle 'vim-scripts/cecutil.git'
-NeoBundle 'vim-scripts/newspaper.vim.git'
 
 " ctrlp.vim
 NeoBundleLazy 'kien/ctrlp.vim'
