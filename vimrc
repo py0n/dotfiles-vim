@@ -443,7 +443,6 @@ NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'kana/vim-filetype-haskell'
 NeoBundle 'mattn/perlvalidate-vim'
 NeoBundle 'thinca/vim-quickrun'
-NeoBundle 'tpope/vim-surround.git'
 NeoBundle 'vim-perl/vim-perl'
 NeoBundle 'vim-scripts/cecutil.git'
 
@@ -523,6 +522,11 @@ NeoBundleLazy 'ujihisa/ref-hoogle', {
 
 " vim-rooter
 NeoBundleLazy 'airblade/vim-rooter'
+
+" wildfire.vim & vim-surround
+NeoBundle 'gcmt/wildfire.vim'
+NeoBundle 'tpope/vim-surround'
+
 
 filetype plugin indent on     " Required!
 
@@ -1149,6 +1153,12 @@ if neobundle#tap('vim-colors-solarized')
 
     call neobundle#untap()
 endif
+" }}}
+
+" Plugin : wildfire.vim =================================== {{{
+" http://hail2u.net/blog/software/vim-wildfire.html
+" https://github.com/gcmt/wildfire.vim
+let g:wildfire_objects = ["i'", 'i"', "i)", "i]", "i}", "ip", "it", "i>"]
 " }}}
 
 " Plugun : unite.vim ====================================== {{{
