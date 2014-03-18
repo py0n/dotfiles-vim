@@ -1158,7 +1158,6 @@ endif
 " Plugin : wildfire.vim =================================== {{{
 " http://hail2u.net/blog/software/vim-wildfire.html
 " https://github.com/gcmt/wildfire.vim
-let g:wildfire_water_map = '<S-Enter>'
 let g:wildfire_objects = ["i'", 'i"', "i)", "i]", "i}", "ip", "it", "i>"]
 " }}}
 
