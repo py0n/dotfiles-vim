@@ -436,6 +436,7 @@ NeoBundle 'Shougo/vimproc', {
  \  }}
 
 NeoBundle 'Shougo/neocomplcache.vim'
+NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'c9s/perlomni.vim'
 NeoBundle 'ervandew/supertab.git'
@@ -1005,6 +1006,24 @@ if neobundle#tap('gitv')
             autocmd!
             autocmd FileType git :setlocal foldlevel=99
         augroup END
+    endfunction
+
+    call neobundle#untap()
+endif
+" }}}
+
+" Plugin : vim-easymotion ================================= {{{
+" http://haya14busa.com/mastering-vim-easymotion/
+" https://github.com/Lokaltog/vim-easymotion
+if neobundle#tap('vim-easymotion')
+    function! neobundle#tapped.hooks.on_source(bundle)
+        "nmap s <Plug>(easymotion-s2)
+        "xmap s <Plug>(easymotion-s2)
+        " surround.vimと被らないように
+        "omap z <Plug>(easymotion-s2)
+
+        "もしくはこんな感じがオススメ
+        map <Space> <Plug>(easymotion-s2)
     endfunction
 
     call neobundle#untap()
