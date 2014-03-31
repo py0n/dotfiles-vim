@@ -1023,6 +1023,7 @@ if neobundle#tap('vim-easymotion')
         "omap z <Plug>(easymotion-s2)
 
         "もしくはこんな感じがオススメ
+        let g:EasyMotion_do_mapping = 0 "Disable default mappings
         map <Space> <Plug>(easymotion-s2)
     endfunction
 
