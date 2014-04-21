@@ -459,6 +459,9 @@ NeoBundleLazy 'eagletmt/ghcmod-vim', {
  \  'external_commands': ['ghc-mod'],
  \  }
 
+" html5
+NeoBundleLazy 'othree/html5.vim'
+
 " linediff.vim
 NeoBundleLazy 'AndrewRadev/linediff.vim'
 
@@ -616,6 +619,16 @@ if neobundle#tap('ghcmod-vim')
     function! neobundle#tapped.hooks.on_source(bundel)
         let g:haddock_browser = "firefox"
     endfunction
+
+    call neobundle#untap()
+endif
+" }}}
+
+" Plugin : html5 ========================================== {{{
+if neobundle#tap('html5')
+    call neobundle#config({
+     \  'autoload': {'filetypes': ['html']},
+     \ })
 
     call neobundle#untap()
 endif
