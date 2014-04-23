@@ -967,10 +967,10 @@ if neobundle#tap('vim-anzu')
     function! neobundle#tapped.hooks.on_source(undle)
         " ヒットした檢索語が畫面中段に來るやうに
         " `zz'を付加してゐる。
-        nmap n <Plug>(anzu-n)zz
-        nmap N <Plug>(anzu-N)zz
-        nmap * <Plug>(anzu-star)zz
-        nmap # <Plug>(anzu-sharp)zz
+        nmap n <Plug>(anzu-n-with-echo)zz
+        nmap N <Plug>(anzu-N-with-echo)zz
+        nmap * <Plug>(anzu-star-with-echo)zz
+        nmap # <Plug>(anzu-sharp-with-echo)zz
 
         augroup MyVimAnzu
             " 一定時間キー入力がないとき、ウインドウを移動したとき、
