@@ -406,197 +406,173 @@ endif
 
 " FileType : ファイルタイプ別設定 ========================= {{{
 
-" Binary (File Type) ====================================== {{{
+" FileType : Binary ==================================:===== {{{
 " バイナリ編集(xxd)モード（vim -b での起動、もしくは *.bin で発動します）
 " help xxd
 " http://www.kawaz.jp/pukiwiki/?vim#ib970976
 " http://jarp.does.notwork.org/diary/200606a.html#200606021
-if has('autocmd')
-    augroup BinaryXXD
-        autocmd!
-        autocmd BufReadPre   *.bin let &binary=1
-        autocmd BufReadPost  *.bin if &binary | silent %!xxd -g 1
-        autocmd BufReadPost  *.bin set ft=xxd | endif
-        autocmd BufWritePre  *.bin if &binary | %!xxd -r | endif
-        autocmd BufWritePost *.bin if &binary | silent %!xxd -g 1
-        autocmd BufWritePost *.bin set nomod | endif
-    augroup END
-endif
+augroup MyFileTypeXxd
+    autocmd!
+    autocmd BufReadPre   *.bin let &binary=1
+    autocmd BufReadPost  *.bin if &binary | silent %!xxd -g 1
+    autocmd BufReadPost  *.bin set ft=xxd | endif
+    autocmd BufWritePre  *.bin if &binary | %!xxd -r | endif
+    autocmd BufWritePost *.bin if &binary | silent %!xxd -g 1
+    autocmd BufWritePost *.bin set nomod | endif
+augroup END
 " }}}
 
-" C (File Type) =========================================== {{{
+" FileType : C  =========================================== {{{
 " ':h ft-c-omni' を参照)
-if has('autocmd')
-    augroup EditC
-        autocmd!
-        autocmd FileType c set omnifunc=ccomplete#Complete
-    augroup END
-endif
+augroup MyFileTypeC
+    autocmd!
+    autocmd FileType c set omnifunc=ccomplete#Complete
+augroup END
 " }}}
 
-" CSS (File Type) ========================================= {{{
+" FileType : CSS ========================================== {{{
 " ':h ft-css-omni' を参照
-if has('autocmd')
-    augroup EditCSS
-        autocmd!
-        autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-    augroup END
-endif
+augroup MyFileTypeCcs
+    autocmd!
+    autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+augroup END
 " }}}
 
 " FileType : Git ========================================== {{{
-if has('autocmd')
-    augroup GitCommit
-        autocmd!
-        autocmd FileType gitcommit set fileencoding=utf-8
-    augroup END
-endif
+augroup MyFileTypeGitCommit
+    autocmd!
+    autocmd FileType gitcommit set fileencoding=utf-8
+augroup END
 " }}}
 
 " FileType : Haskell ====================================== {{{
-if has('autocmd')
-    augroup EditHaskell
-        autocmd!
-        autocmd BufRead,BufNewFile *.hs set filetype=haskell
-        autocmd FileType haskell set expandtab
-        autocmd FileType haskell set nosmartindent
-        autocmd FileType haskell set shiftwidth=2
-        autocmd FileType haskell set softtabstop=2
-        autocmd FileType haskell set tabstop=8
-    augroup END
-endif
+augroup MyFileTypeHaskell
+    autocmd!
+    autocmd BufRead,BufNewFile *.hs set filetype=haskell
+    autocmd FileType haskell set expandtab
+    autocmd FileType haskell set nosmartindent
+    autocmd FileType haskell set shiftwidth=2
+    autocmd FileType haskell set softtabstop=2
+    autocmd FileType haskell set tabstop=8
+augroup END
 " }}}
 
-" JavaScript (File Type) ================================== {{{
+" FileType : JavaScript =================================== {{{
 " ':h ft-javascript-omni' を参照
-if has('autocmd')
-    augroup EditJavaScript
-        autocmd!
-        autocmd FileType javascript set shiftwidth=4
-        autocmd FileType javascript set softtabstop=4
-        autocmd FileType javascript set tabstop=4
-        autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-    augroup END
-endif
+augroup MyFileTypeJavaScript
+    autocmd!
+    autocmd FileType javascript set shiftwidth=4
+    autocmd FileType javascript set softtabstop=4
+    autocmd FileType javascript set tabstop=4
+    autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+augroup END
 " }}}
 
-" PHP (File Type) ========================================= {{{
+" FileType : PHP ========================================== {{{
 " ':h ft-php-omni' を参照
-if has('autocmd')
-    augroup EditPHP
-        autocmd!
-        autocmd BufRead,BufNewFile *.inc set filetype=php
-        autocmd FileType php set omnifunc=phpcomplete#CompletePHP
-        "	Exuberant ctags 5.7j1 が UTF-8 のソースでは
-        "	うまく動かないのでコメントアウト。
-        "	autocmd FileType php nmap <silent> <F4>
-        "		\ :!ctags -f %:p:h/tags
-        "		\ -R
-        "		\ --jcode=utf8
-        "		\ --exclude=*.js
-        "		\ --exclude=*.css
-        "		\ --exclude=*.htm
-        "		\ --exclude=.snapshot
-        "		\ --langmap="php:+.inc"
-        "		\ -h ".php.inc"
-        "		\ --totals=yes
-        "		\ --tag-relative=yes
-        "		\ --PHP-kinds=+cf-v %:p:h<CR>
-        "	autocmd FileType php set tags=./tags,tags
-    augroup END
-endif
+augroup MyFileTypePhp
+    autocmd!
+    autocmd BufRead,BufNewFile *.inc set filetype=php
+    autocmd FileType php set omnifunc=phpcomplete#CompletePHP
+    "	Exuberant ctags 5.7j1 が UTF-8 のソースでは
+    "	うまく動かないのでコメントアウト。
+    "	autocmd FileType php nmap <silent> <F4>
+    "		\ :!ctags -f %:p:h/tags
+    "		\ -R
+    "		\ --jcode=utf8
+    "		\ --exclude=*.js
+    "		\ --exclude=*.css
+    "		\ --exclude=*.htm
+    "		\ --exclude=.snapshot
+    "		\ --langmap="php:+.inc"
+    "		\ -h ".php.inc"
+    "		\ --totals=yes
+    "		\ --tag-relative=yes
+    "		\ --PHP-kinds=+cf-v %:p:h<CR>
+    "	autocmd FileType php set tags=./tags,tags
+augroup END
 " }}}
 
 " FileType : Pandoc ======================================= {{{
-if has('autocmd')
-    augroup MyFileTypePandoc
-        autocmd!
-        autocmd BufRead,BufNewFile *.md set filetype=pandoc
-        " https://sites.google.com/site/vimdocja/usr_25-html#25.4
-        " 禁則処理關係。
-        autocmd FileType pandoc setlocal display=lastline
-        autocmd FileType pandoc setlocal linebreak
-        autocmd FileType pandoc setlocal textwidth=0
-    augroup END
-endif
+augroup MyFileTypePandoc
+    autocmd!
+    autocmd BufRead,BufNewFile *.md set filetype=pandoc
+    " https://sites.google.com/site/vimdocja/usr_25-html#25.4
+    " 禁則処理關係。
+    autocmd FileType pandoc setlocal display=lastline
+    autocmd FileType pandoc setlocal linebreak
+    autocmd FileType pandoc setlocal textwidth=0
+augroup END
 " }}}
 
 " FileType : Perl ========================================= {{{
-if has('autocmd')
-    augroup EditPerl
-        autocmd!
-        autocmd BufRead,BufNewFile *.p[lm] set filetype=perl
-        autocmd BufRead,BufNewFile *.psgi  set filetype=perl
-        autocmd BufRead,BufNewFile *.t     set filetype=perl
-        autocmd BufRead,BufNewFile *.cgi   set filetype=perl
-        autocmd BufRead,BufNewFile *.tdy   set filetype=perl
-        autocmd FileType perl set expandtab
-        autocmd FileType perl set smarttab
-        " Vimでカーソル下のPerlモジュールを開く
-        " http://d.hatena.ne.jp/spiritloose/20060817/1155808744
-        autocmd FileType perl set isfname-=-
-        autocmd FileType perl nnoremap [perl]   <Nop>
-        autocmd FileType perl nmap     <Space>p [perl]
-        autocmd FileType perl nnoremap <buffer> [perl]t :%!perltidy<CR>
-        autocmd FileType perl vnoremap [perl]   <Nop>
-        autocmd FileType perl vmap     <Space>p [perl]
-        autocmd FileType perl vnoremap <buffer> [perl]t :!perltidy<CR>
-    augroup END
-endif
+augroup MyFileTypePerl
+    autocmd!
+    autocmd BufRead,BufNewFile *.p[lm] set filetype=perl
+    autocmd BufRead,BufNewFile *.psgi  set filetype=perl
+    autocmd BufRead,BufNewFile *.t     set filetype=perl
+    autocmd BufRead,BufNewFile *.cgi   set filetype=perl
+    autocmd BufRead,BufNewFile *.tdy   set filetype=perl
+    autocmd FileType perl set expandtab
+    autocmd FileType perl set smarttab
+    " Vimでカーソル下のPerlモジュールを開く
+    " http://d.hatena.ne.jp/spiritloose/20060817/1155808744
+    autocmd FileType perl set isfname-=-
+    autocmd FileType perl nnoremap [perl]   <Nop>
+    autocmd FileType perl nmap     <Space>p [perl]
+    autocmd FileType perl nnoremap <buffer> [perl]t :%!perltidy<CR>
+    autocmd FileType perl vnoremap [perl]   <Nop>
+    autocmd FileType perl vmap     <Space>p [perl]
+    autocmd FileType perl vnoremap <buffer> [perl]t :!perltidy<CR>
+augroup END
 " }}}
 
 " FileType : Python ======================================= {{{
-if has('autocmd')
-    augroup EditPython
+augroup MyFileTypePython
+    autocmd!
+    autocmd FileType python set expandtab
+    autocmd FileType python set smarttab
+    autocmd FileType python set omnifunc=pythoncomplete#Complete
+    " http://vim.sourceforge.net/scripts/script.php?script_id=30
+    " autocmd FileType python source $HOME/.vim/plugin/python.vim
+augroup END
+" http://stackoverflow.com/questions/15285032/autopep8-with-vim
+if executable('autopep8')
+    augroup MyAutopep8
         autocmd!
-        autocmd FileType python set expandtab
-        autocmd FileType python set smarttab
-        autocmd FileType python set omnifunc=pythoncomplete#Complete
-        " http://vim.sourceforge.net/scripts/script.php?script_id=30
-        " autocmd FileType python source $HOME/.vim/plugin/python.vim
-    augroup END
-    " http://stackoverflow.com/questions/15285032/autopep8-with-vim
-    if executable('autopep8')
-        augroup Autopep8
-            autocmd!
-            autocmd BufWritePost *.py,*.pt !autopep8 --in-place <afile>
-        augroup END
-    endif
-endif
-" }}}
-
-" R (File Type) =========================================== {{{
-if has('autocmd')
-    augroup EditR
-        autocmd!
-        autocmd BufRead,BufNewFile *.R set filetype=r
+        autocmd BufWritePost *.py,*.pt !autopep8 --in-place <afile>
     augroup END
 endif
 " }}}
 
-" Ruby (File Type) ======================================== {{{
+" FileType : R ============================================ {{{
+augroup MyFileTypeR
+    autocmd!
+    autocmd BufRead,BufNewFile *.R set filetype=r
+augroup END
+" }}}
+
+" FileType : Ruby ========================================= {{{
 " ':h ft-ruby-omni' を参照
-if has('ruby') && has('autocmd')
-    augroup EditRuby
+if has('ruby')
+    let g:rubycomplete_buffer_loading=1
+    let g:rubycomplete_classes_in_global=1
+    let g:rubycomplete_rails=1
+
+    augroup MyFileTypeRuby
         autocmd!
-        autocmd FileType ruby set omnifunc=rubycomplete#CompleteTags
         autocmd FileType ruby set noexpandtab
+        autocmd FileType ruby set omnifunc=rubycomplete#CompleteTags
     augroup END
 endif
-
-let g:rubycomplete_buffer_loading = 1
-let g:rubycomplete_classes_in_global = 1
-let g:rubycomplete_rails = 1
 " }}}
 
-" SQL (File Type) ========================================= {{{
+" FileType : SQL ========================================== {{{
 " ':h ft-sql-omni' を参照
-if has('autocmd')
-    augroup EditSQL
-        autocmd!
-        autocmd FileType sql set omnifunc=sqlcomplete#CompleteTags
-    augroup END
-endif
+augroup MyFileTypeSql
+    autocmd!
+    autocmd FileType sql set omnifunc=sqlcomplete#CompleteTags
+augroup END
 " }}}
 
 " FileType : Vim ========================================== {{{
@@ -609,50 +585,44 @@ else
 endif
 " }}}
 
-" XML (File Type) ========================================= {{{
+" FileType : XML ========================================== {{{
 " ':h ft-xml-omni' を参照
-if has('autocmd')
-    augroup EditXML
-        autocmd!
-        autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
-    augroup END
-endif
+augroup MyFileTypeXml
+    autocmd!
+    autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
+augroup END
 " }}}
 
 " FileType : (X)HTML ====================================== {{{
 " ':h ft-xhtml-omni' を参照
-if has('autocmd')
-    augroup MyEditHTML
-        autocmd!
-        autocmd BufRead,BufNewFile *.ep   set filetype=html
-        autocmd BufRead,BufNewFile *.tmpl set filetype=html
-        autocmd FileType html setlocal expandtab
-        autocmd FileType html setlocal shiftwidth=2
-        autocmd FileType html setlocal smarttab
-        autocmd FileType html setlocal softtabstop=2
-        autocmd FileType html setlocal tabstop=2
-        autocmd FileType html setlocal omnifunc=htmlcomplete#CompleteTags
-    augroup END
-endif
+augroup MyFileTypeXhtml
+    autocmd!
+    autocmd BufRead,BufNewFile *.ep   set filetype=html
+    autocmd BufRead,BufNewFile *.tmpl set filetype=html
+    autocmd FileType html setlocal expandtab
+    autocmd FileType html setlocal shiftwidth=2
+    autocmd FileType html setlocal smarttab
+    autocmd FileType html setlocal softtabstop=2
+    autocmd FileType html setlocal tabstop=2
+    autocmd FileType html setlocal omnifunc=htmlcomplete#CompleteTags
+augroup END
 " }}}
 
 " FileType : YAML ========================================= {{{
-if has('autocmd')
-    augroup EditYAML
-        autocmd!
-        autocmd FileType yaml setlocal expandtab
-        autocmd FileType yaml setlocal shiftwidth=2
-        autocmd FileType yaml setlocal softtabstop=2
-        autocmd FileType yaml setlocal tabstop=8
-    augroup END
-endif
+augroup MyFileTypeYaml
+    autocmd!
+    autocmd FileType yaml setlocal expandtab
+    autocmd FileType yaml setlocal shiftwidth=2
+    autocmd FileType yaml setlocal softtabstop=2
+    autocmd FileType yaml setlocal tabstop=8
+augroup END
 " }}}
 
 " その他 (File Type) ====================================== {{{
 " ':h ft-syntax-omni' を参照
 " ※これが一番最後。
-if has("autocmd") && exists("+omnifunc")
-    augroup EditOther
+if exists("+omnifunc")
+    augroup MyFileTypeOther
         autocmd!
         autocmd Filetype *
          \   if &omnifunc == "" |
@@ -1385,10 +1355,10 @@ if neobundle#tap('vim-easymotion')
         map  / <Plug>(easymotion-sn)
         omap / <Plug>(easymotion-tn)
         " hjkl motions
-        map <Leader>h <Plug>(easymotion-lineforward)
+        map <Leader>h <Plug>(easymotion-linebackward)
         map <Leader>j <Plug>(easymotion-j)
         map <Leader>k <Plug>(easymotion-k)
-        map <Leader>l <Plug>(easymotion-linebackward)
+        map <Leader>l <Plug>(easymotion-lineforward)
 
         let g:EasyMotion_startofline = 0 " keep cursor colum when JK motion
     endfunction
