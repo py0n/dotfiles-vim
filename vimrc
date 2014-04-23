@@ -776,10 +776,8 @@ NeoBundle 'thinca/vim-localrc', {
  \  'disabled': has('win32unix')
  \  }
 
-" vim-pandoc
-NeoBundleLazy 'vim-pandoc/vim-pandoc', {
- \  'disabled': !has('python')
- \  }
+" vim-pandoc-syntax
+NeoBundleLazy 'vim-pandoc/vim-pandoc-syntax'
 
 " vim-ref
 NeoBundleLazy 'thinca/vim-ref'
@@ -1355,18 +1353,15 @@ if neobundle#tap('vim-localrc')
 endif
 " }}}
 
-" Plugin : vim-pandoc ===================================== {{{
-" https://github.com/vim-pandoc/vim-pandoc
-" http://lambdalisue.hatenablog.com/entry/2013/06/23/071344
-if neobundle#tap('vim-pandoc')
+" Plugin : vim-pandoc-syntax ============================== {{{
+" https://github.com/vim-pandoc/vim-pandoc-syntax
+if neobundle#tap('vim-pandoc-syntax')
     call neobundle#config({
      \  'autoload': {
-     \      'filetypes': ['markdown', 'pandoc', 'rst', 'text', 'textile']
+     \      'filetypes': ['markdown', 'pandoc', 'rst']
      \  }})
 
     function! neobundle#tapped.hooks.on_source(bundle)
-        let g:pandoc_no_folding     = 1
-        let g:pandoc_use_hard_wraps = 1
     endfunction
 
     call neobundle#untap()
