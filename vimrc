@@ -551,7 +551,6 @@ if neobundle#exists_not_installed_bundles()
     echomsg 'Please execute ":NeoBundleInstall" command.'
     finish
 endif
-" }}}
 
 " Plugin : Cscope ========================================= {{{
 " http://cscope.sourceforge.net/
@@ -1315,6 +1314,8 @@ if !neobundle#is_installed('lightline.vim')
     endfunction
     set statusline=%{GetB()}
 endif
+" }}}
+"
 " }}}
 
 " Binary (File Type) ====================================== {{{
