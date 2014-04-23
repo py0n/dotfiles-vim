@@ -1030,15 +1030,20 @@ endif
 " https://github.com/Lokaltog/vim-easymotion
 if neobundle#tap('vim-easymotion')
     function! neobundle#tapped.hooks.on_source(bundle)
-        "nmap s <Plug>(easymotion-s2)
-        "xmap s <Plug>(easymotion-s2)
-        " surround.vimと被らないように
-        "omap z <Plug>(easymotion-s2)
+        " Disable default mappings
+        let g:EasyMotion_do_mapping = 0
+        " n-character serach motion
+        map  / <Plug>(easymotion-sn)
+        omap / <Plug>(easymotion-tn)
+        " hjkl motions
+        map <Leader>h <Plug>(easymotion-lineforward)
+        map <Leader>j <Plug>(easymotion-j)
+        map <Leader>k <Plug>(easymotion-k)
+        map <Leader>l <Plug>(easymotion-linebackward)
 
-        "もしくはこんな感じがオススメ
-        let g:EasyMotion_do_mapping = 0 "Disable default mappings
-        map <Space> <Plug>(easymotion-s2)
+        let g:EasyMotion_startofline = 0 " keep cursor colum when JK motion
     endfunction
+
 
     call neobundle#untap()
 endif
