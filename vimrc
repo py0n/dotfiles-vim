@@ -319,7 +319,15 @@ set title
 " }}}
 
 " Keymap : キーマップ設定 ================================= {{{
-"  特殊文字
+
+" # mapとnoremapの違い
+"
+" mapは *再帰的* にマップする。noremapは *一度だけ* マップする。
+"
+" * http://cocopon.me/blog/?p=3871
+" * http://sangoukan.xrea.jp/cgi-bin/tDiary/?date=20120227#p01
+
+" 特殊文字
 inoremap <C-v>a â
 inoremap <C-v>e ê
 inoremap <C-v>i î
@@ -333,18 +341,18 @@ nnoremap gj j
 nnoremap gk k
 " 行頭、行末移動を押し易くする
 " http://deris.hatenablog.jp/entry/2013/05/02/192415
-noremap <Space>h ^
-noremap <Space>l $
-noremap <Space>m %
-nnoremap <Space>/ *
+noremap  <Space>h ^   " 行頭(除空白)
+noremap  <Space>l $   " 行末
+noremap  <Space>m %   " 対応する括弧へ移動
+nnoremap <Space>/ *zz " カーソル下の単語で前方検索(完全一致)
 " 中段を維持しながら上下移動
-nmap <Space>j <C-f>zz
-nmap <Space>k <C-b>zz
+nnoremap <C-f> <C-f>zz
+nnoremap <C-b> <C-b>zz
 " フレームサイズを怠惰に変更する
 map <kPlus>  <C-W>+
 map <kMinus> <C-W>-
-"" ヘルプ検索
-"nnoremap <F1> K
+" ヘルプ検索
+nnoremap <F1> K
 " 現在開いているviスクリプトを実行する
 nnoremap <F8> :source %<CR>
 " 強制終了保存を無効にする
@@ -353,12 +361,12 @@ nnoremap ZZ <Nop>
 nnoremap ZQ <Nop>
 nnoremap Q  <Nop>
 " ヒットした検索後が画面の中段に来るように
-nmap n nzz
-nmap N Nzz
-nmap * *zz
-nmap # #zz
-nmap g* g*zz
-nmap g# g#zz
+nnoremap n  nzz  " next match
+nnoremap N  Nzz  " prev match
+nnoremap *  *zz  " カーソル下の単語で前方検索(完全一致)
+nnoremap #  #zz  " カーソル下の単語で後方検索(完全一致)
+nnoremap g* g*zz " カーソル下の単語で前方検索(部分一致)
+nnoremap g# g#zz " カーソル下の単語で後方検索(部分一致)
 " }}}
 
 " GUI設定 ================================================= {{{
