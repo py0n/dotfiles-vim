@@ -398,6 +398,42 @@ if has("gui_running")
 endif
 " }}}
 
+" Scouter : 戦闘力計測 ==================================== {{{
+" http://vim-users.jp/2009/07/hack-39/
+function! Scouter(file, ...)
+    let pat = '^\s*$\|^\s*"'
+    let lines = readfile(a:file)
+    if !a:0 || !a:1
+        let lines = split(substitute(join(lines, "\n"), '\n\s*\\', '', 'g'), "\n")
+    endif
+    return len(filter(lines,'v:val !~ pat'))
+endfunction
+command! -bar -bang -nargs=? -complete=file Scouter
+ \ echo Scouter(empty(<q-args>)
+ \   ? $MYVIMRC
+ \   : expand(<q-args>), <bang>0)
+command! -bar -bang -nargs=? -complete=file GScouter
+ \ echo Scouter(empty(<q-args>)
+ \   ? $MYGVIMRC
+ \   : expand(<q-args>), <bang>0)
+" }}}
+
+" Resource : リソースファイル ============================= {{{
+
+" 編集・再読込 ============================================ {{{
+command! Ev edit   $MYVIMRC
+command! Rv source $MYVIMRC
+" }}}
+
+" 外部リソースファイル読込 ================================ {{{
+" http://vim-users.jp/2009/12/hack108/
+if filereadable(expand($LOCALRC))
+    source $LOCALRC
+endif
+" }}}
+
+" }}}
+
 " 以降の處理では *autocmd* を多用するので無効なら此處でスキップ。
 if !has('autocmd')
     echomsg "Please enable `autocmd`."
@@ -629,42 +665,6 @@ if exists("+omnifunc")
          \           setlocal omnifunc=syntaxcomplete#Complete |
          \   endif
     augroup END
-endif
-" }}}
-
-" }}}
-
-" Scouter : 戦闘力計測 ==================================== {{{
-" http://vim-users.jp/2009/07/hack-39/
-function! Scouter(file, ...)
-    let pat = '^\s*$\|^\s*"'
-    let lines = readfile(a:file)
-    if !a:0 || !a:1
-        let lines = split(substitute(join(lines, "\n"), '\n\s*\\', '', 'g'), "\n")
-    endif
-    return len(filter(lines,'v:val !~ pat'))
-endfunction
-command! -bar -bang -nargs=? -complete=file Scouter
- \ echo Scouter(empty(<q-args>)
- \   ? $MYVIMRC
- \   : expand(<q-args>), <bang>0)
-command! -bar -bang -nargs=? -complete=file GScouter
- \ echo Scouter(empty(<q-args>)
- \   ? $MYGVIMRC
- \   : expand(<q-args>), <bang>0)
-" }}}
-
-" Resource : リソースファイル ============================= {{{
-
-" 編集・再読込 ============================================ {{{
-command! Ev edit   $MYVIMRC
-command! Rv source $MYVIMRC
-" }}}
-
-" 外部リソースファイル読込 ================================ {{{
-" http://vim-users.jp/2009/12/hack108/
-if filereadable(expand($LOCALRC))
-    source $LOCALRC
 endif
 " }}}
 
