@@ -694,6 +694,12 @@ endif
 
 " }}}
 
+" loadpluginsがfalseなら以降の処理をスキップ。
+if !&loadplugins
+    echomsg "Not use NeoBundle (neobundle.vim) plugin"
+    finish
+endif
+
 " NeoBundle : プラグイン読込 ============================== {{{
 " https://github.com/Shougo/neobundle.vim
 " http://blog.supermomonga.com/articles/vim/neobundle-sugoibenri.html
