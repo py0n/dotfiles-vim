@@ -341,10 +341,10 @@ nnoremap gj j
 nnoremap gk k
 " 行頭、行末移動を押し易くする
 " http://deris.hatenablog.jp/entry/2013/05/02/192415
-noremap  <Space>h ^   " 行頭(除空白)
-noremap  <Space>l $   " 行末
-noremap  <Space>m %   " 対応する括弧へ移動
-nnoremap <Space>/ *zz " カーソル下の単語で前方検索(完全一致)
+noremap  <Space>h ^
+noremap  <Space>l $
+noremap  <Space>m %
+nnoremap <Space>/ *zz
 " 中段を維持しながら上下移動
 nnoremap <C-f> <C-f>zz
 nnoremap <C-b> <C-b>zz
@@ -361,12 +361,12 @@ nnoremap ZZ <Nop>
 nnoremap ZQ <Nop>
 nnoremap Q  <Nop>
 " ヒットした検索後が画面の中段に来るように
-nnoremap n  nzz  " next match
-nnoremap N  Nzz  " prev match
-nnoremap *  *zz  " カーソル下の単語で前方検索(完全一致)
-nnoremap #  #zz  " カーソル下の単語で後方検索(完全一致)
-nnoremap g* g*zz " カーソル下の単語で前方検索(部分一致)
-nnoremap g# g#zz " カーソル下の単語で後方検索(部分一致)
+nnoremap n  nzz
+nnoremap N  Nzz
+nnoremap *  *zz
+nnoremap #  #zz
+nnoremap g* g*zz
+nnoremap g# g#zz
 " }}}
 
 " GUI設定 ================================================= {{{
@@ -770,7 +770,8 @@ NeoBundleLazy 'vim-perl/vim-perl'
 
 call neobundle#end()
 
-filetype plugin indent on     " Required!
+" Required!
+filetype plugin indent on
 
 " Brief help
 " :NeoBundleList          - list configured bundles
