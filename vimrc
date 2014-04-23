@@ -422,7 +422,7 @@ if has('vim_starting')
     set runtimepath+=$NEOBUNDLEDIRPATH
 endif
 
-call neobundle#rc($VIMBUNDLEDIRPATH)
+call neobundle#begin($VIMBUNDLEDIRPATH)
 
 " neobundle.vimをneobundle自信で管理する。
 NeoBundleFetch 'Shougo/neobundle.vim'
@@ -531,6 +531,7 @@ NeoBundleLazy 'airblade/vim-rooter'
 NeoBundle 'gcmt/wildfire.vim'
 NeoBundle 'tpope/vim-surround'
 
+call neobundle#end()
 
 filetype plugin indent on     " Required!
 
