@@ -26,12 +26,12 @@ endif
 
 " 函數 ==================================================== {{{
 function! s:mkdir(dir)
-    if !isdirectory(a:dir)
-        if has('iconv') && has('multi_byte')
-            call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
-        else
-            echomsg "Can't mkdir ".a:dir.", recompile with +iconv and +multi_bute."
-        endif
+    if isdirectory(a:dir)
+        return
+    elseif has('iconv') && has('multi_byte')
+        call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
+    else
+        echomsg "Can't mkdir ".a:dir.", recompile with +iconv and +multi_bute."
     endif
 endfunction
 function! s:existcommand(cmd)
@@ -436,7 +436,7 @@ endif
 
 " 以降の處理では *autocmd* を多用するので無効なら此處でスキップ。
 if !has('autocmd')
-    echomsg "Please enable `autocmd`."
+    echomsg 'Please enable +autocmd.'
     finish
 endif
 
@@ -674,7 +674,7 @@ endif
 " `--noplugin`で起動してもNeoBundleでの設定が中途半端に
 " 読み込まれる(原因不明)ので、ここで強制定期にスキップ。
 if !&loadplugins
-    echomsg "Please enable plguin."
+    echomsg 'Please enable plguin.'
     finish
 endif
 
