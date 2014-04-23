@@ -739,123 +739,58 @@ call neobundle#begin($VIMBUNDLEDIRPATH)
 " neobundle.vimをneobundle自信で管理する。
 NeoBundleFetch 'Shougo/neobundle.vim'
 
-NeoBundle 'Shougo/vimproc', {
+NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'gcmt/wildfire.vim'
+NeoBundle 'itchyny/lightline.vim'
+NeoBundle 'thinca/vim-localrc', {'disabled':has('win32unix')}
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'vim-scripts/cecutil.git'
+
+NeoBundleLazy 'AndrewRadev/linediff.vim'
+NeoBundleLazy 'Lokaltog/vim-easymotion'
+NeoBundleLazy 'Shougo/neocomplcache.vim'
+NeoBundleLazy 'Shougo/neosnippet.vim', {
+ \  'depends' : ['Shougo/neocomplcache.vim']}
+NeoBundleLazy 'Shougo/unite.vim'
+NeoBundleLazy 'Shougo/vimproc', {
  \  'build' : {
  \      'cygwin'  : 'make -f make_cygwin.mak',
  \      'mac'     : 'make -f make_mac.mak',
  \      'unix'    : 'make -f make_unix.mak',
- \      'windows' : 'make -f make_mingw32.mak'
+ \      'windows' : 'make -f make_mingw32.mak',
  \  }}
-
-NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'itchyny/lightline.vim'
-NeoBundle 'vim-scripts/cecutil.git'
-
-" ctrlp.vim
-NeoBundleLazy 'kien/ctrlp.vim'
-NeoBundleLazy 'sgur/ctrlp-extensions.vim', {
- \  'depends': ['kien/ctrlp.vim']
- \  }
-
-" ghcmod-vim
-NeoBundleLazy 'eagletmt/ghcmod-vim', {
- \  'depends': ['Shougo/vimproc'],
- \  'external_commands': ['ghc-mod'],
- \  }
-
-" html5
-NeoBundleLazy 'othree/html5.vim'
-
-" linediff.vim
-NeoBundleLazy 'AndrewRadev/linediff.vim'
-
-" neco-ghc
-NeoBundleLazy 'ujihisa/neco-ghc', {
- \  'external_commands': ['ghc-mod']
- \  }
-
-" neocomplcache
-NeoBundleLazy 'Shougo/neocomplcache.vim'
-
-" neosnippet.vim
-NeoBundleLazy 'Shougo/neosnippet.vim', {
- \  'depends' : [ 'Shougo/neocomplcache.vim' ]
- \  }
-
-" perlomni
-NeoBundleLazy 'c9s/perlomni.vim'
-
-" perlvalidate-vim
-NeoBundleLazy 'mattn/perlvalidate-vim'
-
-" supertab
-NeoBundleLazy 'ervandew/supertab'
-
-" unite.vim
-NeoBundleLazy 'Shougo/unite.vim'
-NeoBundleLazy 'h1mesuke/unite-outline', {
- \  'depends': ['Shougo/unite.vim'],
- \  }
-
-" syntastic
-NeoBundleLazy 'scrooloose/syntastic'
-
-" vim-alignta
-NeoBundleLazy 'h1mesuke/vim-alignta'
-
-" vim-anzu
-NeoBundleLazy 'osyo-manga/vim-anzu'
-
-" vim-easymotion
-NeoBundleLazy 'Lokaltog/vim-easymotion'
-
-" vim-filetype-haskell
-NeoBundleLazy 'kana/vim-filetype-haskell'
-
-" vim-fugitive & gitv
-NeoBundleLazy 'tpope/vim-fugitive', {
- \  'external_commands': ['git']
- \  }
-NeoBundleLazy 'gregsexton/gitv', {
- \  'depends' : ['tpope/vim-fugitive'],
- \  'external_commands': ['git'],
- \  }
-
-" vim-gitgutter
-NeoBundleLazy 'airblade/vim-gitgutter'
-
-" vim-localrc
-" Cygwin + vimではファイルを開くのが遅くなるので使用しない。
-NeoBundle 'thinca/vim-localrc', {
- \  'disabled': has('win32unix')
- \  }
-
-" vim-pandoc-syntax
-NeoBundleLazy 'vim-pandoc/vim-pandoc-syntax'
-
-" vim-perl
-NeoBundleLazy 'vim-perl/vim-perl'
-
-" vim-quickrun
-NeoBundleLazy 'thinca/vim-quickrun'
-
-" vim-ref
-NeoBundleLazy 'thinca/vim-ref'
-NeoBundleLazy 'mojako/ref-sources.vim', {
- \  'depends': ['thinca/vim-ref'],
- \  'external_commands': ['curl'],
- \  }
-NeoBundleLazy 'ujihisa/ref-hoogle', {
- \  'depends': ['thinca/vim-ref'],
- \  'external_commands': ['hoogle'],
- \  }
-
-" vim-rooter
+NeoBundleLazy 'airblade/vim-gitgutter', {'vim_version':'7.3.105'}
 NeoBundleLazy 'airblade/vim-rooter'
-
-" wildfire.vim & vim-surround
-NeoBundle 'gcmt/wildfire.vim'
-NeoBundle 'tpope/vim-surround'
+NeoBundleLazy 'c9s/perlomni.vim'
+NeoBundleLazy 'eagletmt/ghcmod-vim', {
+ \  'depends'           : ['Shougo/vimproc'],
+ \  'external_commands' : ['ghc-mod'],
+ \  }
+NeoBundleLazy 'ervandew/supertab'
+NeoBundleLazy 'gregsexton/gitv', {'depends':['tpope/vim-fugitive']}
+NeoBundleLazy 'h1mesuke/unite-outline', {'depends':['Shougo/unite.vim']}
+NeoBundleLazy 'h1mesuke/vim-alignta'
+NeoBundleLazy 'kana/vim-filetype-haskell'
+NeoBundleLazy 'kien/ctrlp.vim'
+NeoBundleLazy 'mattn/perlvalidate-vim'
+NeoBundleLazy 'mojako/ref-sources.vim', {
+ \  'depends'           : ['thinca/vim-ref'],
+ \  'external_commands' : ['curl'],
+ \  }
+NeoBundleLazy 'osyo-manga/vim-anzu'
+NeoBundleLazy 'othree/html5.vim'
+NeoBundleLazy 'scrooloose/syntastic'
+NeoBundleLazy 'sgur/ctrlp-extensions.vim', {'depends':['kien/ctrlp.vim']}
+NeoBundleLazy 'thinca/vim-quickrun', {'vim_version':'7.2'}
+NeoBundleLazy 'thinca/vim-ref'
+NeoBundleLazy 'tpope/vim-fugitive', {'external_commands':['git']}
+NeoBundleLazy 'ujihisa/neco-ghc', {'external_commands':['ghc-mod']}
+NeoBundleLazy 'ujihisa/ref-hoogle', {
+ \  'depends'           : ['thinca/vim-ref'],
+ \  'external_commands' : ['hoogle'],
+ \  }
+NeoBundleLazy 'vim-pandoc/vim-pandoc-syntax'
+NeoBundleLazy 'vim-perl/vim-perl'
 
 call neobundle#end()
 
@@ -943,7 +878,8 @@ endif
 " https://github.com/eagletmt/ghcmod-vim
 if neobundle#tap('ghcmod-vim')
     call neobundle#config({
-     \  'autoload': {'filetypes': ['haskell']},
+     \  'autoload'  : {'filetypes' : ['haskell']},
+     \  'on_source' : ['Shougo/vimproc'],
      \ })
 
     function! neobundle#tapped.hooks.on_source(bundel)
