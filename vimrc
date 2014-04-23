@@ -408,10 +408,10 @@ endif
 if has('autocmd')
 	augroup BinaryXXD
 		autocmd!
-		autocmd BufReadPre  *.bin let &binary=1
-		autocmd BufReadPost *.bin if &binary | silent %!xxd -g 1
-		autocmd BufReadPost *.bin set ft=xxd | endif
-		autocmd BufWritePre *.bin if &binary | %!xxd -r | endif
+		autocmd BufReadPre   *.bin let &binary=1
+		autocmd BufReadPost  *.bin if &binary | silent %!xxd -g 1
+		autocmd BufReadPost  *.bin set ft=xxd | endif
+		autocmd BufWritePre  *.bin if &binary | %!xxd -r | endif
 		autocmd BufWritePost *.bin if &binary | silent %!xxd -g 1
 		autocmd BufWritePost *.bin set nomod | endif
 	augroup END
