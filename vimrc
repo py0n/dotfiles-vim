@@ -745,8 +745,6 @@ NeoBundle 'Shougo/vimproc', {
  \      'windows' : 'make -f make_mingw32.mak'
  \  }}
 
-NeoBundle 'Shougo/neocomplcache.vim'
-NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'vim-scripts/cecutil.git'
@@ -774,8 +772,11 @@ NeoBundleLazy 'ujihisa/neco-ghc', {
  \  'external_commands': ['ghc-mod']
  \  }
 
+" neocomplcache
+NeoBundleLazy 'Shougo/neocomplcache.vim'
+
 " neosnippet.vim
-NeoBundle 'Shougo/neosnippet.vim', {
+NeoBundleLazy 'Shougo/neosnippet.vim', {
  \  'depends' : [ 'Shougo/neocomplcache.vim' ]
  \  }
 
@@ -802,6 +803,9 @@ NeoBundleLazy 'h1mesuke/vim-alignta'
 
 " vim-anzu
 NeoBundleLazy 'osyo-manga/vim-anzu'
+
+" vim-easymotion
+NeoBundleLazy 'Lokaltog/vim-easymotion'
 
 " vim-filetype-haskell
 NeoBundleLazy 'kana/vim-filetype-haskell'
@@ -918,6 +922,10 @@ if neobundle#tap('ctrlp.vim')
 endif
 
 if neobundle#tap('ctrlp-extensions.vim')
+    call neobundle#config({
+     \  'autoload': {'on_source': ['ctrlp.vim']}
+     \  })
+
     function! neobundle#tapped.hooks.on_source(bundle)
         " http://sgur.tumblr.com/post/21848239550/ctrlp-vim
         let g:ctrlp_extensions = [
@@ -1204,6 +1212,10 @@ endif
 " Plugin : neocomplcache.vim ============================== {{{
 " https://github.com/Shougo/neocomplcache.vim
 if neobundle#tap('neocomplcache.vim')
+    call neobundle#config({
+     \  'autoload': {'on_source': ['neosnippet.vim']}
+     \ })
+
     function! neobundle#tapped.hooks.on_source(bundle)
         let g:neocomplcache_enable_at_startup = 1
     endfunction
@@ -1215,19 +1227,25 @@ endif
 " Plugin : neosnippet.vim ================================= {{{
 " https://github.com/Shougo/neosnippet.vim
 if neobundle#tap('neosnippet.vim')
-    let $SNIPPETDIRPATH=$CFGHOME.'/snippets'
-    call s:mkdir($SNIPPETDIRPATH)
-    let g:neosnippet#snippets_directory=$SNIPPETDIRPATH
+    call neobundle#config({
+     \  'autoload': {'insert': 1}
+     \  })
 
-    " Plugin key-mappings.
-    imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-    smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-    xmap <C-k>     <Plug>(neosnippet_expand_target)
+    function! neobundle#tapped.hooks.on_source(bundle)
+        let $SNIPPETDIRPATH=$CFGHOME.'/snippets'
+        call s:mkdir($SNIPPETDIRPATH)
+        let g:neosnippet#snippets_directory=$SNIPPETDIRPATH
 
-    " For snippet_complete marker.
-    if has('conceal')
-        set conceallevel=2 concealcursor=i
-    endif
+        " Plugin key-mappings.
+        imap <C-k> <Plug>(neosnippet_expand_or_jump)
+        smap <C-k> <Plug>(neosnippet_expand_or_jump)
+        xmap <C-k> <Plug>(neosnippet_expand_target)
+
+        " For snippet_complete marker.
+        if has('conceal')
+            set conceallevel=2 concealcursor=i
+        endif
+    endfunction
 
     call neobundle#untap()
 endif
@@ -1412,6 +1430,10 @@ endif
 " http://haya14busa.com/mastering-vim-easymotion/
 " https://github.com/Lokaltog/vim-easymotion
 if neobundle#tap('vim-easymotion')
+    call neobundle#config({
+     \  'autoload': {'mappings': ['/', '<Leader>h', '<Leader>j', '<Leader>k', '<Leader>l']}
+     \ })
+
     function! neobundle#tapped.hooks.on_source(bundle)
         " Disable default mappings
         let g:EasyMotion_do_mapping = 0
@@ -1426,7 +1448,6 @@ if neobundle#tap('vim-easymotion')
 
         let g:EasyMotion_startofline = 0 " keep cursor colum when JK motion
     endfunction
-
 
     call neobundle#untap()
 endif
