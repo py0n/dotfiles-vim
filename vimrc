@@ -452,18 +452,11 @@ if has('autocmd')
     augroup EditHaskell
         autocmd!
         autocmd BufRead,BufNewFile *.hs set filetype=haskell
-        autocmd BufWritePost,FileWritePost *.hs :GhcModCheck
         autocmd FileType haskell set expandtab
         autocmd FileType haskell set nosmartindent
         autocmd FileType haskell set shiftwidth=2
         autocmd FileType haskell set softtabstop=2
         autocmd FileType haskell set tabstop=8
-        autocmd FileType haskell nnoremap [ghcmod] <Nop>
-        autocmd FileType haskell nmap     <Space>g [ghcmod]
-        autocmd FileType haskell nnoremap <buffer> [ghcmod]c :GhcModCheck<CR>
-        autocmd FileType haskell nnoremap <buffer> [ghcmod]l :GhcModLint<CR>
-        autocmd FileType haskell nnoremap <buffer> [ghcmod]t :GhcModTypeClear<CR>:GhcModType<CR>
-        autocmd FileType haskell nnoremap <buffer> [ghcmod]tc :GhcModTypeClear<CR>
     augroup END
 endif
 " }}}
@@ -893,6 +886,16 @@ if neobundle#tap('ghcmod-vim')
 
     function! neobundle#tapped.hooks.on_source(bundel)
         let g:haddock_browser = "firefox"
+        augroup MyGhcmod
+            autocmd!
+            autocmd BufWritePost,FileWritePost *.hs :GhcModCheck
+            autocmd FileType haskell nnoremap [ghcmod] <Nop>
+            autocmd FileType haskell nmap     <Space>g [ghcmod]
+            autocmd FileType haskell nnoremap <buffer> [ghcmod]c  :GhcModCheck<CR>
+            autocmd FileType haskell nnoremap <buffer> [ghcmod]l  :GhcModLint<CR>
+            autocmd FileType haskell nnoremap <buffer> [ghcmod]t  :GhcModTypeClear<CR>:GhcModType<CR>
+            autocmd FileType haskell nnoremap <buffer> [ghcmod]tc :GhcModTypeClear<CR>
+        augroup END
     endfunction
 
     call neobundle#untap()
