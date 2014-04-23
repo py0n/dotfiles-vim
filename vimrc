@@ -695,6 +695,8 @@ endif
 " }}}
 
 " loadpluginsがfalseなら以降の処理をスキップ。
+" `--noplugin`で起動してもNeoBundleでの設定が中途半端に
+" 読み込まれる(原因不明)ので、ここで強制定期にスキップ。
 if !&loadplugins
     echomsg "Not use NeoBundle (neobundle.vim) plugin"
     finish
