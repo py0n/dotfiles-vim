@@ -81,7 +81,7 @@ if has('vim_starting')
         if iconv("\x87\x64\x87\x6a", 'cp932', 'eucjp-ms') ==# "\xad\xc5\xad\xcb"
             let s:enc_euc = 'eucjp-ms'
             let s:enc_jis = 'iso-2022-jp-3'
-        " iconvがJISX0213に対応しているかをチェック
+            " iconvがJISX0213に対応しているかをチェック
         elseif iconv("\x87\x64\x87\x6a", 'cp932', 'euc-jisx0213') ==# "\xad\xc5\xad\xcb"
             let s:enc_euc = 'euc-jisx0213'
             let s:enc_jis = 'iso-2022-jp-3'
@@ -206,7 +206,7 @@ set nowritebackup
 " 今日の日付を入れておく。
 " http://nanasi.jp/articles/howto/file/workingfile.html#id22
 if exists("*strftime")
-	let $TODAY = strftime('%Y%m%d')
+    let $TODAY = strftime('%Y%m%d')
 endif
 " 自動的にディレクトリを作成する。
 " http://vim-users.jp/2011/02/hack202/
@@ -247,7 +247,7 @@ endif
 " 装飾設定 ================================================ {{{
 "シンタックスハイライトを有効にする
 if has("syntax")
-	syntax enable
+    syntax enable
 
     " http://vim-users.jp/2009/08/hack64/
     " https://github.com/itchyny/lightline.vim
@@ -271,14 +271,14 @@ endif
 " http://d.hatena.ne.jp/tasukuchan/20070816/1187246177
 " http://sites.google.com/site/fudist/Home/vim-nihongo-ban/-vimrc-sample#TOC-4
 if has('autocmd') && has('syntax')
-	function! VisualizeInvisibleSpace()
-		highlight InvisibleSpace term=underline ctermbg=red guibg=red
-		match InvisibleSpace /　\|[　	 ]\+$/
-	endfunction
-	augroup VisualizeInvisibleSpace
-		autocmd!
-		autocmd BufEnter * call VisualizeInvisibleSpace()
-	augroup END
+    function! VisualizeInvisibleSpace()
+        highlight InvisibleSpace term=underline ctermbg=red guibg=red
+        match InvisibleSpace /　\|[　	 ]\+$/
+    endfunction
+    augroup VisualizeInvisibleSpace
+        autocmd!
+        autocmd BufEnter * call VisualizeInvisibleSpace()
+    augroup END
 endif
 "行番号を表示しない
 set nonumber
@@ -290,7 +290,7 @@ set novisualbell
 set lazyredraw
 " Winでディレクトリパスの区切り文字に「/」を使えるように
 if exists('+shellslash')
-	set shellslash
+    set shellslash
 endif
 "括弧入力時の対応する括弧を表示
 set showmatch
@@ -371,30 +371,30 @@ nnoremap g# g#zz " カーソル下の単語で後方検索(部分一致)
 
 " GUI設定 ================================================= {{{
 if has("gui_running")
-	" フォントを設定する
-	if has("gui_gtk2")
-		set guifont=Ricty\ 12
-		if has("xim")
-			" GTK2版gVimで"BadWindow (invalid Window parameter)"エラーが
-			" 出ない樣に。
-			" http://memo.officebrook.net/20080306.html
-			" http://d.hatena.ne.jp/pasela/20080709/gvim
-			set imactivatekey=C-space
-		endif
-	elseif has("gui_win32")
-		set guifont=Ricty:h12
-		set guifontwide=Ricty:h12
-	endif
-	" 插入モードや檢索で日本語入力状態になるのを防ぐ。
-	" http://memo.officebrook.net/20080312.html
-	" http://d.hatena.ne.jp/pasela/20080709/gvim
-	if has("multi_byte_ime") || has("xim")
-		set iminsert=0
-		set imsearch=0
-		inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
-		nnoremap / :set imsearch=0<CR>/
-		nnoremap ? :set imsearch=0<CR>?
-	endif
+    " フォントを設定する
+    if has("gui_gtk2")
+        set guifont=Ricty\ 12
+        if has("xim")
+            " GTK2版gVimで"BadWindow (invalid Window parameter)"エラーが
+            " 出ない樣に。
+            " http://memo.officebrook.net/20080306.html
+            " http://d.hatena.ne.jp/pasela/20080709/gvim
+            set imactivatekey=C-space
+        endif
+    elseif has("gui_win32")
+        set guifont=Ricty:h12
+        set guifontwide=Ricty:h12
+    endif
+    " 插入モードや檢索で日本語入力状態になるのを防ぐ。
+    " http://memo.officebrook.net/20080312.html
+    " http://d.hatena.ne.jp/pasela/20080709/gvim
+    if has("multi_byte_ime") || has("xim")
+        set iminsert=0
+        set imsearch=0
+        inoremap <silent> <ESC> <ESC>:set iminsert=0<CR>
+        nnoremap / :set imsearch=0<CR>/
+        nnoremap ? :set imsearch=0<CR>?
+    endif
 endif
 " }}}
 
@@ -406,35 +406,35 @@ endif
 " http://www.kawaz.jp/pukiwiki/?vim#ib970976
 " http://jarp.does.notwork.org/diary/200606a.html#200606021
 if has('autocmd')
-	augroup BinaryXXD
-		autocmd!
-		autocmd BufReadPre   *.bin let &binary=1
-		autocmd BufReadPost  *.bin if &binary | silent %!xxd -g 1
-		autocmd BufReadPost  *.bin set ft=xxd | endif
-		autocmd BufWritePre  *.bin if &binary | %!xxd -r | endif
-		autocmd BufWritePost *.bin if &binary | silent %!xxd -g 1
-		autocmd BufWritePost *.bin set nomod | endif
-	augroup END
+    augroup BinaryXXD
+        autocmd!
+        autocmd BufReadPre   *.bin let &binary=1
+        autocmd BufReadPost  *.bin if &binary | silent %!xxd -g 1
+        autocmd BufReadPost  *.bin set ft=xxd | endif
+        autocmd BufWritePre  *.bin if &binary | %!xxd -r | endif
+        autocmd BufWritePost *.bin if &binary | silent %!xxd -g 1
+        autocmd BufWritePost *.bin set nomod | endif
+    augroup END
 endif
 " }}}
 
 " C (File Type) =========================================== {{{
 " ':h ft-c-omni' を参照)
 if has('autocmd')
-	augroup EditC
-		autocmd!
-		autocmd FileType c set omnifunc=ccomplete#Complete
-	augroup END
+    augroup EditC
+        autocmd!
+        autocmd FileType c set omnifunc=ccomplete#Complete
+    augroup END
 endif
 " }}}
 
 " CSS (File Type) ========================================= {{{
 " ':h ft-css-omni' を参照
 if has('autocmd')
-	augroup EditCSS
-		autocmd!
-		autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-	augroup END
+    augroup EditCSS
+        autocmd!
+        autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+    augroup END
 endif
 " }}}
 
@@ -443,7 +443,7 @@ if has('autocmd')
     augroup GitCommit
         autocmd!
         autocmd FileType gitcommit set fileencoding=utf-8
-    augroup End
+    augroup END
 endif
 " }}}
 
@@ -464,40 +464,40 @@ endif
 " JavaScript (File Type) ================================== {{{
 " ':h ft-javascript-omni' を参照
 if has('autocmd')
-	augroup EditJavaScript
-		autocmd!
-		autocmd FileType javascript set shiftwidth=4
-		autocmd FileType javascript set softtabstop=4
-		autocmd FileType javascript set tabstop=4
-		autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-	augroup END
+    augroup EditJavaScript
+        autocmd!
+        autocmd FileType javascript set shiftwidth=4
+        autocmd FileType javascript set softtabstop=4
+        autocmd FileType javascript set tabstop=4
+        autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+    augroup END
 endif
 " }}}
 
 " PHP (File Type) ========================================= {{{
 " ':h ft-php-omni' を参照
 if has('autocmd')
-	augroup EditPHP
-		autocmd!
-		autocmd BufRead,BufNewFile *.inc set filetype=php
-		autocmd FileType php set omnifunc=phpcomplete#CompletePHP
-"	Exuberant ctags 5.7j1 が UTF-8 のソースでは
-"	うまく動かないのでコメントアウト。
-"	autocmd FileType php nmap <silent> <F4>
-"		\ :!ctags -f %:p:h/tags
-"		\ -R
-"		\ --jcode=utf8
-"		\ --exclude=*.js
-"		\ --exclude=*.css
-"		\ --exclude=*.htm
-"		\ --exclude=.snapshot
-"		\ --langmap="php:+.inc"
-"		\ -h ".php.inc"
-"		\ --totals=yes
-"		\ --tag-relative=yes
-"		\ --PHP-kinds=+cf-v %:p:h<CR>
-"	autocmd FileType php set tags=./tags,tags
-	augroup END
+    augroup EditPHP
+        autocmd!
+        autocmd BufRead,BufNewFile *.inc set filetype=php
+        autocmd FileType php set omnifunc=phpcomplete#CompletePHP
+        "	Exuberant ctags 5.7j1 が UTF-8 のソースでは
+        "	うまく動かないのでコメントアウト。
+        "	autocmd FileType php nmap <silent> <F4>
+        "		\ :!ctags -f %:p:h/tags
+        "		\ -R
+        "		\ --jcode=utf8
+        "		\ --exclude=*.js
+        "		\ --exclude=*.css
+        "		\ --exclude=*.htm
+        "		\ --exclude=.snapshot
+        "		\ --langmap="php:+.inc"
+        "		\ -h ".php.inc"
+        "		\ --totals=yes
+        "		\ --tag-relative=yes
+        "		\ --PHP-kinds=+cf-v %:p:h<CR>
+        "	autocmd FileType php set tags=./tags,tags
+    augroup END
 endif
 " }}}
 
@@ -561,21 +561,21 @@ endif
 
 " R (File Type) =========================================== {{{
 if has('autocmd')
-	augroup EditR
-		autocmd!
-		autocmd BufRead,BufNewFile *.R set filetype=r
-	augroup END
+    augroup EditR
+        autocmd!
+        autocmd BufRead,BufNewFile *.R set filetype=r
+    augroup END
 endif
 " }}}
 
 " Ruby (File Type) ======================================== {{{
 " ':h ft-ruby-omni' を参照
 if has('ruby') && has('autocmd')
-	augroup EditRuby
-		autocmd!
-		autocmd FileType ruby set omnifunc=rubycomplete#CompleteTags
-		autocmd FileType ruby set noexpandtab
-	augroup END
+    augroup EditRuby
+        autocmd!
+        autocmd FileType ruby set omnifunc=rubycomplete#CompleteTags
+        autocmd FileType ruby set noexpandtab
+    augroup END
 endif
 
 let g:rubycomplete_buffer_loading = 1
@@ -586,10 +586,10 @@ let g:rubycomplete_rails = 1
 " SQL (File Type) ========================================= {{{
 " ':h ft-sql-omni' を参照
 if has('autocmd')
-	augroup EditSQL
-		autocmd!
-		autocmd FileType sql set omnifunc=sqlcomplete#CompleteTags
-	augroup END
+    augroup EditSQL
+        autocmd!
+        autocmd FileType sql set omnifunc=sqlcomplete#CompleteTags
+    augroup END
 endif
 " }}}
 
@@ -606,10 +606,10 @@ endif
 " XML (File Type) ========================================= {{{
 " ':h ft-xml-omni' を参照
 if has('autocmd')
-	augroup EditXML
-		autocmd!
-		autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
-	augroup END
+    augroup EditXML
+        autocmd!
+        autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
+    augroup END
 endif
 " }}}
 
@@ -646,13 +646,13 @@ endif
 " ':h ft-syntax-omni' を参照
 " ※これが一番最後。
 if has("autocmd") && exists("+omnifunc")
-	augroup EditOther
-		autocmd!
-		autocmd Filetype *
-			\   if &omnifunc == "" |
-			\           setlocal omnifunc=syntaxcomplete#Complete |
-			\   endif
-	augroup END
+    augroup EditOther
+        autocmd!
+        autocmd Filetype *
+         \   if &omnifunc == "" |
+         \           setlocal omnifunc=syntaxcomplete#Complete |
+         \   endif
+    augroup END
 endif
 " }}}
 
@@ -667,15 +667,15 @@ function! Scouter(file, ...)
         let lines = split(substitute(join(lines, "\n"), '\n\s*\\', '', 'g'), "\n")
     endif
     return len(filter(lines,'v:val !~ pat'))
-    endfunction
-    command! -bar -bang -nargs=? -complete=file Scouter
-                \ echo Scouter(empty(<q-args>)
-                \   ? $MYVIMRC
-                \   : expand(<q-args>), <bang>0)
-    command! -bar -bang -nargs=? -complete=file GScouter
-                \ echo Scouter(empty(<q-args>)
-                \   ? $MYGVIMRC
-                \   : expand(<q-args>), <bang>0)
+endfunction
+command! -bar -bang -nargs=? -complete=file Scouter
+ \ echo Scouter(empty(<q-args>)
+ \   ? $MYVIMRC
+ \   : expand(<q-args>), <bang>0)
+command! -bar -bang -nargs=? -complete=file GScouter
+ \ echo Scouter(empty(<q-args>)
+ \   ? $MYGVIMRC
+ \   : expand(<q-args>), <bang>0)
 " }}}
 
 " Resource : リソースファイル ============================= {{{
@@ -808,7 +808,7 @@ NeoBundleCheck
 " Installation check.
 if neobundle#exists_not_installed_bundles()
     echomsg 'Not installed bundles : ' .
-        \ string(neobundle#get_not_installed_bundle_names())
+     \ string(neobundle#get_not_installed_bundle_names())
     echomsg 'Please execute ":NeoBundleInstall" command.'
     finish
 endif
@@ -817,20 +817,20 @@ endif
 " http://cscope.sourceforge.net/
 " http://blog.miraclelinux.com/penguin/2007/02/vi_7fa6.html
 if has("cscope")
-	set csprg=/usr/bin/cscope
-	set csto=0
-	set cst
-	set nocsverb
-	" add any database in current directory
-	if filereadable("cscope.out")
-		cs add cscope.out
-	" else add database pointed to by environment
-	elseif $CSCOPE_DB != ""
-		cs add $CSCOPE_DB
-	endif
-	set csverb
-	map g<C-]> :cs find 3 <C-R>=expand("<cword>")<CR><CR>
-	map g<C-\> :cs find 0 <C-R>=expand("<cword>")<CR><CR>
+    set csprg=/usr/bin/cscope
+    set csto=0
+    set cst
+    set nocsverb
+    " add any database in current directory
+    if filereadable("cscope.out")
+        cs add cscope.out
+        " else add database pointed to by environment
+    elseif $CSCOPE_DB != ""
+        cs add $CSCOPE_DB
+    endif
+    set csverb
+    map g<C-]> :cs find 3 <C-R>=expand("<cword>")<CR><CR>
+    map g<C-\> :cs find 0 <C-R>=expand("<cword>")<CR><CR>
 endif
 " }}}
 
@@ -916,52 +916,52 @@ endif
 " https://github.com/itchyny/lightline.vim
 if neobundle#tap('lightline.vim')
     let s:colorscheme
-                \ = neobundle#is_installed('vim-colors-solarized')
-                \ ? 'solarized'
-                \ : 'wombat'
+     \ = neobundle#is_installed('vim-colors-solarized')
+     \ ? 'solarized'
+     \ : 'wombat'
     let g:lightline = {
-                \ 'colorscheme': s:colorscheme,
-                \ 'mode_map': {'c': 'NORMAL'},
-                \ 'active': {
-                \   'left': [
-                \     [ 'mode' ],
-                \     [ 'fugitive', 'gitgutter', 'filename', 'anzu' ]
-                \   ],
-                \   'right': [
-                \     [ 'lineinfo', 'syntastic' ],
-                \     [ 'percent' ],
-                \     [ 'charcode', 'fileformat', 'fileencoding', 'filetype' ]
-                \   ],
-                \ },
-                \ 'component_expand': {
-                \   'syntastic': 'MySyntasticStatuslineFlag'
-                \ },
-                \ 'component_function': {
-                \   'anzu'         : 'MyAnzu',
-                \   'charcode'     : 'MyCharCode',
-                \   'fileencoding' : 'MyFileencoding',
-                \   'fileformat'   : 'MyFileformat',
-                \   'filename'     : 'MyFilename',
-                \   'filetype'     : 'MyFiletype',
-                \   'fugitive'     : 'MyFugitive',
-                \   'gitgutter'    : 'MyGitgutter',
-                \   'lineinfo'     : 'MyLineinfo',
-                \   'mode'         : 'MyMode',
-                \   'percent'      : 'MyPercent',
-                \ },
-                \ 'component_type': {
-                \   'syntastic': 'error'
-                \ },
-                \ 'separator': { 'left': '', 'right': '', },
-                \ 'subseparator': { 'left': '', 'right': '', },
-                \ }
+     \ 'colorscheme': s:colorscheme,
+     \ 'mode_map': {'c': 'NORMAL'},
+     \ 'active': {
+     \   'left': [
+     \     [ 'mode' ],
+     \     [ 'fugitive', 'gitgutter', 'filename', 'anzu' ]
+     \   ],
+     \   'right': [
+     \     [ 'lineinfo', 'syntastic' ],
+     \     [ 'percent' ],
+     \     [ 'charcode', 'fileformat', 'fileencoding', 'filetype' ]
+     \   ],
+     \ },
+     \ 'component_expand': {
+     \   'syntastic': 'MySyntasticStatuslineFlag'
+     \ },
+     \ 'component_function': {
+     \   'anzu'         : 'MyAnzu',
+     \   'charcode'     : 'MyCharCode',
+     \   'fileencoding' : 'MyFileencoding',
+     \   'fileformat'   : 'MyFileformat',
+     \   'filename'     : 'MyFilename',
+     \   'filetype'     : 'MyFiletype',
+     \   'fugitive'     : 'MyFugitive',
+     \   'gitgutter'    : 'MyGitgutter',
+     \   'lineinfo'     : 'MyLineinfo',
+     \   'mode'         : 'MyMode',
+     \   'percent'      : 'MyPercent',
+     \ },
+     \ 'component_type': {
+     \   'syntastic': 'error'
+     \ },
+     \ 'separator': { 'left': '', 'right': '', },
+     \ 'subseparator': { 'left': '', 'right': '', },
+     \ }
 
     let s:funcorder = [
-                \ 'MyMode'         , 'MyFilename' , 'MyLineinfo'   ,
-                \ 'MyPercent'      , 'MyFugitive' , 'MyAnzu'       ,
-                \ 'MyFileencoding' , 'MyFiletype' , 'MyFileformat' ,
-                \ 'MyGitgutter'    , 'MyCharCode'     ,
-                \ ]
+     \ 'MyMode'         , 'MyFilename' , 'MyLineinfo'   ,
+     \ 'MyPercent'      , 'MyFugitive' , 'MyAnzu'       ,
+     \ 'MyFileencoding' , 'MyFiletype' , 'MyFileformat' ,
+     \ 'MyGitgutter'    , 'MyCharCode'     ,
+     \ ]
 
     function! s:is_display(width, funcname)
         let l:index = index(s:funcorder, a:funcname)
@@ -1039,11 +1039,11 @@ if neobundle#tap('lightline.vim')
 
     function! MyFilename() " {{{
         return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
-                    \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
-                    \  &ft == 'unite' ? unite#get_status_string() :
-                    \  &ft == 'vimshell' ? vimshell#get_status_string() :
-                    \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
-                    \ ('' != MyModified() ? ' ' . MyModified() : '')
+         \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
+         \  &ft == 'unite' ? unite#get_status_string() :
+         \  &ft == 'vimshell' ? vimshell#get_status_string() :
+         \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
+         \ ('' != MyModified() ? ' ' . MyModified() : '')
     endfunction " }}}
 
     function! MyFiletype() " {{{
@@ -1103,9 +1103,9 @@ if neobundle#tap('lightline.vim')
 
     function! MyModified() " {{{
         return &filetype =~ '\v(help|vimfiler|gundo)'
-                    \ ? ''  : &modified
-                    \ ? '+' : &modifiable
-                    \ ? ''  : '-'
+         \ ? ''  : &modified
+         \ ? '+' : &modifiable
+         \ ? ''  : '-'
     endfunction " }}}
 
     " http://d.hatena.ne.jp/itchyny/20130918/1379461406
@@ -1413,7 +1413,7 @@ endif
 " https://github.com/thinca/vim-localrc
 " http://d.hatena.ne.jp/thinca/20110108/1294427418
 if neobundle#tap('vim-localrc')
-"    call localrc#load('.local.vimrc', getcwd())
+    "    call localrc#load('.local.vimrc', getcwd())
 
     call neobundle#untap()
 endif
