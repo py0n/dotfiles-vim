@@ -748,13 +748,7 @@ NeoBundle 'Shougo/vimproc', {
 NeoBundle 'Shougo/neocomplcache.vim'
 NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'c9s/perlomni.vim'
-NeoBundle 'ervandew/supertab.git'
 NeoBundle 'itchyny/lightline.vim'
-NeoBundle 'kana/vim-filetype-haskell'
-NeoBundle 'mattn/perlvalidate-vim'
-NeoBundle 'thinca/vim-quickrun'
-NeoBundle 'vim-perl/vim-perl'
 NeoBundle 'vim-scripts/cecutil.git'
 
 " ctrlp.vim
@@ -785,6 +779,15 @@ NeoBundle 'Shougo/neosnippet.vim', {
  \  'depends' : [ 'Shougo/neocomplcache.vim' ]
  \  }
 
+" perlomni
+NeoBundleLazy 'c9s/perlomni.vim'
+
+" perlvalidate-vim
+NeoBundleLazy 'mattn/perlvalidate-vim'
+
+" supertab
+NeoBundleLazy 'ervandew/supertab'
+
 " unite.vim
 NeoBundleLazy 'Shougo/unite.vim'
 NeoBundleLazy 'h1mesuke/unite-outline', {
@@ -799,6 +802,9 @@ NeoBundleLazy 'h1mesuke/vim-alignta'
 
 " vim-anzu
 NeoBundleLazy 'osyo-manga/vim-anzu'
+
+" vim-filetype-haskell
+NeoBundleLazy 'kana/vim-filetype-haskell'
 
 " vim-fugitive & gitv
 NeoBundleLazy 'tpope/vim-fugitive', {
@@ -820,6 +826,12 @@ NeoBundle 'thinca/vim-localrc', {
 
 " vim-pandoc-syntax
 NeoBundleLazy 'vim-pandoc/vim-pandoc-syntax'
+
+" vim-perl
+NeoBundleLazy 'vim-perl/vim-perl'
+
+" vim-quickrun
+NeoBundleLazy 'thinca/vim-quickrun'
 
 " vim-ref
 NeoBundleLazy 'thinca/vim-ref'
@@ -1221,6 +1233,45 @@ if neobundle#tap('neosnippet.vim')
 endif
 " }}}
 
+" Plugin : perlomni.vim =================================== {{{
+" https://github.com/c9s/perlomni.vim
+if neobundle#tap('perlomni.vim')
+    call neobundle#config({
+     \  'autoload': {'filetypes': ['perl']},
+     \  })
+
+    function! neobundle#tapped.hooks.on_source(bundle)
+    endfunction
+
+    call neobundle#untap()
+endif
+" }}}
+
+" Plugin : perlvalidate-vim =============================== {{{
+" https://github.com/kana/vim-filetype-haskell
+if neobundle#tap('perlvalidate-vim')
+    call neobundle#config({
+     \  'autoload': {'filetypes': ['perl']},
+     \  })
+
+    function! neobundle#tapped.hooks.on_source(bundle)
+    endfunction
+
+    call neobundle#untap()
+endif
+" }}}
+
+" Plugin : supertab ======================================= {{{
+" https://github.com/ervandew/supertab
+if neobundle#tap('supertab')
+    call neobundle#config({
+     \  'autoload': {'insert': 1}
+     \ })
+
+    call neobundle#untap()
+endif
+" }}}
+
 " Plugin : syntastic ====================================== {{{
 " https://github.com/scrooloose/syntastic
 " http://d.hatena.ne.jp/heavenshell/20120106/1325866974
@@ -1299,6 +1350,20 @@ if neobundle#tap('vim-anzu')
             autocmd WinLeave    * call anzu#clear_search_status()
             autocmd TabLeave    * call anzu#clear_search_status()
         augroup END
+    endfunction
+
+    call neobundle#untap()
+endif
+" }}}
+
+" Plugin : vim-filetype-haskell =========================== {{{
+" https://github.com/c9s/perlomni.vim
+if neobundle#tap('vim-filetype-haskell')
+    call neobundle#config({
+     \  'autoload': {'filetypes': ['haskell']},
+     \ })
+
+    function! neobundle#tapped.hooks.on_source(bundle)
     endfunction
 
     call neobundle#untap()
@@ -1405,6 +1470,31 @@ if neobundle#tap('vim-pandoc-syntax')
 
     function! neobundle#tapped.hooks.on_source(bundle)
     endfunction
+
+    call neobundle#untap()
+endif
+" }}}
+
+" Plugin : vim-perl ======================================= {{{
+" https://github.com/vim-perl/vim-perl
+if neobundle#tap('vim-perl')
+    call neobundle#config({
+     \  'autoload': {'filetypes': ['perl']},
+     \  })
+
+    function! neobundle#tapped.hooks.on_source(bundle)
+    endfunction
+
+    call neobundle#untap()
+endif
+" }}}
+
+" Plugin : vim-quickrun =================================== {{{
+" https://github.com/thinca/vim-quickrun
+if neobundle#tap('vim-quickrun')
+    call neobundle#config({
+     \  'autoload': {'commands': ['QuickRun']}
+     \ })
 
     call neobundle#untap()
 endif
