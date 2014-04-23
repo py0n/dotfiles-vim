@@ -398,6 +398,12 @@ if has("gui_running")
 endif
 " }}}
 
+" 以降の處理では *autocmd* を多用するので無効なら此處でスキップ。
+if !has('autocmd')
+    echomsg "Please enable `autocmd`."
+    finish
+endif
+
 " FileType : ファイルタイプ別設定 ========================= {{{
 
 " Binary (File Type) ====================================== {{{
@@ -698,7 +704,7 @@ endif
 " `--noplugin`で起動してもNeoBundleでの設定が中途半端に
 " 読み込まれる(原因不明)ので、ここで強制定期にスキップ。
 if !&loadplugins
-    echomsg "Not use NeoBundle (neobundle.vim) plugin"
+    echomsg "Please enable plguin."
     finish
 endif
 
