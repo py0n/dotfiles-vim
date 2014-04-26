@@ -244,7 +244,7 @@ if has("autocmd")
 endif
 " }}}
 
-" 装飾設定 ================================================ {{{
+" Decoration : 装飾設定 =================================== {{{
 "シンタックスハイライトを有効にする
 if has("syntax")
     syntax enable
@@ -255,30 +255,29 @@ if has("syntax")
         set t_Co=256
     endif
 
-    " ノーマルモードで行を目立たせる
-    " http://blog.remora.cx/2012/10/spotlight-cursor-line.html
-    set cursorline
     if has("autocmd")
+        " ノーマルモードで行を目立たせる
+        " http://blog.remora.cx/2012/10/spotlight-cursor-line.html
+        set cursorline
         augroup MyCursorLine
             autocmd!
+            autocmd MyCursorLine InsertEnter * set nocursorline
+            autocmd MyCursorLine InsertLeave * set cursorline
         augroup END
-        autocmd MyCursorLine InsertEnter * set nocursorline
-        autocmd MyCursorLine InsertLeave * set cursorline
+
+        " 行末の空白を目立たせる。
+        " 全角空白を目立たせる。
+        " http://d.hatena.ne.jp/tasukuchan/20070816/1187246177
+        " http://sites.google.com/site/fudist/Home/vim-nihongo-ban/-vimrc-sample#TOC-4
+        function! VisualizeInvisibleSpace()
+            highlight InvisibleSpace term=underline ctermbg=red guibg=red
+            match InvisibleSpace /　\|[　	 ]\+$/
+        endfunction
+        augroup VisualizeInvisibleSpace
+            autocmd!
+            autocmd BufEnter * call VisualizeInvisibleSpace()
+        augroup END
     endif
-endif
-" 行末の空白を目立たせる。
-" 全角空白を目立たせる。
-" http://d.hatena.ne.jp/tasukuchan/20070816/1187246177
-" http://sites.google.com/site/fudist/Home/vim-nihongo-ban/-vimrc-sample#TOC-4
-if has('autocmd') && has('syntax')
-    function! VisualizeInvisibleSpace()
-        highlight InvisibleSpace term=underline ctermbg=red guibg=red
-        match InvisibleSpace /　\|[　	 ]\+$/
-    endfunction
-    augroup VisualizeInvisibleSpace
-        autocmd!
-        autocmd BufEnter * call VisualizeInvisibleSpace()
-    augroup END
 endif
 "行番号を表示しない
 set nonumber
