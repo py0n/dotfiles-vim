@@ -261,9 +261,9 @@ if has("syntax")
         set cursorline
         augroup MyCursorLine
             autocmd!
+            autocmd MyCursorLine InsertEnter * set nocursorline
+            autocmd MyCursorLine InsertLeave * set cursorline
         augroup END
-        autocmd MyCursorLine InsertEnter * set nocursorline
-        autocmd MyCursorLine InsertLeave * set cursorline
 
         " 行末の空白を目立たせる。
         " 全角空白を目立たせる。
@@ -764,7 +764,7 @@ NeoBundleLazy 'ujihisa/ref-hoogle', {
  \  'depends'           : ['thinca/vim-ref'],
  \  'external_commands' : ['hoogle'],
  \  }
-NeoBundleLazy 'vim-pandoc/vim-pandoc-syntax'
+NeoBundleLazy 'vim-pandoc/vim-pandoc-syntax', {'vim_version':'7.4'}
 NeoBundleLazy 'vim-perl/vim-perl'
 
 call neobundle#end()
