@@ -218,29 +218,28 @@ if has("autocmd")
 endif
 " }}}
 
-" 検索設定 ================================================ {{{
+" Search : 検索設定 ======================================= {{{
 " 検索文字列が小文字の場合は大文字小文字を区別なく検索する
 set ignorecase
+" 検索文字列入力時に順次対象文字列にヒットさせる
+set incsearch
 " 検索文字列に大文字が含まれている場合は区別して検索する
 set smartcase
 " 検索時に最後まで行ったら最初に戻る
 set wrapscan
-" 検索文字列入力時に順次対象文字列にヒットさせる
-set incsearch
 " grepでackを使ふ
 " http://blog.blueblack.net/item_160
 " http://d.hatena.ne.jp/secondlife/20080311/1205205348
 "set grepprg=ack\ --perl
-if s:existcommand('ack-grep')
-    set grepprg=ack-grep
-elseif s:existcommand('ack')
-    set grepprg=ack
-endif
-if has("autocmd")
+if has('autocmd')
+    if s:existcommand('ack-grep')
+        set grepprg=ack-grep
+    elseif s:existcommand('ack')
+        set grepprg=ack
+    endif
     augroup MyAckGrep
-        autocmd!
+        autocmd QuickfixCmdPost grep cw
     augroup END
-    autocmd QuickfixCmdPost grep cw
 endif
 " }}}
 
@@ -253,6 +252,16 @@ if has("syntax")
     " https://github.com/itchyny/lightline.vim
     if !has('gui_running')
         set t_Co=256
+    endif
+
+    if has('win32unix')
+        " minttyでモードによってカーソルの形状を変更する 。
+        " http://koturn.hatenablog.com/entry/2013/08/13/020116
+        " http://qiita.com/usamik26/items/f733add9ca910f6c5784
+        let &t_ti.="\e[1 q" " 端末をtermcapモードにする
+        let &t_SI.="\e[5 q" " 挿入モード開始でバー型
+        let &t_EI.="\e[1 q" " 挿入モード終了でブロック型
+        let &t_te.="\e[0 q" " termcapモードを抜ける
     endif
 
     if has("autocmd")
