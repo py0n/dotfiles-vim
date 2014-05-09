@@ -137,7 +137,7 @@ if has('vim_starting')
 endif
 " }}}
 
-" 編集設定 ================================================ {{{
+" Edit : 編集設定 ========================================= {{{
 "ファイルタイプの自動識別を有効にする (':help incompatible-7' を参照)
 "更にファイルタイププラグインを有効にする。
 filetype plugin indent on
@@ -216,6 +216,11 @@ if has("autocmd")
         autocmd BufWritePre * call s:mkdir(expand('<afile>:p:h'))
     augroup END
 endif
+" 挿入モードでのESCキー押下後の待ちを無くす
+" http://ttssh2.sourceforge.jp/manual/ja/usage/tips/vim.html
+let &t_SI .= "\e[?7727h"
+let &t_EI .= "\e[?7727l"
+inoremap <special> <Esc>O[ <Esc>
 " }}}
 
 " Search : 検索設定 ======================================= {{{
@@ -228,9 +233,9 @@ set smartcase
 " 検索時に最後まで行ったら最初に戻る
 set wrapscan
 " grepでackを使ふ
+" http://beyondgrep.com/
 " http://blog.blueblack.net/item_160
 " http://d.hatena.ne.jp/secondlife/20080311/1205205348
-"set grepprg=ack\ --perl
 if has('autocmd')
     if s:existcommand('ack-grep')
         set grepprg=ack-grep
