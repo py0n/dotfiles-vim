@@ -380,6 +380,9 @@ nnoremap *  *zz
 nnoremap #  #zz
 nnoremap g* g*zz
 nnoremap g# g#zz
+" <Esc>が打ち難いので。
+" http://deris.hatenablog.jp/entry/2014/05/20/235807
+inoremap jk <Esc>
 " }}}
 
 " GUI設定 ================================================= {{{
