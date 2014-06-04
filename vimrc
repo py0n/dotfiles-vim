@@ -513,9 +513,9 @@ augroup END
 " ':h ft-javascript-omni' を参照
 augroup MyFileTypeJavaScript
     autocmd!
-    autocmd FileType javascript set shiftwidth=4
-    autocmd FileType javascript set softtabstop=4
-    autocmd FileType javascript set tabstop=4
+    autocmd FileType javascript set shiftwidth=2
+    autocmd FileType javascript set softtabstop=2
+    autocmd FileType javascript set tabstop=2
     autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
 augroup END
 " }}}
