@@ -740,6 +740,7 @@ NeoBundle 'vim-scripts/cecutil.git'
 
 NeoBundleLazy 'AndrewRadev/linediff.vim'
 NeoBundleLazy 'Lokaltog/vim-easymotion'
+NeoBundleLazy 'Shougo/context_filetype.vim'
 NeoBundleLazy 'Shougo/neocomplcache.vim'
 NeoBundleLazy 'Shougo/neosnippet.vim', {
  \  'depends' : ['Shougo/neocomplcache.vim']}
@@ -770,6 +771,7 @@ NeoBundleLazy 'mojako/ref-sources.vim', {
  \  'external_commands' : ['curl'],
  \  }
 NeoBundleLazy 'osyo-manga/vim-anzu'
+NeoBundleLazy 'osyo-manga/vim-precious'
 NeoBundleLazy 'othree/html5.vim'
 NeoBundleLazy 'scrooloose/syntastic'
 NeoBundleLazy 'sgur/ctrlp-extensions.vim', {'depends':['kien/ctrlp.vim']}
@@ -1435,6 +1437,28 @@ if neobundle#tap('vim-perl')
      \  })
 
     function! neobundle#tapped.hooks.on_source(bundle)
+    endfunction
+
+    call neobundle#untap()
+endif
+" }}}
+
+" Plugin : vim-precious =================================== {{{
+if neobundle#tap('vim-precious')
+    call neobundle#config({
+     \  'autoload': {
+     \      'filetypes': ['html']
+     \  }})
+
+    function! neobundle#tapped.hooks.on_source(bundel)
+        let g:context_filetype#filetypes = {
+         \ 'html': [
+         \     {
+         \         'start'    : '<script\%( [^>]*\)\? type="text/javascript"\%( [^>]*\)\?>',
+         \         'end'      : '</script>',
+         \         'filetype' : 'javascript',
+         \     }
+         \ ],}
     endfunction
 
     call neobundle#untap()
