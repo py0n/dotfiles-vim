@@ -243,7 +243,7 @@ if has('autocmd')
         set grepprg=ack
     endif
     augroup MyAckGrep
-        autocmd QuickfixCmdPost grep copen
+        autocmd QuickfixCmdPost grep cwindow
     augroup END
 endif
 " }}}
