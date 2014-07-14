@@ -237,7 +237,9 @@ set wrapscan
 " http://blog.blueblack.net/item_160
 " http://d.hatena.ne.jp/secondlife/20080311/1205205348
 if has('autocmd')
-    if s:existcommand('ack-grep')
+    if s:existcommand('pt')
+        set grepprg=pt
+    elseif s:existcommand('ack-grep')
         set grepprg=ack-grep
     elseif s:existcommand('ack')
         set grepprg=ack
