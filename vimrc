@@ -314,8 +314,8 @@ set showmatch matchtime=1
 " タブの左側にカーソル表示
 " http://hatena.g.hatena.ne.jp/hatenatech/20060515/1147682761
 " ※末尾の空白は必要。
-set listchars=tab:\ \ 
-set list
+"set listchars=tab:\ \ 
+"set list
 "タブ幅を設定する
 set expandtab
 set tabstop=4
