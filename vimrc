@@ -734,6 +734,7 @@ call neobundle#begin($VIMBUNDLEDIRPATH)
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'fatih/vim-go'
 NeoBundle 'gcmt/wildfire.vim'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'thinca/vim-localrc', {'disabled':has('win32unix')}
