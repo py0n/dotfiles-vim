@@ -768,6 +768,7 @@ NeoBundleLazy 'h1mesuke/unite-outline', {'depends':['Shougo/unite.vim']}
 NeoBundleLazy 'h1mesuke/vim-alignta'
 NeoBundleLazy 'kana/vim-filetype-haskell'
 NeoBundleLazy 'kien/ctrlp.vim'
+NeoBundleLazy 'koron/codic-vim'
 NeoBundleLazy 'mattn/perlvalidate-vim'
 NeoBundleLazy 'mojako/ref-sources.vim', {
  \  'depends'           : ['thinca/vim-ref'],
@@ -867,6 +868,18 @@ if neobundle#tap('ctrlp-extensions.vim')
          \  'cmdline', 'yankring', 'menu'
          \  ]
     endfunction
+
+    call neobundle#untap()
+endif
+" }}}
+
+" Plugin : codic-vim ====================================== {{{
+" https://github.com/koron/codic-vim
+if neobundle#tap('codic-vim')
+    call neobundle#config({
+     \ 'autoload': {
+     \     'commands': ['Codic'],
+     \ }})
 
     call neobundle#untap()
 endif
