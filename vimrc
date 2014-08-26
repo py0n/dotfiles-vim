@@ -187,11 +187,12 @@ set smartindent
 set nrformats&
 set nrformats-=octal
 
-" Escの反応を素早くする
-" これを使用するときはEscを含むマッピングを全て無効にする
+" Escの反応を素早くする。
+" 但し、この設定を使用するときはEscを含むマッピングを全て無効にする。
 " http://gajumaru.ddo.jp/wordpress/?p=1101
 " http://stackoverflow.com/questions/23946748/vim-imap-jk-esc-not-working-even-with-escape-character
 "set timeout timeoutlen=1000 ttimeoutlen=75
+
 " 挿入モードでのEsc押下後の待ちを無くす
 " http://ttssh2.sourceforge.jp/manual/ja/usage/tips/vim.html
 let &t_SI .= "\e[?7727h"
@@ -390,6 +391,7 @@ nnoremap *  *zz
 nnoremap #  #zz
 nnoremap g* g*zz
 nnoremap g# g#zz
+
 " Escをjkで代用する。
 " http://deris.hatenablog.jp/entry/2014/05/20/235807
 inoremap jk <Esc>
