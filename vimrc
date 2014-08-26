@@ -186,8 +186,18 @@ set smartindent
 " 8進数を無効にする (C-a, C-xなどに影響する)
 set nrformats&
 set nrformats-=octal
+
+" Escの反応を素早くする
+" これを使用するときはEscを含むマッピングを全て無効にする
 " http://gajumaru.ddo.jp/wordpress/?p=1101
-set timeout timeoutlen=1000 ttimeoutlen=75
+" http://stackoverflow.com/questions/23946748/vim-imap-jk-esc-not-working-even-with-escape-character
+"set timeout timeoutlen=1000 ttimeoutlen=75
+" 挿入モードでのEsc押下後の待ちを無くす
+" http://ttssh2.sourceforge.jp/manual/ja/usage/tips/vim.html
+let &t_SI .= "\e[?7727h"
+let &t_EI .= "\e[?7727l"
+inoremap <special> <Esc>O[ <Esc>
+
 " 上書きに成功した後で削除される
 "" Visual blockモードでフリーカーソルを有効にする
 "set virtualedit=block
@@ -216,11 +226,6 @@ if has("autocmd")
         autocmd BufWritePre * call s:mkdir(expand('<afile>:p:h'))
     augroup END
 endif
-" 挿入モードでのESCキー押下後の待ちを無くす
-" http://ttssh2.sourceforge.jp/manual/ja/usage/tips/vim.html
-let &t_SI .= "\e[?7727h"
-let &t_EI .= "\e[?7727l"
-inoremap <special> <Esc>O[ <Esc>
 " }}}
 
 " Search : 検索設定 ======================================= {{{
@@ -382,7 +387,7 @@ nnoremap *  *zz
 nnoremap #  #zz
 nnoremap g* g*zz
 nnoremap g# g#zz
-" <Esc>が打ち難いので。
+" Escをjkで代用する。
 " http://deris.hatenablog.jp/entry/2014/05/20/235807
 inoremap jk <Esc>
 " }}}
