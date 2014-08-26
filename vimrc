@@ -41,29 +41,35 @@ endfunction
 
 " テンプレート設定 ======================================== {{{
 " テンプレートのディレクトリ。
-let $TEMPLATEDIRPATH=$CFGHOME.'/template'
-call s:mkdir($TEMPLATEDIRPATH)
+if has('vim_starting')
+    let $TEMPLATEDIRPATH=$CFGHOME.'/template'
+    call s:mkdir($TEMPLATEDIRPATH)
+endif
 " }}}
 
 " バックアップ(backup)設定 ================================ {{{
-" バックアップを作成しない
-set nobackup
-" backupファイルの保管場所
-if &backup
-    let $BACKUPPDIRPATH=$CFGHOME.'/tmp'
-    call s:mkdir($BACKUPDIRPATH)
-    set backupdir=$BACKUPDIRPATH
+if has('vim_starting')
+    " バックアップを作成しない
+    set nobackup
+    " backupファイルの保管場所
+    if &backup
+        let $BACKUPPDIRPATH=$CFGHOME.'/tmp'
+        call s:mkdir($BACKUPDIRPATH)
+        set backupdir=$BACKUPDIRPATH
+    endif
 endif
 " }}}
 
 " スワップ(swap)設定 ====================================== {{{
-" スワップファイルを作成する
-set swapfile
-" swapファイルの保管場所。
-if &swapfile
-    let $SWAPDIRPATH=$CFGHOME.'/tmp'
-    call s:mkdir($SWAPDIRPATH)
-    set directory=$SWAPDIRPATH
+if has('vim_starting')
+    " スワップファイルを作成する
+    set swapfile
+    " swapファイルの保管場所。
+    if &swapfile
+        let $SWAPDIRPATH=$CFGHOME.'/tmp'
+        call s:mkdir($SWAPDIRPATH)
+        set directory=$SWAPDIRPATH
+    endif
 endif
 " }}}
 
