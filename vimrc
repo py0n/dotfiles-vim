@@ -49,8 +49,12 @@ endif
 
 " バックアップ(backup)設定 ================================ {{{
 if has('vim_starting')
-    " バックアップを作成しない
+    " バックアップファイルを作成せず。
     set nobackup
+    " ファイルを上書きする前にバックアップファイルを作成せず。
+    " このオプションがonでも'backup'がoffの時は、
+    " ファイル保存成功後にバックアップファイルは削除される。
+    set nowritebackup
     " backupファイルの保管場所
     if &backup
         let $BACKUPPDIRPATH=$CFGHOME.'/tmp'
@@ -217,9 +221,6 @@ set wildmenu
 " バッファが変更されているとき、コマンドをエラーにするのではなく、
 " 保存するかどうかを確認する
 set confirm
-" ファイルの上書きの前にバックアップを作らない
-" backupがonで無い限り、いづれにせよ上書き前のバックアップは
-set nowritebackup
 " 今日の日付を入れておく。
 " http://nanasi.jp/articles/howto/file/workingfile.html#id22
 if exists("*strftime")
