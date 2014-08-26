@@ -39,9 +39,9 @@ function! s:existcommand(cmd)
 endfunction
 " }}}
 
-" テンプレート設定 ======================================== {{{
-" テンプレートのディレクトリ。
+" テンプレート(template)設定 ============================== {{{
 if has('vim_starting')
+    " テンプレートのディレクトリ。
     let $TEMPLATEDIRPATH=$CFGHOME.'/template'
     call s:mkdir($TEMPLATEDIRPATH)
 endif
