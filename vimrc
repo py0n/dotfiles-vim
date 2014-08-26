@@ -237,10 +237,12 @@ set incsearch
 set smartcase
 " 検索時に最後まで行ったら最初に戻る
 set wrapscan
-" grepでackを使ふ
+
+" grepでptまたはackを使用。
 " http://beyondgrep.com/
 " http://blog.blueblack.net/item_160
 " http://d.hatena.ne.jp/secondlife/20080311/1205205348
+" https://github.com/monochromegane/the_platinum_searcher
 if has('autocmd')
     if s:existcommand('pt')
         set grepprg=pt
@@ -250,6 +252,7 @@ if has('autocmd')
         set grepprg=ack
     endif
     augroup MyAckGrep
+        autocmd!
         autocmd QuickfixCmdPost grep cwindow
     augroup END
 endif
