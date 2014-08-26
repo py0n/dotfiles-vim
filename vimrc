@@ -209,7 +209,6 @@ let &t_SI .= "\e[?7727h"
 let &t_EI .= "\e[?7727l"
 inoremap <special> <Esc>O[ <Esc>
 
-" 上書きに成功した後で削除される
 "" Visual blockモードでフリーカーソルを有効にする
 "set virtualedit=block
 "" カーソルキーで行末/行頭を移動可能に設定
