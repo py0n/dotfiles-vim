@@ -1402,6 +1402,8 @@ if neobundle#tap('vim-easymotion')
 
     function! neobundle#tapped.hooks.on_source(bundle)
         " Disable default mappings
+        " If you are true vimmer, you should explicitly map keys by yourself.
+        " Do not rely on default bidings.
         let g:EasyMotion_do_mapping = 0
         " n-character serach motion
         map  / <Plug>(easymotion-sn)
@@ -1411,8 +1413,8 @@ if neobundle#tap('vim-easymotion')
         map <Space>j <Plug>(easymotion-j)
         map <Space>k <Plug>(easymotion-k)
         map <Leader>l <Plug>(easymotion-lineforward)
-
-        let g:EasyMotion_startofline = 0 " keep cursor colum when JK motion
+        " keep cursor colum when JK motion
+        let g:EasyMotion_startofline = 0
     endfunction
 
     call neobundle#untap()
