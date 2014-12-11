@@ -166,6 +166,7 @@ if &loadplugins
     NeoBundleLazy 'airblade/vim-gitgutter', {'vim_version':'7.3.105'}
     NeoBundleLazy 'airblade/vim-rooter'
     NeoBundleLazy 'c9s/perlomni.vim'
+    NeoBundleLazy 'cohama/agit.vim'
     NeoBundleLazy 'eagletmt/ghcmod-vim', {
      \  'depends'           : ['Shougo/vimproc'],
      \  'external_commands' : ['ghc-mod'],
@@ -218,6 +219,18 @@ if &loadplugins
         echomsg 'Please execute ":NeoBundleInstall" command.'
         finish
     endif
+
+    " Plguin : Agit.vim ======================================= {{{
+    " https://github.com/cohama/agit.vim
+    if neobundle#tap('agit.vim')
+        call neobundle#config({
+         \ 'autoload': {
+         \     'commands':['Agit', 'AgitFile'],
+         \ }})
+
+        call neobundle#untap()
+    endif
+    " }}}
 
     " Plugin : Cscope ========================================= {{{
     " http://cscope.sourceforge.net/
