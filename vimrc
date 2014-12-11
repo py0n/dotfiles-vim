@@ -1,58 +1,61 @@
 " http://rbtnn.hateblo.jp/entry/2014/11/30/174749
 " http://www.kawaz.jp/pukiwiki/?vim#cb691f26
 if has('vim_starting')
+    if !has('iconv') || !has('multi_byte')
+        echoerr "Recompile with +iconv and +multi_bute !"
+        finish
+    endif
+
     if &encoding !=# 'utf-8'
         set encoding=japan
         set fileencoding=japan
     endif
-    if has('multi_byte')
-        scriptencoding utf-8
-    endif
+
+    scriptencoding utf-8
 
     " 文字コード自動判定 ====================================== {{{
     " http://www.kawaz.jp/pukiwiki/?vim#cb691f26
-    if has('iconv')
-        let s:enc_euc = 'euc-jp'
-        let s:enc_jis = 'iso-2022-jp'
-        " iconvがeucJP-msに対応しているかをチェック
-        if iconv("\x87\x64\x87\x6a", 'cp932', 'eucjp-ms') ==# "\xad\xc5\xad\xcb"
-            let s:enc_euc = 'eucjp-ms'
-            let s:enc_jis = 'iso-2022-jp-3'
-            " iconvがJISX0213に対応しているかをチェック
-        elseif iconv("\x87\x64\x87\x6a", 'cp932', 'euc-jisx0213') ==# "\xad\xc5\xad\xcb"
-            let s:enc_euc = 'euc-jisx0213'
-            let s:enc_jis = 'iso-2022-jp-3'
-        endif
-        " fileencodingsを構築
-        if &encoding ==# 'utf-8'
-            let s:fileencodings_default = &fileencodings
-            if has('mac')
-                let &fileencodings = s:enc_jis .','. s:enc_euc
-                let &fileencodings = &fileencodings .','. s:fileencodings_default
-            else
-                let &fileencodings = s:enc_jis .','. s:enc_euc .',cp932'
-                let &fileencodings = &fileencodings .','. s:fileencodings_default
-            endif
-            unlet s:fileencodings_default
-        else
-            let &fileencodings = &fileencodings .','. s:enc_jis
-            set fileencodings&
-            set fileencodings+=utf-8,ucs-2le,ucs-2
-            if &encoding =~# '^\(euc-jp\|euc-jisx0213\|eucjp-ms\)$'
-                set fileencodings+=cp932
-                set fileencodings-=euc-jp
-                set fileencodings-=euc-jisx0213
-                set fileencodings-=eucjp-ms
-                let &encoding = s:enc_euc
-                let &fileencoding = s:enc_euc
-            else
-                let &fileencodings = &fileencodings .','. s:enc_euc
-            endif
-        endif
-        " 定数を処分
-        unlet s:enc_euc
-        unlet s:enc_jis
+    let s:enc_euc = 'euc-jp'
+    let s:enc_jis = 'iso-2022-jp'
+    " iconvがeucJP-msに対応しているかをチェック
+    if iconv("\x87\x64\x87\x6a", 'cp932', 'eucjp-ms') ==# "\xad\xc5\xad\xcb"
+        let s:enc_euc = 'eucjp-ms'
+        let s:enc_jis = 'iso-2022-jp-3'
+        " iconvがJISX0213に対応しているかをチェック
+    elseif iconv("\x87\x64\x87\x6a", 'cp932', 'euc-jisx0213') ==# "\xad\xc5\xad\xcb"
+        let s:enc_euc = 'euc-jisx0213'
+        let s:enc_jis = 'iso-2022-jp-3'
     endif
+    " fileencodingsを構築
+    if &encoding ==# 'utf-8'
+        let s:fileencodings_default = &fileencodings
+        if has('mac')
+            let &fileencodings = s:enc_jis .','. s:enc_euc
+            let &fileencodings = &fileencodings .','. s:fileencodings_default
+        else
+            let &fileencodings = s:enc_jis .','. s:enc_euc .',cp932'
+            let &fileencodings = &fileencodings .','. s:fileencodings_default
+        endif
+        unlet s:fileencodings_default
+    else
+        let &fileencodings = &fileencodings .','. s:enc_jis
+        set fileencodings&
+        set fileencodings+=utf-8,ucs-2le,ucs-2
+        if &encoding =~# '^\(euc-jp\|euc-jisx0213\|eucjp-ms\)$'
+            set fileencodings+=cp932
+            set fileencodings-=euc-jp
+            set fileencodings-=euc-jisx0213
+            set fileencodings-=eucjp-ms
+            let &encoding = s:enc_euc
+            let &fileencoding = s:enc_euc
+        else
+            let &fileencodings = &fileencodings .','. s:enc_euc
+        endif
+    endif
+    " 定数を処分
+    unlet s:enc_euc
+    unlet s:enc_jis
+
     " 日本語を含まない場合はfileencodingにencodingを使うようにする
     if has('autocmd')
         function! AU_ReCheck_FENC()
@@ -80,10 +83,8 @@ endif
 function! s:mkdir(dir)
     if isdirectory(a:dir)
         return
-    elseif has('iconv') && has('multi_byte')
-        call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
     else
-        echomsg "Can't mkdir ".a:dir.", recompile with +iconv and +multi_bute."
+        call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
     endif
 endfunction
 function! s:existcommand(cmd)
@@ -419,19 +420,17 @@ if &loadplugins
             let uniHex = 'U+' . uniHex
 
             " iconvが利用可能ならfileencodingでの文字コードも表示する
-            if has('iconv') && has('multi_byte')
-                let fencStr = iconv(char, &encoding, &fileencoding)
-                let fencHex = ''
-                for i in range(strlen(fencStr))
-                    let fencHex = fencHex . printf('%X', char2nr(fencStr[i]))
-                endfor
-                let fencHex = '0x' . (strlen(fencHex) % 2 == 1 ? '0' : '') . fencHex
+            let fencStr = iconv(char, &encoding, &fileencoding)
+            let fencHex = ''
+            for i in range(strlen(fencStr))
+                let fencHex = fencHex . printf('%X', char2nr(fencStr[i]))
+            endfor
+            let fencHex = '0x' . (strlen(fencHex) % 2 == 1 ? '0' : '') . fencHex
 
-                let l:ccl = "'" . char . "' " . fencHex . " (" . uniHex . ")"
+            let l:ccl = "'" . char . "' " . fencHex . " (" . uniHex . ")"
 
-                if s:is_display(strlen(l:ccl), 'MyCharCode')
-                    return l:ccl
-                endif
+            if s:is_display(strlen(l:ccl), 'MyCharCode')
+                return l:ccl
             endif
 
             let l:ccs = "'" . char . "' (" . uniHex . ")"
@@ -1101,9 +1100,7 @@ if &loadplugins
         " http://vimwiki.net/?tips%2F98
         function! GetB()
             let c = matchstr(getline('.'), '.', col('.') - 1)
-            if has('iconv') && has('multi_byte')
-                let c = iconv(c, &enc, &fenc)
-            endif
+            let c = iconv(c, &enc, &fenc)
             return String2Hex(c)
         endfunction
         " :help eval-examples
