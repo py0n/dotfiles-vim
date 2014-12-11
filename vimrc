@@ -1,5 +1,6 @@
 " http://rbtnn.hateblo.jp/entry/2014/11/30/174749
 " http://www.kawaz.jp/pukiwiki/?vim#cb691f26
+" 起動時 ================================================== {{{
 if has('vim_starting')
     if !has('autocmd')
         echoerr "Recompile with +autocmd !"
@@ -19,7 +20,7 @@ if has('vim_starting')
 
     scriptencoding utf-8
 
-    " 文字コード自動判定 ====================================== {{{
+    " 文字コード自動判定 ===================================== {{{
     " http://www.kawaz.jp/pukiwiki/?vim#cb691f26
     let s:enc_euc = 'euc-jp'
     let s:enc_jis = 'iso-2022-jp'
@@ -84,6 +85,7 @@ if has('vim_starting')
 
     let s:rc_dir = fnamemodify($MYVIMRC, ":p:h")
 endif
+" }}}
 
 " 函數 ==================================================== {{{
 function! s:mkdir(dir)
