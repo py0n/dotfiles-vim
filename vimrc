@@ -1,8 +1,14 @@
 " http://rbtnn.hateblo.jp/entry/2014/11/30/174749
 " http://www.kawaz.jp/pukiwiki/?vim#cb691f26
 if has('vim_starting')
-    if !has('iconv') || !has('multi_byte')
-        echoerr "Recompile with +iconv and +multi_bute !"
+    if !has('autocmd')
+        echoerr "Recompile with +autocmd !"
+        finish
+    elseif !has('iconv')
+        echoerr "Recompile with +iconv !"
+        finish
+    elseif !has('multi_byte')
+        echoerr "Recompile with +multi_bute !"
         finish
     endif
 
@@ -57,19 +63,19 @@ if has('vim_starting')
     unlet s:enc_jis
 
     " 日本語を含まない場合はfileencodingにencodingを使うようにする
-    if has('autocmd')
-        function! AU_ReCheck_FENC()
-            if &fileencoding =~# 'iso-2022-jp' && search("[^\x01-\x7e]", 'n') == 0
-                let &fileencoding=&encoding
-            endif
-        endfunction
-        augroup MyCheckEnc
-            autocmd!
-        augroup END
-        autocmd MyCheckEnc BufReadPost * call AU_ReCheck_FENC()
-    endif
+    function! AU_ReCheck_FENC()
+        if &fileencoding =~# 'iso-2022-jp' && search("[^\x01-\x7e]", 'n') == 0
+            let &fileencoding=&encoding
+        endif
+    endfunction
+    augroup MyCheckEnc
+        autocmd!
+        autocmd BufReadPost * call AU_ReCheck_FENC()
+    augroup END
+
     " 改行コードの自動認識
     set fileformats=unix,dos,mac
+
     " □とか○の文字があってもカーソル位置がずれないようにする
     if exists('&ambiwidth')
         set ambiwidth=double
@@ -1083,7 +1089,7 @@ if &loadplugins
     " lightline.vimが共に無効である時の設定。
     if !neobundle#is_installed('lightline.vim')
         " 挿入モードの際、ステータスラインの色を変更する。
-        if has('autocmd') && has('syntax')
+        if has('syntax')
             function! IntoInsertMode()
                 highlight StatusLine guifg=darkblue guibg=darkyellow gui=none ctermfg=blue ctermbg=yellow cterm=none
             endfunction
@@ -1235,12 +1241,10 @@ set wildmenu
 set confirm
 " 自動的にディレクトリを作成する。
 " http://vim-users.jp/2011/02/hack202/
-if has("autocmd")
-    augroup MyAutoMkdir
-        autocmd!
-        autocmd BufWritePre * call s:mkdir(expand('<afile>:p:h'))
-    augroup END
-endif
+augroup MyAutoMkdir
+    autocmd!
+    autocmd BufWritePre * call s:mkdir(expand('<afile>:p:h'))
+augroup END
 " }}}
 
 " Search : 検索設定 ======================================= {{{
@@ -1258,19 +1262,17 @@ set wrapscan
 " http://blog.blueblack.net/item_160
 " http://d.hatena.ne.jp/secondlife/20080311/1205205348
 " https://github.com/monochromegane/the_platinum_searcher
-if has('autocmd')
-    if s:existcommand('pt')
-        set grepprg=pt
-    elseif s:existcommand('ack-grep')
-        set grepprg=ack-grep
-    elseif s:existcommand('ack')
-        set grepprg=ack
-    endif
-    augroup MyAckGrep
-        autocmd!
-        autocmd QuickfixCmdPost grep cwindow
-    augroup END
+if s:existcommand('pt')
+    set grepprg=pt
+elseif s:existcommand('ack-grep')
+    set grepprg=ack-grep
+elseif s:existcommand('ack')
+    set grepprg=ack
 endif
+augroup MyAckGrep
+    autocmd!
+    autocmd QuickfixCmdPost grep cwindow
+augroup END
 " }}}
 
 " Decoration : 装飾設定 =================================== {{{
@@ -1294,29 +1296,27 @@ if has("syntax")
         let &t_te.="\e[0 q" " termcapモードを抜ける
     endif
 
-    if has("autocmd")
-        " ノーマルモードで行を目立たせる
-        " http://blog.remora.cx/2012/10/spotlight-cursor-line.html
-        set cursorline
-        augroup MyCursorLine
-            autocmd!
-            autocmd MyCursorLine InsertEnter * set nocursorline
-            autocmd MyCursorLine InsertLeave * set cursorline
-        augroup END
+    " ノーマルモードで行を目立たせる
+    " http://blog.remora.cx/2012/10/spotlight-cursor-line.html
+    set cursorline
+    augroup MyCursorLine
+        autocmd!
+        autocmd MyCursorLine InsertEnter * set nocursorline
+        autocmd MyCursorLine InsertLeave * set cursorline
+    augroup END
 
-        " 行末の空白を目立たせる。
-        " 全角空白を目立たせる。
-        " http://d.hatena.ne.jp/tasukuchan/20070816/1187246177
-        " http://sites.google.com/site/fudist/Home/vim-nihongo-ban/-vimrc-sample#TOC-4
-        function! VisualizeInvisibleSpace()
-            highlight InvisibleSpace term=underline ctermbg=red guibg=red
-            match InvisibleSpace /　\|[　	 ]\+$/
-        endfunction
-        augroup VisualizeInvisibleSpace
-            autocmd!
-            autocmd BufEnter * call VisualizeInvisibleSpace()
-        augroup END
-    endif
+    " 行末の空白を目立たせる。
+    " 全角空白を目立たせる。
+    " http://d.hatena.ne.jp/tasukuchan/20070816/1187246177
+    " http://sites.google.com/site/fudist/Home/vim-nihongo-ban/-vimrc-sample#TOC-4
+    function! VisualizeInvisibleSpace()
+        highlight InvisibleSpace term=underline ctermbg=red guibg=red
+        match InvisibleSpace /　\|[　	 ]\+$/
+    endfunction
+    augroup VisualizeInvisibleSpace
+        autocmd!
+        autocmd BufEnter * call VisualizeInvisibleSpace()
+    augroup END
 endif
 "行番号を表示しない
 set nonumber
