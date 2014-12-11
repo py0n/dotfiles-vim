@@ -1405,9 +1405,11 @@ if neobundle#tap('vim-easymotion')
         " If you are true vimmer, you should explicitly map keys by yourself.
         " Do not rely on default bidings.
         let g:EasyMotion_do_mapping = 0
+
         " n-character serach motion
         map  / <Plug>(easymotion-sn)
         omap / <Plug>(easymotion-tn)
+
         " hjkl motions
         map <Leader>h <Plug>(easymotion-linebackward)
         map <Space>j <Plug>(easymotion-j)
@@ -1415,6 +1417,10 @@ if neobundle#tap('vim-easymotion')
         map <Leader>l <Plug>(easymotion-lineforward)
         " keep cursor colum when JK motion
         let g:EasyMotion_startofline = 0
+
+        " Show target key with upper case to improve readability
+        let g:EasyMotion_keys = ';HKLYUIOPNM,QWERTASDGZXCVBJF'
+        let g:EasyMotion_use_upper = 1
     endfunction
 
     call neobundle#untap()
