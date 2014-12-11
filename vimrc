@@ -1397,7 +1397,7 @@ endif
 " https://github.com/Lokaltog/vim-easymotion
 if neobundle#tap('vim-easymotion')
     call neobundle#config({
-     \  'autoload': {'mappings': ['/', '<Leader>h', '<Leader>j', '<Leader>k', '<Leader>l']}
+     \  'autoload': {'mappings': ['/', '<Leader>h', '<Space>j', '<Space>k', '<Leader>l']}
      \ })
 
     function! neobundle#tapped.hooks.on_source(bundle)
@@ -1408,8 +1408,8 @@ if neobundle#tap('vim-easymotion')
         omap / <Plug>(easymotion-tn)
         " hjkl motions
         map <Leader>h <Plug>(easymotion-linebackward)
-        map <Leader>j <Plug>(easymotion-j)
-        map <Leader>k <Plug>(easymotion-k)
+        map <Space>j <Plug>(easymotion-j)
+        map <Space>k <Plug>(easymotion-k)
         map <Leader>l <Plug>(easymotion-lineforward)
 
         let g:EasyMotion_startofline = 0 " keep cursor colum when JK motion
