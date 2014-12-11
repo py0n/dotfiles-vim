@@ -1476,7 +1476,7 @@ if has('win32') || has('win32unix') || has('win64')
 elseif has('unix')
     let $LOCALRC = expand('~/.vimrc.local')
 endif
-if !empty($LOCALRC)
+if filereadable($LOCALRC)
     source $LOCALRC
 endif
 " }}}
