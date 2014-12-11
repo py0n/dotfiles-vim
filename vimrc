@@ -695,7 +695,11 @@ if &loadplugins
     if neobundle#tap('vim-alignta')
         call neobundle#config({
          \  'autoload': {
-         \      'commands': ['Alignta', 'Align'],
+         \      'commands': [
+         \          'Align',
+         \          'AlignTsp',
+         \          'Alignta',
+         \      ],
          \  }})
 
         function! neobundle#tapped.hooks.on_source(bundle)
@@ -704,6 +708,9 @@ if &loadplugins
             let g:Align_xstrlen=3
             " AlignCtrlで変更した設定を初期状態に戻す
             command! -nargs=0 AlignReset call Align#AlignCtrl("default")
+            " 空白揃へ (ref. \tsp or \Tsp)
+            " http://nanasi.jp/articles/vim/align/align_vim_mapt.html
+            command! -range -nargs=? AlignTsp :<line1>,<line2>Alignta <args> \S\+
         endfunction
 
         call neobundle#untap()
