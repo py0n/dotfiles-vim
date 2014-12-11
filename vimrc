@@ -1407,7 +1407,14 @@ if neobundle#tap('vim-easymotion')
         let g:EasyMotion_do_mapping = 0
 
         " n-character serach motion
-        map  / <Plug>(easymotion-sn)
+        " Extend search motions with vital-over command line interface
+        " Incremental highlight of all the matches
+        " Now, you don't need to repetitively press `n` or `N` with
+        " EasyMotion feature
+        " `<Tab>` & `<S-Tab>` to scroll up/down a page with next match
+        " :h easymotion-command-line
+        nmap / <Plug>(easymotion-sn)
+        xmap / <Plug>(easymotion-sn)
         omap / <Plug>(easymotion-tn)
 
         " hjkl motions
