@@ -1236,11 +1236,6 @@ set wildmenu
 " バッファが変更されているとき、コマンドをエラーにするのではなく、
 " 保存するかどうかを確認する
 set confirm
-" 今日の日付を入れておく。
-" http://nanasi.jp/articles/howto/file/workingfile.html#id22
-if exists("*strftime")
-    let $TODAY = strftime('%Y%m%d')
-endif
 " 自動的にディレクトリを作成する。
 " http://vim-users.jp/2011/02/hack202/
 if has("autocmd")
@@ -1488,12 +1483,6 @@ endif
 " }}}
 
 " }}}
-
-" 以降の處理では *autocmd* を多用するので無効なら此處でスキップ。
-if !has('autocmd')
-    echomsg 'Please enable +autocmd.'
-    finish
-endif
 
 " FileType : ファイルタイプ別設定 ========================= {{{
 
