@@ -95,7 +95,7 @@ function! s:mkdir(dir)
         call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
     endif
 endfunction
-function! s:existcommand(cmd)
+function! s:is_command(cmd)
     return !empty(findfile(a:cmd, substitute($PATH, ':', ',', 'g')))
 endfunction
 " }}}
@@ -123,7 +123,7 @@ if &loadplugins
     " neobundle.vimが無くてもgitコマンドが存在すれは
     " githubから持ってくる。
     if !filereadable(s:neobundle_file_path)
-        if (has('unix') || has('win32unix')) && s:existcommand('git')
+        if (has('unix') || has('win32unix')) && s:is_command('git')
             " https://github.com/joedicastro/dotfiles/blob/master/vim/vimrc
             silent !git clone https://github.com/Shougo/neobundle.vim
              \  s:neobundle_dir_path
@@ -1263,11 +1263,11 @@ set wrapscan
 " http://blog.blueblack.net/item_160
 " http://d.hatena.ne.jp/secondlife/20080311/1205205348
 " https://github.com/monochromegane/the_platinum_searcher
-if s:existcommand('pt')
+if s:is_command('pt')
     set grepprg=pt
-elseif s:existcommand('ack-grep')
+elseif s:is_command('ack-grep')
     set grepprg=ack-grep
-elseif s:existcommand('ack')
+elseif s:is_command('ack')
     set grepprg=ack
 endif
 augroup MyAckGrep
