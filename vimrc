@@ -171,7 +171,6 @@ if &loadplugins
      \  'external_commands' : ['ghc-mod'],
      \  }
     NeoBundleLazy 'ervandew/supertab'
-    NeoBundleLazy 'gregsexton/gitv', {'depends':['tpope/vim-fugitive']}
     NeoBundleLazy 'h1mesuke/unite-outline', {'depends':['Shougo/unite.vim']}
     NeoBundleLazy 'h1mesuke/vim-alignta'
     NeoBundleLazy 'kana/vim-filetype-haskell'
@@ -750,31 +749,11 @@ if &loadplugins
          \  'autoload': {
          \      'commands': ['Gblame', 'Gdiff', 'Gwrite'],
          \      'function_prefix': 'fugitive',
-         \      'on_source': ['gitv'],
          \  }})
 
         " http://leafcage.hateblo.jp/entry/nebulavim_intro
         function! neobundle#tapped.hooks.on_post_source(bundle)
             doautoall fugitive BufNewFile
-        endfunction
-
-        call neobundle#untap()
-    endif
-
-    " https://github.com/gregsexton/gitv
-    " http://cohama.hateblo.jp/entry/20120417/1334679297
-    " http://cohama.hateblo.jp/entry/20130517/1368806202
-    if neobundle#tap('gitv')
-        call neobundle#config({
-         \  'autoload': {
-         \      'commands': ['Gitv'],
-         \  }})
-
-        function! neobundle#tapped.hooks.on_source(bundle)
-            augroup Gitv
-                autocmd!
-                autocmd FileType git :setlocal foldlevel=99
-            augroup END
         endfunction
 
         call neobundle#untap()
