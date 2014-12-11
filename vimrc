@@ -9,65 +9,8 @@ if has('vim_starting')
         scriptencoding utf-8
     endif
 
-    let s:rc_dir = fnamemodify($MYVIMRC, ":p:h")
-endif
-
-" 函數 ==================================================== {{{
-function! s:mkdir(dir)
-    if isdirectory(a:dir)
-        return
-    elseif has('iconv') && has('multi_byte')
-        call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
-    else
-        echomsg "Can't mkdir ".a:dir.", recompile with +iconv and +multi_bute."
-    endif
-endfunction
-function! s:existcommand(cmd)
-    return !empty(findfile(a:cmd, substitute($PATH, ':', ',', 'g')))
-endfunction
-" }}}
-
-" テンプレート(template)設定 ============================== {{{
-if has('vim_starting')
-    " テンプレートのディレクトリ。
-    let $TEMPLATEDIRPATH=s:rc_dir.'/template'
-    call s:mkdir($TEMPLATEDIRPATH)
-endif
-" }}}
-
-" バックアップ(backup)設定 ================================ {{{
-if has('vim_starting')
-    " バックアップファイルを作成せず。
-    set nobackup
-    " ファイルを上書きする前にバックアップファイルを作成せず。
-    " このオプションがonでも'backup'がoffの時は、
-    " ファイル保存成功後にバックアップファイルは削除される。
-    set nowritebackup
-    " backupファイルの保管場所
-    if &backup
-        let $BACKUPPDIRPATH=s:rc_dir.'/tmp'
-        call s:mkdir($BACKUPDIRPATH)
-        set backupdir=$BACKUPDIRPATH
-    endif
-endif
-" }}}
-
-" スワップ(swap)設定 ====================================== {{{
-if has('vim_starting')
-    " スワップファイルを作成する
-    set swapfile
-    " swapファイルの保管場所。
-    if &swapfile
-        let $SWAPDIRPATH=s:rc_dir.'/tmp'
-        call s:mkdir($SWAPDIRPATH)
-        set directory=$SWAPDIRPATH
-    endif
-endif
-" }}}
-
-" 文字コード自動判定 ====================================== {{{
-" http://www.kawaz.jp/pukiwiki/?vim#cb691f26
-if has('vim_starting')
+    " 文字コード自動判定 ====================================== {{{
+    " http://www.kawaz.jp/pukiwiki/?vim#cb691f26
     if has('iconv')
         let s:enc_euc = 'euc-jp'
         let s:enc_jis = 'iso-2022-jp'
@@ -127,6 +70,61 @@ if has('vim_starting')
     " □とか○の文字があってもカーソル位置がずれないようにする
     if exists('&ambiwidth')
         set ambiwidth=double
+    endif
+    " }}}
+
+    let s:rc_dir = fnamemodify($MYVIMRC, ":p:h")
+endif
+
+" 函數 ==================================================== {{{
+function! s:mkdir(dir)
+    if isdirectory(a:dir)
+        return
+    elseif has('iconv') && has('multi_byte')
+        call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
+    else
+        echomsg "Can't mkdir ".a:dir.", recompile with +iconv and +multi_bute."
+    endif
+endfunction
+function! s:existcommand(cmd)
+    return !empty(findfile(a:cmd, substitute($PATH, ':', ',', 'g')))
+endfunction
+" }}}
+
+" テンプレート(template)設定 ============================== {{{
+if has('vim_starting')
+    " テンプレートのディレクトリ。
+    let $TEMPLATEDIRPATH=s:rc_dir.'/template'
+    call s:mkdir($TEMPLATEDIRPATH)
+endif
+" }}}
+
+" バックアップ(backup)設定 ================================ {{{
+if has('vim_starting')
+    " バックアップファイルを作成せず。
+    set nobackup
+    " ファイルを上書きする前にバックアップファイルを作成せず。
+    " このオプションがonでも'backup'がoffの時は、
+    " ファイル保存成功後にバックアップファイルは削除される。
+    set nowritebackup
+    " backupファイルの保管場所
+    if &backup
+        let $BACKUPPDIRPATH=s:rc_dir.'/tmp'
+        call s:mkdir($BACKUPDIRPATH)
+        set backupdir=$BACKUPDIRPATH
+    endif
+endif
+" }}}
+
+" スワップ(swap)設定 ====================================== {{{
+if has('vim_starting')
+    " スワップファイルを作成する
+    set swapfile
+    " swapファイルの保管場所。
+    if &swapfile
+        let $SWAPDIRPATH=s:rc_dir.'/tmp'
+        call s:mkdir($SWAPDIRPATH)
+        set directory=$SWAPDIRPATH
     endif
 endif
 " }}}
