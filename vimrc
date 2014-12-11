@@ -1135,40 +1135,31 @@ endif
 " }}}
 
 " テンプレート(template)設定 ============================== {{{
-if has('vim_starting')
-    " テンプレートのディレクトリ。
-    let $TEMPLATEDIRPATH=s:rc_dir.'/template'
-    call s:mkdir($TEMPLATEDIRPATH)
-endif
+" テンプレートのディレクトリ。
+call s:mkdir(s:rc_dir.'/template')
 " }}}
 
 " バックアップ(backup)設定 ================================ {{{
-if has('vim_starting')
-    " バックアップファイルを作成せず。
-    set nobackup
-    " ファイルを上書きする前にバックアップファイルを作成せず。
-    " このオプションがonでも'backup'がoffの時は、
-    " ファイル保存成功後にバックアップファイルは削除される。
-    set nowritebackup
-    " backupファイルの保管場所
-    if &backup
-        let $BACKUPPDIRPATH=s:rc_dir.'/tmp'
-        call s:mkdir($BACKUPDIRPATH)
-        set backupdir=$BACKUPDIRPATH
-    endif
+" バックアップファイルを作成せず。
+set nobackup
+" ファイルを上書きする前にバックアップファイルを作成せず。
+" このオプションがonでも'backup'がoffの時は、
+" ファイル保存成功後にバックアップファイルは削除される。
+set nowritebackup
+" backupファイルの保管場所
+if &backup
+    let &g:backupdir = s:rc_dir . '/tmp'
+    call s:mkdir(&g:backup_dir)
 endif
 " }}}
 
 " スワップ(swap)設定 ====================================== {{{
-if has('vim_starting')
-    " スワップファイルを作成する
-    set swapfile
-    " swapファイルの保管場所。
-    if &swapfile
-        let $SWAPDIRPATH=s:rc_dir.'/tmp'
-        call s:mkdir($SWAPDIRPATH)
-        set directory=$SWAPDIRPATH
-    endif
+" スワップファイルを作成する
+set swapfile
+" swapファイルの保管場所。
+if &swapfile
+    let &g:directory = s:rc_dir . '/tmp'
+    call s:mkdir(&g:directory)
 endif
 " }}}
 
