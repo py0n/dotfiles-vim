@@ -1,3 +1,15 @@
+" http://rbtnn.hateblo.jp/entry/2014/11/30/174749
+" http://www.kawaz.jp/pukiwiki/?vim#cb691f26
+if has('vim_starting')
+    if &encoding !=# 'utf-8'
+        set encoding=japan
+        set fileencoding=japan
+    endif
+    if has('multi_byte')
+        scriptencoding utf-8
+    endif
+endif
+
 " Vim 7.x 用の設定。
 
 " 基本は以下の URL を參照にした。
@@ -6,10 +18,6 @@
 " http://vimwiki.net/?vimrc/9
 " http://www.kawaz.jp/pukiwiki/?vim#hb6f6961
 
-" 本設定ファイルのエンコーディングを指定する
-if has('multi_byte')
-    scriptencoding utf-8
-endif
 " *NIX, Win32, Cygwinでのパスの違いを吸収する
 if has('win32') || has('win32unix') || has('win64')
     let $CFGHOME=expand('~/vimfiles')
@@ -78,10 +86,6 @@ endif
 " 文字コード自動判定 ====================================== {{{
 " http://www.kawaz.jp/pukiwiki/?vim#cb691f26
 if has('vim_starting')
-    if &encoding !=# 'utf-8'
-        set encoding=japan
-        set fileencoding=japan
-    endif
     if has('iconv')
         let s:enc_euc = 'euc-jp'
         let s:enc_jis = 'iso-2022-jp'
