@@ -371,8 +371,8 @@ nnoremap gj j
 nnoremap gk k
 " 行頭、行末移動を押し易くする
 " http://deris.hatenablog.jp/entry/2013/05/02/192415
-noremap  <Space>h ^
-noremap  <Space>l $
+"noremap  <Space>h ^ "vim-easymotionの為にコメントアウト
+"noremap  <Space>l $ "vim-easymotionの為にコメントアウト
 noremap  <Space>m %
 nnoremap <Space>/ *zz
 " 中段を維持しながら上下移動
@@ -1397,7 +1397,7 @@ endif
 " https://github.com/Lokaltog/vim-easymotion
 if neobundle#tap('vim-easymotion')
     call neobundle#config({
-     \  'autoload': {'mappings': ['/', '<Leader>h', '<Space>j', '<Space>k', '<Leader>l']}
+     \  'autoload': {'mappings': ['/', '<Space>h', '<Space>j', '<Space>k', '<Space>l']}
      \ })
 
     function! neobundle#tapped.hooks.on_source(bundle)
@@ -1418,10 +1418,10 @@ if neobundle#tap('vim-easymotion')
         omap / <Plug>(easymotion-tn)
 
         " hjkl motions
-        map <Leader>h <Plug>(easymotion-linebackward)
+        map <Space>h <Plug>(easymotion-linebackward)
         map <Space>j <Plug>(easymotion-j)
         map <Space>k <Plug>(easymotion-k)
-        map <Leader>l <Plug>(easymotion-lineforward)
+        map <Space>l <Plug>(easymotion-lineforward)
         " keep cursor colum when JK motion
         let g:EasyMotion_startofline = 0
 
