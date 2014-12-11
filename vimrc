@@ -8,14 +8,14 @@ if has('vim_starting')
     if has('multi_byte')
         scriptencoding utf-8
     endif
+
+    let s:rc_dir = fnamemodify($MYVIMRC, ":p:h")
 endif
 
 " *NIX, Win32, Cygwinでのパスの違いを吸収する
 if has('win32') || has('win32unix') || has('win64')
-    let $CFGHOME=expand('~/vimfiles')
     let $LOCALRC=expand('~/_vimrc.local')
 elseif has('unix')
-    let $CFGHOME=expand('~/.vim')
     let $LOCALRC=expand('~/.vimrc.local')
 else
     echomsg "Not Windows and not UNIX, use default configuration."
@@ -40,7 +40,7 @@ endfunction
 " テンプレート(template)設定 ============================== {{{
 if has('vim_starting')
     " テンプレートのディレクトリ。
-    let $TEMPLATEDIRPATH=$CFGHOME.'/template'
+    let $TEMPLATEDIRPATH=s:rc_dir.'/template'
     call s:mkdir($TEMPLATEDIRPATH)
 endif
 " }}}
@@ -55,7 +55,7 @@ if has('vim_starting')
     set nowritebackup
     " backupファイルの保管場所
     if &backup
-        let $BACKUPPDIRPATH=$CFGHOME.'/tmp'
+        let $BACKUPPDIRPATH=s:rc_dir.'/tmp'
         call s:mkdir($BACKUPDIRPATH)
         set backupdir=$BACKUPDIRPATH
     endif
@@ -68,7 +68,7 @@ if has('vim_starting')
     set swapfile
     " swapファイルの保管場所。
     if &swapfile
-        let $SWAPDIRPATH=$CFGHOME.'/tmp'
+        let $SWAPDIRPATH=s:rc_dir.'/tmp'
         call s:mkdir($SWAPDIRPATH)
         set directory=$SWAPDIRPATH
     endif
@@ -715,7 +715,7 @@ endif
 
 " NeoBundleのディレクトリ。
 " https://github.com/deris/Config/blob/master/.vimrc
-let $VIMBUNDLEDIRPATH=$CFGHOME.'/bundle'
+let $VIMBUNDLEDIRPATH=s:rc_dir.'/bundle'
 let $NEOBUNDLEDIRPATH=$VIMBUNDLEDIRPATH.'/neobundle.vim'
 let $NEOBUNDLEFILEPATH=$NEOBUNDLEDIRPATH.'/autoload/neobundle.vim'
 
@@ -1192,7 +1192,7 @@ if neobundle#tap('neosnippet.vim')
      \  })
 
     function! neobundle#tapped.hooks.on_source(bundle)
-        let $SNIPPETDIRPATH=$CFGHOME.'/snippets'
+        let $SNIPPETDIRPATH=s:rc_dir.'/snippets'
         call s:mkdir($SNIPPETDIRPATH)
         let g:neosnippet#snippets_directory=$SNIPPETDIRPATH
 
