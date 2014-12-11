@@ -10,14 +10,6 @@ if has('vim_starting')
     endif
 endif
 
-" Vim 7.x 用の設定。
-
-" 基本は以下の URL を參照にした。
-" http://sites.google.com/site/fudist/Home/vim-nihongo-ban/-vimrc-sample
-" http://vim.wikia.com/wiki/VimTip1628
-" http://vimwiki.net/?vimrc/9
-" http://www.kawaz.jp/pukiwiki/?vim#hb6f6961
-
 " *NIX, Win32, Cygwinでのパスの違いを吸収する
 if has('win32') || has('win32unix') || has('win64')
     let $CFGHOME=expand('~/vimfiles')
@@ -1753,5 +1745,12 @@ endif
 " }}}
 
 " }}}
+
+" Vim 7.x 用の設定。
+
+" 基本は以下の URL を參照にした。
+" http://vim.wikia.com/wiki/VimTip1628
+" http://vimwiki.net/?vimrc/9
+" http://www.kawaz.jp/pukiwiki/?vim#hb6f6961
 
 " vim:set fileencoding=utf-8 fileformat=unix foldmethod=marker:
