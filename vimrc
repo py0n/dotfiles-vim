@@ -12,16 +12,6 @@ if has('vim_starting')
     let s:rc_dir = fnamemodify($MYVIMRC, ":p:h")
 endif
 
-" *NIX, Win32, Cygwinでのパスの違いを吸収する
-if has('win32') || has('win32unix') || has('win64')
-    let $LOCALRC=expand('~/_vimrc.local')
-elseif has('unix')
-    let $LOCALRC=expand('~/.vimrc.local')
-else
-    echomsg "Not Windows and not UNIX, use default configuration."
-    finish
-endif
-
 " 函數 ==================================================== {{{
 function! s:mkdir(dir)
     if isdirectory(a:dir)
@@ -455,8 +445,12 @@ command! Rv source $MYVIMRC
 " }}}
 
 " 外部リソースファイル読込 ================================ {{{
-" http://vim-users.jp/2009/12/hack108/
-if filereadable(expand($LOCALRC))
+if has('win32') || has('win32unix') || has('win64')
+    let $LOCALRC = expand('~/_vimrc.local')
+elseif has('unix')
+    let $LOCALRC = expand('~/.vimrc.local')
+endif
+if !empty($LOCALRC)
     source $LOCALRC
 endif
 " }}}
