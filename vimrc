@@ -18,7 +18,7 @@ if has('vim_starting')
 
     scriptencoding utf-8
 
-    " 文字コード自動判定 ===================================== {{{
+    " Encoding : 文字コード自動判定 ========================== {{{
     " http://www.kawaz.jp/pukiwiki/?vim#cb691f26
     let s:enc_euc = 'euc-jp'
     let s:enc_jis = 'iso-2022-jp'
@@ -81,11 +81,21 @@ if has('vim_starting')
     endif
     " }}}
 
+    " Directories ============================================ {{{
     let s:rc_dir = fnamemodify($MYVIMRC, ":p:h")
+    " backup
+    let &g:backupdir = s:rc_dir . '/tmp'
+    call s:MkdirP(&g:backup_dir)
+    " swap
+    let &g:directory = s:rc_dir . '/tmp'
+    call s:MkdirP(&g:directory)
+    " template
+    call s:MkdirP(s:rc_dir . '/template')
+    " }}}
 endif
 " }}}
 
-" Function ================================================ {{{
+" Functions =============================================== {{{
 function! s:IsCommand(cmd)
     return !empty(findfile(a:cmd, substitute($PATH, ':', ',', 'g')))
 endfunction
@@ -1137,11 +1147,6 @@ if &loadplugins
 endif
 " }}}
 
-" テンプレート(template)設定 ============================== {{{
-" テンプレートのディレクトリ。
-call s:MkdirP(s:rc_dir.'/template')
-" }}}
-
 " バックアップ(backup)設定 ================================ {{{
 " バックアップファイルを作成せず。
 set nobackup
@@ -1149,21 +1154,11 @@ set nobackup
 " このオプションがonでも'backup'がoffの時は、
 " ファイル保存成功後にバックアップファイルは削除される。
 set nowritebackup
-" backupファイルの保管場所
-if &backup
-    let &g:backupdir = s:rc_dir . '/tmp'
-    call s:MkdirP(&g:backup_dir)
-endif
 " }}}
 
 " スワップ(swap)設定 ====================================== {{{
 " スワップファイルを作成する
 set swapfile
-" swapファイルの保管場所。
-if &swapfile
-    let &g:directory = s:rc_dir . '/tmp'
-    call s:MkdirP(&g:directory)
-endif
 " }}}
 
 " Edit : 編集設定 ========================================= {{{
