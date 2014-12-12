@@ -93,7 +93,7 @@ function! s:mkdir(dir)
         call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
     endif
 endfunction
-function! s:existcommand(cmd)
+function! s:is_command(cmd)
     return !empty(findfile(a:cmd, substitute($PATH, ':', ',', 'g')))
 endfunction
 " }}}
@@ -121,7 +121,7 @@ if &loadplugins
     " neobundle.vimが無くてもgitコマンドが存在すれは
     " githubから持ってくる。
     if !filereadable(s:neobundle_file_path)
-        if (has('unix') || has('win32unix')) && s:existcommand('git')
+        if (has('unix') || has('win32unix')) && s:is_command('git')
             " https://github.com/joedicastro/dotfiles/blob/master/vim/vimrc
             silent !git clone https://github.com/Shougo/neobundle.vim
              \  s:neobundle_dir_path
@@ -164,12 +164,12 @@ if &loadplugins
     NeoBundleLazy 'airblade/vim-gitgutter', {'vim_version':'7.3.105'}
     NeoBundleLazy 'airblade/vim-rooter'
     NeoBundleLazy 'c9s/perlomni.vim'
+    NeoBundleLazy 'cohama/agit.vim'
     NeoBundleLazy 'eagletmt/ghcmod-vim', {
      \  'depends'           : ['Shougo/vimproc'],
      \  'external_commands' : ['ghc-mod'],
      \  }
     NeoBundleLazy 'ervandew/supertab'
-    NeoBundleLazy 'gregsexton/gitv', {'depends':['tpope/vim-fugitive']}
     NeoBundleLazy 'h1mesuke/unite-outline', {'depends':['Shougo/unite.vim']}
     NeoBundleLazy 'h1mesuke/vim-alignta'
     NeoBundleLazy 'kana/vim-filetype-haskell'
@@ -217,6 +217,18 @@ if &loadplugins
         echomsg 'Please execute ":NeoBundleInstall" command.'
         finish
     endif
+
+    " Plguin : Agit.vim ======================================= {{{
+    " https://github.com/cohama/agit.vim
+    if neobundle#tap('agit.vim')
+        call neobundle#config({
+         \ 'autoload': {
+         \     'commands':['Agit', 'AgitFile'],
+         \ }})
+
+        call neobundle#untap()
+    endif
+    " }}}
 
     " Plugin : Cscope ========================================= {{{
     " http://cscope.sourceforge.net/
@@ -681,7 +693,11 @@ if &loadplugins
     if neobundle#tap('vim-alignta')
         call neobundle#config({
          \  'autoload': {
-         \      'commands': ['Alignta', 'Align'],
+         \      'commands': [
+         \          'Align',
+         \          'AlignTsp',
+         \          'Alignta',
+         \      ],
          \  }})
 
         function! neobundle#tapped.hooks.on_source(bundle)
@@ -690,6 +706,9 @@ if &loadplugins
             let g:Align_xstrlen=3
             " AlignCtrlで変更した設定を初期状態に戻す
             command! -nargs=0 AlignReset call Align#AlignCtrl("default")
+            " 空白揃へ (ref. \tsp or \Tsp)
+            " http://nanasi.jp/articles/vim/align/align_vim_mapt.html
+            command! -range -nargs=? AlignTsp :<line1>,<line2>Alignta <args> \S\+
         endfunction
 
         call neobundle#untap()
@@ -748,31 +767,11 @@ if &loadplugins
          \  'autoload': {
          \      'commands': ['Gblame', 'Gdiff', 'Gwrite'],
          \      'function_prefix': 'fugitive',
-         \      'on_source': ['gitv'],
          \  }})
 
         " http://leafcage.hateblo.jp/entry/nebulavim_intro
         function! neobundle#tapped.hooks.on_post_source(bundle)
             doautoall fugitive BufNewFile
-        endfunction
-
-        call neobundle#untap()
-    endif
-
-    " https://github.com/gregsexton/gitv
-    " http://cohama.hateblo.jp/entry/20120417/1334679297
-    " http://cohama.hateblo.jp/entry/20130517/1368806202
-    if neobundle#tap('gitv')
-        call neobundle#config({
-         \  'autoload': {
-         \      'commands': ['Gitv'],
-         \  }})
-
-        function! neobundle#tapped.hooks.on_source(bundle)
-            augroup Gitv
-                autocmd!
-                autocmd FileType git :setlocal foldlevel=99
-            augroup END
         endfunction
 
         call neobundle#untap()
@@ -1263,11 +1262,11 @@ set wrapscan
 " http://blog.blueblack.net/item_160
 " http://d.hatena.ne.jp/secondlife/20080311/1205205348
 " https://github.com/monochromegane/the_platinum_searcher
-if s:existcommand('pt')
+if s:is_command('pt')
     set grepprg=pt
-elseif s:existcommand('ack-grep')
+elseif s:is_command('ack-grep')
     set grepprg=ack-grep
-elseif s:existcommand('ack')
+elseif s:is_command('ack')
     set grepprg=ack
 endif
 augroup MyAckGrep
@@ -1475,7 +1474,7 @@ if has('win32') || has('win32unix') || has('win64')
 elseif has('unix')
     let $LOCALRC = expand('~/.vimrc.local')
 endif
-if !empty($LOCALRC)
+if filereadable($LOCALRC)
     source $LOCALRC
 endif
 " }}}
