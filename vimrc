@@ -81,17 +81,6 @@ if has('vim_starting')
     endif
     " }}}
 
-    " Directories ============================================ {{{
-    let s:rc_dir = fnamemodify($MYVIMRC, ":p:h")
-    " backup
-    let &g:backupdir = s:rc_dir . '/tmp'
-    call s:MkdirP(&g:backup_dir)
-    " swap
-    let &g:directory = s:rc_dir . '/tmp'
-    call s:MkdirP(&g:directory)
-    " template
-    call s:MkdirP(s:rc_dir . '/template')
-    " }}}
 endif
 " }}}
 
@@ -106,6 +95,20 @@ function! s:MkdirP(dir)
         call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
     endif
 endfunction
+" }}}
+
+" Directories ============================================= {{{
+if has('vim_starting')
+    let s:rc_dir = fnamemodify($MYVIMRC, ":p:h")
+    " backup
+    let &g:backupdir = s:rc_dir . '/tmp'
+    call s:MkdirP(&g:backup_dir)
+    " swap
+    let &g:directory = s:rc_dir . '/tmp'
+    call s:MkdirP(&g:directory)
+    " template
+    call s:MkdirP(s:rc_dir . '/template')
+endif
 " }}}
 
 " NeoBundle : プラグイン読込 ============================= {{{
