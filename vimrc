@@ -1184,10 +1184,12 @@ nmap    m      [Mark]
 
 nnoremap <silent>[Mark]m :<C-u>call <SID>AutoMarkrement()<CR>
 
-nnoremap [Mark]n ]` " 次のマーク
-nnoremap [Mark]p [` " 前のマーク
+" 次/前のマーク
+nnoremap [Mark]n ]`
+nnoremap [Mark]p [`
 
-nnoremap [Mark]l :<C-u>marks<CR> " マーク一覧
+" マーク一覧
+nnoremap [Mark]l :<C-u>marks<CR>
 " }}}
 
 " Edit : 編集設定 ========================================= {{{
