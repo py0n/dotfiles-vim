@@ -1626,10 +1626,10 @@ augroup MyFileTypePerl
     autocmd FileType perl set isfname-=-
     autocmd FileType perl nnoremap [perl]   <Nop>
     autocmd FileType perl nmap     <Space>p [perl]
-    autocmd FileType perl nnoremap <buffer> [perl]t :%!perltidy<CR>
+    autocmd FileType perl nnoremap <buffer> [perl]f :%!perltidy<CR>
     autocmd FileType perl vnoremap [perl]   <Nop>
     autocmd FileType perl vmap     <Space>p [perl]
-    autocmd FileType perl vnoremap <buffer> [perl]t :!perltidy<CR>
+    autocmd FileType perl vnoremap <buffer> [perl]f :!perltidy<CR>
 augroup END
 " }}}
 
