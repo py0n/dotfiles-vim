@@ -164,6 +164,7 @@ if &loadplugins
     NeoBundleLazy 'Lokaltog/vim-easymotion'
     NeoBundleLazy 'Shougo/context_filetype.vim'
     NeoBundleLazy 'Shougo/neocomplcache.vim'
+    NeoBundleLazy 'Shougo/neomru.vim', {'depends':['Shougo/unite.vim']}
     NeoBundleLazy 'Shougo/neosnippet.vim', {
      \  'depends' : ['Shougo/neocomplcache.vim']}
     NeoBundleLazy 'Shougo/unite.vim'
@@ -597,6 +598,17 @@ if &loadplugins
         function! neobundle#tapped.hooks.on_source(bundle)
             let g:neocomplcache_enable_at_startup = 1
         endfunction
+
+        call neobundle#untap()
+    endif
+    " }}}
+
+    " Plugin : neomru.vim ===================================== {{{
+    if neobundle#tap('neomru.vim')
+        call neobundle#config({
+         \  'autoload': {
+         \      'unite_sources': ['file_mru']
+         \  }})
 
         call neobundle#untap()
     endif
