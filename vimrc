@@ -167,6 +167,7 @@ if &loadplugins
     NeoBundleLazy 'Shougo/neomru.vim', {'depends':['Shougo/unite.vim']}
     NeoBundleLazy 'Shougo/neosnippet.vim', {
      \  'depends' : ['Shougo/neocomplcache.vim']}
+    NeoBundleLazy 'Shougo/unite-outline', {'depends':['Shougo/unite.vim']}
     NeoBundleLazy 'Shougo/unite.vim'
     NeoBundleLazy 'Shougo/vimproc', {
      \  'build' : {
@@ -184,7 +185,6 @@ if &loadplugins
      \  'external_commands' : ['ghc-mod'],
      \  }
     NeoBundleLazy 'ervandew/supertab'
-    NeoBundleLazy 'h1mesuke/unite-outline', {'depends':['Shougo/unite.vim']}
     NeoBundleLazy 'h1mesuke/vim-alignta'
     NeoBundleLazy 'kana/vim-filetype-haskell'
     NeoBundleLazy 'kien/ctrlp.vim'
@@ -1049,13 +1049,9 @@ if &loadplugins
         nnoremap [unite]  <Nop>
         nmap     <Space>u [unite]
 
-        " http://qiita.com/martini3oz/items/2cebdb805f45e7b4b901
-        nnoremap <silent> [unite]o :<C-u>Unite -vertical -no-quit outline<CR>
-
         call neobundle#config({
          \  'autoload': {
          \      'commands': ['Unite'],
-         \      'on_source': ['unite-outline'],
          \  }})
 
         function! neobundle#tapped.hooks.on_source(bundle)
@@ -1100,12 +1096,19 @@ if &loadplugins
 
         call neobundle#untap()
     endif
+    " }}}
 
+    " Plugin : unite-outline ================================== {{{
+    " https://github.com/Shougo/unite-outline
     if neobundle#tap('unite-outline')
         call neobundle#config({
          \  'autoload': {
          \      'unite_sources': ['outline'],
          \  }})
+
+        " http://qiita.com/martini3oz/items/2cebdb805f45e7b4b901
+        nnoremap <silent> [unite]o :<C-u>Unite -vertical -no-quit outline<CR>
+
         call neobundle#untap()
     endif
     " }}}
