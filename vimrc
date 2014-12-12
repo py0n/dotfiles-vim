@@ -85,15 +85,15 @@ if has('vim_starting')
 endif
 " }}}
 
-" 函數 ==================================================== {{{
-function! s:mkdir(dir)
+" Function ================================================ {{{
+function! s:MkdirP(dir)
     if isdirectory(a:dir)
         return
     else
         call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
     endif
 endfunction
-function! s:is_command(cmd)
+function! s:IsCommand(cmd)
     return !empty(findfile(a:cmd, substitute($PATH, ':', ',', 'g')))
 endfunction
 " }}}
@@ -115,13 +115,13 @@ if &loadplugins
     let s:neobundle_file_path = s:neobundle_dir_path.'/autoload/neobundle.vim'
 
     " ディレクトリが存在しなければ作成する。
-    call s:mkdir(s:bundle_dir_path)
+    call s:MkdirP(s:bundle_dir_path)
 
     " neobundle.vimの有無をチェック。
     " neobundle.vimが無くてもgitコマンドが存在すれは
     " githubから持ってくる。
     if !filereadable(s:neobundle_file_path)
-        if (has('unix') || has('win32unix')) && s:is_command('git')
+        if (has('unix') || has('win32unix')) && s:IsCommand('git')
             " https://github.com/joedicastro/dotfiles/blob/master/vim/vimrc
             silent !git clone https://github.com/Shougo/neobundle.vim
              \  s:neobundle_dir_path
@@ -598,7 +598,7 @@ if &loadplugins
 
         function! neobundle#tapped.hooks.on_source(bundle)
             let $SNIPPETDIRPATH=s:rc_dir.'/snippets'
-            call s:mkdir($SNIPPETDIRPATH)
+            call s:MkdirP($SNIPPETDIRPATH)
             let g:neosnippet#snippets_directory=$SNIPPETDIRPATH
 
             " Plugin key-mappings.
@@ -1139,7 +1139,7 @@ endif
 
 " テンプレート(template)設定 ============================== {{{
 " テンプレートのディレクトリ。
-call s:mkdir(s:rc_dir.'/template')
+call s:MkdirP(s:rc_dir.'/template')
 " }}}
 
 " バックアップ(backup)設定 ================================ {{{
@@ -1152,7 +1152,7 @@ set nowritebackup
 " backupファイルの保管場所
 if &backup
     let &g:backupdir = s:rc_dir . '/tmp'
-    call s:mkdir(&g:backup_dir)
+    call s:MkdirP(&g:backup_dir)
 endif
 " }}}
 
@@ -1162,7 +1162,7 @@ set swapfile
 " swapファイルの保管場所。
 if &swapfile
     let &g:directory = s:rc_dir . '/tmp'
-    call s:mkdir(&g:directory)
+    call s:MkdirP(&g:directory)
 endif
 " }}}
 
@@ -1243,7 +1243,7 @@ set confirm
 " http://vim-users.jp/2011/02/hack202/
 augroup MyAutoMkdir
     autocmd!
-    autocmd BufWritePre * call s:mkdir(expand('<afile>:p:h'))
+    autocmd BufWritePre * call s:MkdirP(expand('<afile>:p:h'))
 augroup END
 " }}}
 
@@ -1262,11 +1262,11 @@ set wrapscan
 " http://blog.blueblack.net/item_160
 " http://d.hatena.ne.jp/secondlife/20080311/1205205348
 " https://github.com/monochromegane/the_platinum_searcher
-if s:is_command('pt')
+if s:IsCommand('pt')
     set grepprg=pt
-elseif s:is_command('ack-grep')
+elseif s:IsCommand('ack-grep')
     set grepprg=ack-grep
-elseif s:is_command('ack')
+elseif s:IsCommand('ack')
     set grepprg=ack
 endif
 augroup MyAckGrep
