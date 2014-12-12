@@ -1708,10 +1708,16 @@ endif
 "
 " *Example vimrc - Vim Tips Wiki*
 "   ~ http://vim.wikia.com/wiki/VimTip1628
+" *vim-jp &raquo; Hack #144: 分かりやすく副作用のないKey-mappingsを定義する*
+"   ~ http://vim-jp.org/vim-users-jp/2010/05/04/Hack-144.html
+" *vim-jp &raquo; Hack #59: 分かりやすいKey-mappingsを定義する*
+"   ~ http://vim-jp.org/vim-users-jp/2009/08/19/Hack-59.html
 " *vimrc/9 - VimWiki*
 "   ~ http://vimwiki.net/?vimrc/9
 " *vimrcアンチパターン - rbtnn雑記*
 "   ~ http://rbtnn.hateblo.jp/entry/2014/11/30/174749
+" *vimでキーマッピングする際に考えたほうがいいこと - derisの日記*
+"   ~ http://deris.hatenablog.jp/entry/2013/05/02/192415
 " *ずんWiki - vim*
 "   ~ http://www.kawaz.jp/pukiwiki/?vim#hb6f6961
 " *文字コードの自動認識*
