@@ -1,3 +1,9 @@
+" Clear augroup =========================================== {{{
+augroup MyVimrc
+    autocmd!
+augroup END
+" }}}
+
 " Startup ================================================= {{{
 if has('vim_starting')
     if !has('autocmd')
@@ -67,10 +73,7 @@ if has('vim_starting')
             let &fileencoding=&encoding
         endif
     endfunction
-    augroup MyCheckEnc
-        autocmd!
-        autocmd BufReadPost * call AU_ReCheck_FENC()
-    augroup END
+    autocmd MyVimrc BufReadPost * call AU_ReCheck_FENC()
 
     " 改行コードの自動認識
     set fileformats=unix,dos,mac
@@ -80,7 +83,6 @@ if has('vim_starting')
         set ambiwidth=double
     endif
     " }}}
-
 endif
 " }}}
 
@@ -327,16 +329,13 @@ if &loadplugins
 
         function! neobundle#tapped.hooks.on_source(bundel)
             let g:haddock_browser = "firefox"
-            augroup MyGhcmod
-                autocmd!
-                autocmd BufWritePost,FileWritePost *.hs :GhcModCheck
-                autocmd FileType haskell nnoremap [ghcmod] <Nop>
-                autocmd FileType haskell nmap     <Space>g [ghcmod]
-                autocmd FileType haskell nnoremap <buffer> [ghcmod]c  :GhcModCheck<CR>
-                autocmd FileType haskell nnoremap <buffer> [ghcmod]l  :GhcModLint<CR>
-                autocmd FileType haskell nnoremap <buffer> [ghcmod]t  :GhcModTypeClear<CR>:GhcModType<CR>
-                autocmd FileType haskell nnoremap <buffer> [ghcmod]tc :GhcModTypeClear<CR>
-            augroup END
+            autocmd MyVimrc BufWritePost,FileWritePost *.hs :GhcModCheck
+            autocmd MyVimrc FileType haskell nnoremap [ghcmod] <Nop>
+            autocmd MyVimrc FileType haskell nmap     <Space>g [ghcmod]
+            autocmd MyVimrc FileType haskell nnoremap <buffer> [ghcmod]c  :GhcModCheck<CR>
+            autocmd MyVimrc FileType haskell nnoremap <buffer> [ghcmod]l  :GhcModLint<CR>
+            autocmd MyVimrc FileType haskell nnoremap <buffer> [ghcmod]t  :GhcModTypeClear<CR>:GhcModType<CR>
+            autocmd MyVimrc FileType haskell nnoremap <buffer> [ghcmod]tc :GhcModTypeClear<CR>
         endfunction
 
         call neobundle#untap()
@@ -695,12 +694,9 @@ if &loadplugins
 
         function! neobundle#tapped.hooks.on_source(bundle)
             let g:syntastic_mode_map = {'mode': 'passive'}
-            augroup AutoSyntastic
-                autocmd!
-                autocmd BufWritePost *.pl,*.pm call s:syntastic()
-                autocmd BufWritePost *.py      call s:syntastic()
-                autocmd BufWritePost *.t       call s:syntastic()
-            augroup END
+            autocmd MyVimrc BufWritePost *.pl,*.pm call s:syntastic()
+            autocmd MyVimrc BufWritePost *.py      call s:syntastic()
+            autocmd MyVimrc BufWritePost *.t       call s:syntastic()
             function! s:syntastic()
                 SyntasticCheck
                 if neobundle#is_installed('lightline.vim')
@@ -756,15 +752,12 @@ if &loadplugins
             nmap * <Plug>(anzu-star-with-echo)zvzz
             nmap # <Plug>(anzu-sharp-with-echo)zvzz
 
-            augroup MyVimAnzu
-                " 一定時間キー入力がないとき、ウインドウを移動したとき、
-                " タブを移動したときに検索ヒット数の表示を消去する。
-                autocmd!
-                autocmd CursorHold  * call anzu#clear_search_status()
-                autocmd CursorHoldI * call anzu#clear_search_status()
-                autocmd WinLeave    * call anzu#clear_search_status()
-                autocmd TabLeave    * call anzu#clear_search_status()
-            augroup END
+            " 一定時間キー入力がないとき、ウインドウを移動したとき、
+            " タブを移動したときに検索ヒット数の表示を消去する。
+            autocmd MyVimrc CursorHold  * call anzu#clear_search_status()
+            autocmd MyVimrc CursorHoldI * call anzu#clear_search_status()
+            autocmd MyVimrc WinLeave    * call anzu#clear_search_status()
+            autocmd MyVimrc TabLeave    * call anzu#clear_search_status()
         endfunction
 
         call neobundle#untap()
@@ -988,14 +981,11 @@ if &loadplugins
     " Plugin : vim-rooter ===================================== {{{
     " https://github.com/airblade/vim-rooter
     if neobundle#tap('vim-rooter')
-        augroup myRooter
-            autocmd!
-            " 2013/05/24 プラグイン本体に含まれていないもの。
-            autocmd BufEnter *.hs                 :Rooter
-            autocmd BufEnter *.pl,*.pm,*.psgi,*.t :Rooter
-            autocmd BufEnter *.py                 :Rooter
-            autocmd BufEnter vimrc                :Rooter
-        augroup END
+        " 2013/05/24 プラグイン本体に含まれていないもの。
+        autocmd MyVimrc BufEnter *.hs                 :Rooter
+        autocmd MyVimrc BufEnter *.pl,*.pm,*.psgi,*.t :Rooter
+        autocmd MyVimrc BufEnter *.py                 :Rooter
+        autocmd MyVimrc BufEnter vimrc                :Rooter
 
         call neobundle#config({
          \  'autoload': {
@@ -1073,19 +1063,16 @@ if &loadplugins
                 imap <silent><buffer> <ESC><ESC> <ESC>q
             endfunction
 
-            augroup MyUnite
-                autocmd!
-            augroup END
-            autocmd MyUnite FileType unite call s:unite_my_settings()
+            autocmd MyVimrc FileType unite call s:unite_my_settings()
             " ウィンドウを分割して開く
-            autocmd MyUnite FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
-            autocmd MyUnite FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
+            autocmd MyVimrc FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
+            autocmd MyVimrc FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
             " ウィンドウを縦に分割して開く
-            autocmd MyUnite FileType unite nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
-            autocmd MyUnite FileType unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
+            autocmd MyVimrc FileType unite nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
+            autocmd MyVimrc FileType unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
             " ESCキーを2回押すと終了する
-            autocmd MyUnite FileType unite nnoremap <silent> <buffer> <ESC><ESC> q
-            autocmd MyUnite FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>q
+            autocmd MyVimrc FileType unite nnoremap <silent> <buffer> <ESC><ESC> q
+            autocmd MyVimrc FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>q
         endfunction
 
         call neobundle#untap()
@@ -1118,11 +1105,8 @@ if &loadplugins
             function! OutInsertMode()
                 highlight StatusLine guifg=darkblue guibg=white gui=none ctermfg=blue ctermbg=grey cterm=none
             endfunction
-            augroup InsertHook
-                autocmd!
-                autocmd InsertEnter * call IntoInsertMode()
-                autocmd InsertLeave * call OutInsertMode()
-            augroup END
+            autocmd MyVimrc InsertEnter * call IntoInsertMode()
+            autocmd MyVimrc InsertLeave * call OutInsertMode()
         endif
         " カーソル下の文字コードを取得する
         " http://vimwiki.net/?tips%2F98
@@ -1276,10 +1260,7 @@ set wildmenu
 set confirm
 " 自動的にディレクトリを作成する。
 " http://vim-users.jp/2011/02/hack202/
-augroup MyAutoMkdir
-    autocmd!
-    autocmd BufWritePre * call s:MkdirP(expand('<afile>:p:h'))
-augroup END
+autocmd MyVimrc BufWritePre * call s:MkdirP(expand('<afile>:p:h'))
 " }}}
 
 " Search : 検索設定 ======================================= {{{
@@ -1304,10 +1285,7 @@ elseif s:IsCommand('ack-grep')
 elseif s:IsCommand('ack')
     set grepprg=ack
 endif
-augroup MyAckGrep
-    autocmd!
-    autocmd QuickfixCmdPost grep cwindow
-augroup END
+autocmd MyVimrc QuickfixCmdPost grep cwindow
 " }}}
 
 " Decoration : 装飾設定 =================================== {{{
@@ -1334,11 +1312,8 @@ if has("syntax")
     " ノーマルモードで行を目立たせる
     " http://blog.remora.cx/2012/10/spotlight-cursor-line.html
     set cursorline
-    augroup MyCursorLine
-        autocmd!
-        autocmd MyCursorLine InsertEnter * set nocursorline
-        autocmd MyCursorLine InsertLeave * set cursorline
-    augroup END
+    autocmd MyVimrc InsertEnter * set nocursorline
+    autocmd MyVimrc InsertLeave * set cursorline
 
     " 行末の空白を目立たせる。
     " 全角空白を目立たせる。
@@ -1348,10 +1323,7 @@ if has("syntax")
         highlight InvisibleSpace term=underline ctermbg=red guibg=red
         match InvisibleSpace /　\|[　	 ]\+$/
     endfunction
-    augroup VisualizeInvisibleSpace
-        autocmd!
-        autocmd BufEnter * call VisualizeInvisibleSpace()
-    augroup END
+    autocmd MyVimrc BufEnter * call VisualizeInvisibleSpace()
 endif
 "行番号を表示しない
 set nonumber
@@ -1526,145 +1498,109 @@ endif
 " help xxd
 " http://www.kawaz.jp/pukiwiki/?vim#ib970976
 " http://jarp.does.notwork.org/diary/200606a.html#200606021
-augroup MyFileTypeXxd
-    autocmd!
-    autocmd BufReadPre   *.bin let &binary=1
-    autocmd BufReadPost  *.bin if &binary | silent %!xxd -g 1
-    autocmd BufReadPost  *.bin set ft=xxd | endif
-    autocmd BufWritePre  *.bin if &binary | %!xxd -r | endif
-    autocmd BufWritePost *.bin if &binary | silent %!xxd -g 1
-    autocmd BufWritePost *.bin set nomod | endif
-augroup END
+autocmd MyVimrc BufReadPre   *.bin let &binary=1
+autocmd MyVimrc BufReadPost  *.bin if &binary | silent %!xxd -g 1
+autocmd MyVimrc BufReadPost  *.bin set ft=xxd | endif
+autocmd MyVimrc BufWritePre  *.bin if &binary | %!xxd -r | endif
+autocmd MyVimrc BufWritePost *.bin if &binary | silent %!xxd -g 1
+autocmd MyVimrc BufWritePost *.bin set nomod | endif
 " }}}
 
 " FileType : C  =========================================== {{{
 " ':h ft-c-omni' を参照)
-augroup MyFileTypeC
-    autocmd!
-    autocmd FileType c set omnifunc=ccomplete#Complete
-augroup END
+autocmd MyVimrc FileType c set omnifunc=ccomplete#Complete
 " }}}
 
 " FileType : CSS ========================================== {{{
 " ':h ft-css-omni' を参照
-augroup MyFileTypeCcs
-    autocmd!
-    autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-augroup END
+autocmd MyVimrc FileType css set omnifunc=csscomplete#CompleteCSS
 " }}}
 
 " FileType : Git ========================================== {{{
-augroup MyFileTypeGitCommit
-    autocmd!
-    autocmd FileType gitcommit set fileencoding=utf-8
-augroup END
+autocmd MyVimrc FileType gitcommit set fileencoding=utf-8
 " }}}
 
 " FileType : Haskell ====================================== {{{
-augroup MyFileTypeHaskell
-    autocmd!
-    autocmd BufRead,BufNewFile *.hs set filetype=haskell
-    autocmd FileType haskell set expandtab
-    autocmd FileType haskell set nosmartindent
-    autocmd FileType haskell set shiftwidth=2
-    autocmd FileType haskell set softtabstop=2
-    autocmd FileType haskell set tabstop=8
-augroup END
+autocmd MyVimrc BufRead,BufNewFile *.hs set filetype=haskell
+autocmd MyVimrc FileType haskell set expandtab
+autocmd MyVimrc FileType haskell set nosmartindent
+autocmd MyVimrc FileType haskell set shiftwidth=2
+autocmd MyVimrc FileType haskell set softtabstop=2
+autocmd MyVimrc FileType haskell set tabstop=8
 " }}}
 
 " FileType : JavaScript =================================== {{{
 " ':h ft-javascript-omni' を参照
-augroup MyFileTypeJavaScript
-    autocmd!
-    autocmd FileType javascript set shiftwidth=2
-    autocmd FileType javascript set softtabstop=2
-    autocmd FileType javascript set tabstop=2
-    autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-augroup END
+autocmd MyVimrc FileType javascript set shiftwidth=2
+autocmd MyVimrc FileType javascript set softtabstop=2
+autocmd MyVimrc FileType javascript set tabstop=2
+autocmd MyVimrc FileType javascript set omnifunc=javascriptcomplete#CompleteJS
 " }}}
 
 " FileType : PHP ========================================== {{{
 " ':h ft-php-omni' を参照
-augroup MyFileTypePhp
-    autocmd!
-    autocmd BufRead,BufNewFile *.inc set filetype=php
-    autocmd FileType php set omnifunc=phpcomplete#CompletePHP
-    "	Exuberant ctags 5.7j1 が UTF-8 のソースでは
-    "	うまく動かないのでコメントアウト。
-    "	autocmd FileType php nmap <silent> <F4>
-    "		\ :!ctags -f %:p:h/tags
-    "		\ -R
-    "		\ --jcode=utf8
-    "		\ --exclude=*.js
-    "		\ --exclude=*.css
-    "		\ --exclude=*.htm
-    "		\ --exclude=.snapshot
-    "		\ --langmap="php:+.inc"
-    "		\ -h ".php.inc"
-    "		\ --totals=yes
-    "		\ --tag-relative=yes
-    "		\ --PHP-kinds=+cf-v %:p:h<CR>
-    "	autocmd FileType php set tags=./tags,tags
-augroup END
+autocmd MyVimrc BufRead,BufNewFile *.inc set filetype=php
+autocmd MyVimrc FileType php set omnifunc=phpcomplete#CompletePHP
+"	Exuberant ctags 5.7j1 が UTF-8 のソースでは
+"	うまく動かないのでコメントアウト。
+"	autocmd FileType php nmap <silent> <F4>
+"		\ :!ctags -f %:p:h/tags
+"		\ -R
+"		\ --jcode=utf8
+"		\ --exclude=*.js
+"		\ --exclude=*.css
+"		\ --exclude=*.htm
+"		\ --exclude=.snapshot
+"		\ --langmap="php:+.inc"
+"		\ -h ".php.inc"
+"		\ --totals=yes
+"		\ --tag-relative=yes
+"		\ --PHP-kinds=+cf-v %:p:h<CR>
+"	autocmd FileType php set tags=./tags,tags
 " }}}
 
 " FileType : Pandoc ======================================= {{{
-augroup MyFileTypePandoc
-    autocmd!
-    autocmd BufRead,BufNewFile *.md set filetype=pandoc
-    " https://sites.google.com/site/vimdocja/usr_25-html#25.4
-    " 禁則処理關係。
-    autocmd FileType pandoc setlocal display=lastline
-    autocmd FileType pandoc setlocal linebreak
-    autocmd FileType pandoc setlocal textwidth=0
-augroup END
+autocmd MyVimrc BufRead,BufNewFile *.md set filetype=pandoc
+" https://sites.google.com/site/vimdocja/usr_25-html#25.4
+" 禁則処理關係。
+autocmd MyVimrc FileType pandoc setlocal display=lastline
+autocmd MyVimrc FileType pandoc setlocal linebreak
+autocmd MyVimrc FileType pandoc setlocal textwidth=0
 " }}}
 
 " FileType : Perl ========================================= {{{
-augroup MyFileTypePerl
-    autocmd!
-    autocmd BufRead,BufNewFile *.p[lm] set filetype=perl
-    autocmd BufRead,BufNewFile *.psgi  set filetype=perl
-    autocmd BufRead,BufNewFile *.t     set filetype=perl
-    autocmd BufRead,BufNewFile *.cgi   set filetype=perl
-    autocmd BufRead,BufNewFile *.tdy   set filetype=perl
-    autocmd FileType perl set expandtab
-    autocmd FileType perl set smarttab
-    " Vimでカーソル下のPerlモジュールを開く
-    " http://d.hatena.ne.jp/spiritloose/20060817/1155808744
-    autocmd FileType perl set isfname-=-
-    autocmd FileType perl nnoremap [perl]   <Nop>
-    autocmd FileType perl nmap     <Space>p [perl]
-    autocmd FileType perl nnoremap <buffer> [perl]f :%!perltidy<CR>
-    autocmd FileType perl vnoremap [perl]   <Nop>
-    autocmd FileType perl vmap     <Space>p [perl]
-    autocmd FileType perl vnoremap <buffer> [perl]f :!perltidy<CR>
-augroup END
+autocmd MyVimrc BufRead,BufNewFile *.p[lm] set filetype=perl
+autocmd MyVimrc BufRead,BufNewFile *.psgi  set filetype=perl
+autocmd MyVimrc BufRead,BufNewFile *.t     set filetype=perl
+autocmd MyVimrc BufRead,BufNewFile *.cgi   set filetype=perl
+autocmd MyVimrc BufRead,BufNewFile *.tdy   set filetype=perl
+autocmd MyVimrc FileType perl set expandtab
+autocmd MyVimrc FileType perl set smarttab
+" Vimでカーソル下のPerlモジュールを開く
+" http://d.hatena.ne.jp/spiritloose/20060817/1155808744
+autocmd MyVimrc FileType perl set isfname-=-
+autocmd MyVimrc FileType perl nnoremap [perl]   <Nop>
+autocmd MyVimrc FileType perl nmap     <Space>p [perl]
+autocmd MyVimrc FileType perl nnoremap <buffer> [perl]f :%!perltidy<CR>
+autocmd MyVimrc FileType perl vnoremap [perl]   <Nop>
+autocmd MyVimrc FileType perl vmap     <Space>p [perl]
+autocmd MyVimrc FileType perl vnoremap <buffer> [perl]f :!perltidy<CR>
 " }}}
 
 " FileType : Python ======================================= {{{
-augroup MyFileTypePython
-    autocmd!
-    autocmd FileType python set expandtab
-    autocmd FileType python set smarttab
-    autocmd FileType python set omnifunc=pythoncomplete#Complete
-    " http://vim.sourceforge.net/scripts/script.php?script_id=30
-    " autocmd FileType python source $HOME/.vim/plugin/python.vim
-augroup END
+autocmd MyVimrc FileType python set expandtab
+autocmd MyVimrc FileType python set smarttab
+autocmd MyVimrc FileType python set omnifunc=pythoncomplete#Complete
+" http://vim.sourceforge.net/scripts/script.php?script_id=30
+" autocmd MyVimrc FileType python source $HOME/.vim/plugin/python.vim
 " http://stackoverflow.com/questions/15285032/autopep8-with-vim
 if executable('autopep8')
-    augroup MyAutopep8
-        autocmd!
-        autocmd BufWritePost *.py,*.pt !autopep8 --in-place <afile>
-    augroup END
+    autocmd MyVimrc BufWritePost *.py,*.pt !autopep8 --in-place <afile>
 endif
 " }}}
 
 " FileType : R ============================================ {{{
-augroup MyFileTypeR
-    autocmd!
-    autocmd BufRead,BufNewFile *.R set filetype=r
-augroup END
+autocmd MyVimrc BufRead,BufNewFile *.R set filetype=r
 " }}}
 
 " FileType : Ruby ========================================= {{{
@@ -1674,20 +1610,14 @@ if has('ruby')
     let g:rubycomplete_classes_in_global=1
     let g:rubycomplete_rails=1
 
-    augroup MyFileTypeRuby
-        autocmd!
-        autocmd FileType ruby set noexpandtab
-        autocmd FileType ruby set omnifunc=rubycomplete#CompleteTags
-    augroup END
+    autocmd MyVimrc FileType ruby set noexpandtab
+    autocmd MyVimrc FileType ruby set omnifunc=rubycomplete#CompleteTags
 endif
 " }}}
 
 " FileType : SQL ========================================== {{{
 " ':h ft-sql-omni' を参照
-augroup MyFileTypeSql
-    autocmd!
-    autocmd FileType sql set omnifunc=sqlcomplete#CompleteTags
-augroup END
+autocmd MyVimrc FileType sql set omnifunc=sqlcomplete#CompleteTags
 " }}}
 
 " FileType : Vim ========================================== {{{
@@ -1702,48 +1632,35 @@ endif
 
 " FileType : XML ========================================== {{{
 " ':h ft-xml-omni' を参照
-augroup MyFileTypeXml
-    autocmd!
-    autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
-augroup END
+autocmd MyVimrc FileType xml set omnifunc=xmlcomplete#CompleteTags
 " }}}
 
 " FileType : (X)HTML ====================================== {{{
 " ':h ft-xhtml-omni' を参照
-augroup MyFileTypeXhtml
-    autocmd!
-    autocmd BufRead,BufNewFile *.ep   set filetype=html
-    autocmd BufRead,BufNewFile *.tmpl set filetype=html
-    autocmd FileType html setlocal expandtab
-    autocmd FileType html setlocal shiftwidth=2
-    autocmd FileType html setlocal smarttab
-    autocmd FileType html setlocal softtabstop=2
-    autocmd FileType html setlocal tabstop=2
-    autocmd FileType html setlocal omnifunc=htmlcomplete#CompleteTags
-augroup END
+autocmd MyVimrc BufRead,BufNewFile *.tmpl set filetype=html
+autocmd MyVimrc FileType html setlocal expandtab
+autocmd MyVimrc FileType html setlocal shiftwidth=2
+autocmd MyVimrc FileType html setlocal smarttab
+autocmd MyVimrc FileType html setlocal softtabstop=2
+autocmd MyVimrc FileType html setlocal tabstop=2
+autocmd MyVimrc FileType html setlocal omnifunc=htmlcomplete#CompleteTags
 " }}}
 
 " FileType : YAML ========================================= {{{
-augroup MyFileTypeYaml
-    autocmd!
-    autocmd FileType yaml setlocal expandtab
-    autocmd FileType yaml setlocal shiftwidth=2
-    autocmd FileType yaml setlocal softtabstop=2
-    autocmd FileType yaml setlocal tabstop=8
-augroup END
+autocmd MyVimrc FileType yaml setlocal expandtab
+autocmd MyVimrc FileType yaml setlocal shiftwidth=2
+autocmd MyVimrc FileType yaml setlocal softtabstop=2
+autocmd MyVimrc FileType yaml setlocal tabstop=8
 " }}}
 
 " その他 (File Type) ====================================== {{{
 " ':h ft-syntax-omni' を参照
 " ※これが一番最後。
 if exists("+omnifunc")
-    augroup MyFileTypeOther
-        autocmd!
-        autocmd Filetype *
-         \   if &omnifunc == "" |
-         \           setlocal omnifunc=syntaxcomplete#Complete |
-         \   endif
-    augroup END
+    autocmd MyVimrc Filetype *
+     \   if &omnifunc == "" |
+     \           setlocal omnifunc=syntaxcomplete#Complete |
+     \   endif
 endif
 " }}}
 
