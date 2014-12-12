@@ -1031,10 +1031,6 @@ if &loadplugins
     " http://d.hatena.ne.jp/ruedap/20110110/vim_unite_plugin
     " http://d.hatena.ne.jp/ruedap/20110117/vim_unite_plugin_1_week
     if neobundle#tap('unite.vim')
-        " http://deris.hatenablog.jp/entry/2013/05/02/192415
-        nnoremap [unite]  <Nop>
-        nmap     <Space>u [unite]
-
         call neobundle#config({
          \  'autoload': {
          \      'commands': ['Unite'],
@@ -1043,35 +1039,21 @@ if &loadplugins
         function! neobundle#tapped.hooks.on_source(bundle)
             " 入力モードで開始する
             let g:unite_enable_start_insert=1
-            " バッファ及び最近使用したファイル一覧
-            nnoremap <silent> [unite]b :<C-u>Unite buffer file_mru<CR>
-            " ファイル一覧
-            nnoremap <silent> [unite]f :<C-u>Unite file<CR>
-            " レジスタ一覧
-            nnoremap <silent> ,ur :<C-u>Unite -buffer-name=register register<CR>
-
-            " unite.vim上でのキーマッピング
-            function! s:unite_my_settings()
-                " 単語単位からパス単位で削除するように変更
-                imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
-                " ESCキーを2回押すと終了する
-                nmap <silent><buffer> <ESC><ESC> q
-                imap <silent><buffer> <ESC><ESC> <ESC>q
-            endfunction
-
-            autocmd MyVimrc FileType unite call s:unite_my_settings()
-            " ウィンドウを分割して開く
-            autocmd MyVimrc FileType unite nnoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
-            autocmd MyVimrc FileType unite inoremap <silent> <buffer> <expr> <C-j> unite#do_action('split')
-            " ウィンドウを縦に分割して開く
-            autocmd MyVimrc FileType unite nnoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
-            autocmd MyVimrc FileType unite inoremap <silent> <buffer> <expr> <C-l> unite#do_action('vsplit')
-            " ESCキーを2回押すと終了する
-            autocmd MyVimrc FileType unite nnoremap <silent> <buffer> <ESC><ESC> q
-            autocmd MyVimrc FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>q
         endfunction
 
         call neobundle#untap()
+    endif
+
+    if neobundle#is_installed('unite.vim')
+        " http://deris.hatenablog.jp/entry/2013/05/02/192415
+        nnoremap [unite]  <Nop>
+        nmap     <Space>u [unite]
+        " バッファ及び最近使用したファイル一覧
+        nnoremap <silent> [unite]b :<C-u>Unite buffer file_mru<CR>
+        " ファイル一覧
+        nnoremap <silent> [unite]f :<C-u>Unite file<CR>
+        " レジスタ一覧
+        nnoremap <silent> ,ur :<C-u>Unite -buffer-name=register register<CR>
     endif
     " }}}
 
