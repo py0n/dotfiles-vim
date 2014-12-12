@@ -90,10 +90,9 @@ endif
 function! s:IsCommand(cmd)
     return !empty(findfile(a:cmd, substitute($PATH, ':', ',', 'g')))
 endfunction
+
 function! s:MkdirP(dir)
-    if isdirectory(a:dir)
-        return
-    else
+    if !isdirectory(a:dir)
         call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
     endif
 endfunction
@@ -102,12 +101,21 @@ endfunction
 " Directories ============================================= {{{
 if has('vim_starting')
     let s:rc_dir = fnamemodify($MYVIMRC, ":p:h")
+
     " backup
     let &g:backupdir = s:rc_dir . '/tmp'
     call s:MkdirP(&g:backupdir)
+
+    " neobundle
+    let s:bundle_dir    = s:rc_dir . '/bundle'
+    let s:neobundle_dir = s:bundle_dir . '/neobundle.vim'
+    let &g:runtimepath  = &g:runtimepath . ',' . s:neobundle_dir
+    call s:MkdirP(s:neobundle_dir)
+
     " swap
     let &g:directory = s:rc_dir . '/tmp'
     call s:MkdirP(&g:directory)
+
     " template
     call s:MkdirP(s:rc_dir . '/template')
 endif
@@ -123,33 +131,21 @@ if &loadplugins
     " http://qiita.com/rbtnn/items/39d9ba817329886e626b
     " http://vim-users.jp/2011/10/hack238/
 
-    " NeoBundleのディレクトリ。
-    " https://github.com/deris/Config/blob/master/.vimrc
-    let s:bundle_dir_path     = s:rc_dir.'/bundle'
-    let s:neobundle_dir_path  = s:bundle_dir_path.'/neobundle.vim'
-    let s:neobundle_file_path = s:neobundle_dir_path.'/autoload/neobundle.vim'
-
-    " ディレクトリが存在しなければ作成する。
-    call s:MkdirP(s:bundle_dir_path)
-
     " neobundle.vimの有無をチェック。
     " neobundle.vimが無くてもgitコマンドが存在すれは
     " githubから持ってくる。
-    if !filereadable(s:neobundle_file_path)
+    if !filereadable(s:neobundle_dir . '/autoload/neobundle.vim')
         if (has('unix') || has('win32unix')) && s:IsCommand('git')
             " https://github.com/joedicastro/dotfiles/blob/master/vim/vimrc
             silent !git clone https://github.com/Shougo/neobundle.vim
-             \  s:neobundle_dir_path
+             \  s:neobundle_dir
         else
-            echomsg "Not installed NeoBundle (neobundle.vim) plugin"
+            echoerr "Not installed NeoBundle (neobundle.vim) plugin"
             finish
         endif
     endif
 
-    set runtimepath&
-    let &g:runtimepath = &g:runtimepath . "," . s:neobundle_dir_path
-
-    call neobundle#begin(s:bundle_dir_path)
+    call neobundle#begin(s:bundle_dir)
 
     " neobundle.vimをneobundle自信で管理する。
     NeoBundleFetch 'Shougo/neobundle.vim'
