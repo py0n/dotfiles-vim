@@ -1057,18 +1057,12 @@ if &loadplugins
         function! neobundle#tapped.hooks.on_source(bundle)
             " 入力モードで開始する
             let g:unite_enable_start_insert=1
-            " バッファ一覧
-            nnoremap <silent> ,ub :<C-u>Unite buffer<CR>
+            " バッファ及び最近使用したファイル一覧
+            nnoremap <silent> [unite]b :<C-u>Unite buffer file_mru<CR>
             " ファイル一覧
-            nnoremap <silent> ,uf :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+            nnoremap <silent> [unite]f :<C-u>Unite file<CR>
             " レジスタ一覧
             nnoremap <silent> ,ur :<C-u>Unite -buffer-name=register register<CR>
-            " 最近使用したファイル一覧
-            nnoremap <silent> ,um :<C-u>Unite file_mru<CR>
-            " 常用セット
-            nnoremap <silent> ,uu :<C-u>Unite buffer file_mru<CR>
-            " 全部乗せ
-            nnoremap <silent> ,ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
 
             " unite.vim上でのキーマッピング
             function! s:unite_my_settings()
