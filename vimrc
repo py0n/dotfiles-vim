@@ -86,15 +86,15 @@ endif
 " }}}
 
 " Function ================================================ {{{
+function! s:IsCommand(cmd)
+    return !empty(findfile(a:cmd, substitute($PATH, ':', ',', 'g')))
+endfunction
 function! s:MkdirP(dir)
     if isdirectory(a:dir)
         return
     else
         call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
     endif
-endfunction
-function! s:IsCommand(cmd)
-    return !empty(findfile(a:cmd, substitute($PATH, ':', ',', 'g')))
 endfunction
 " }}}
 
