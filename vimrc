@@ -1159,7 +1159,6 @@ set nowritebackup
 " Mark : マーク設定 ======================================= {{{
 " http://saihoooooooo.hatenablog.com/entry/2013/04/30/001908
 
-" 現在位置をマーク
 if !exists('s:markrement_chars')
     let s:markrement_chars = [
      \  'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
@@ -1182,6 +1181,7 @@ endfunction
 noremap [Mark] <Nop>
 nmap    m      [Mark]
 
+" 現在位置をマーク
 nnoremap <silent>[Mark]m :<C-u>call <SID>AutoMarkrement()<CR>
 
 " 次/前のマーク
