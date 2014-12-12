@@ -1766,6 +1766,8 @@ endif
 "   ~ http://rbtnn.hateblo.jp/entry/2014/11/30/174749
 " *vimでキーマッピングする際に考えたほうがいいこと - derisの日記*
 "   ~ http://deris.hatenablog.jp/entry/2013/05/02/192415
+" *「立て！立つんだビムー！」 - sorry, uninuplemented:*
+"   ~ http://rhysd.hatenablog.com/entry/2012/12/19/001145
 " *ずんWiki - vim*
 "   ~ http://www.kawaz.jp/pukiwiki/?vim#hb6f6961
 " *文字コードの自動認識*
