@@ -1453,6 +1453,9 @@ if has("gui_running")
     elseif has("gui_win32")
         set guifont=Ricty:h12
         set guifontwide=Ricty:h12
+    elseif has("gui_macvim")
+        set guifont=Menlo\ Regular:h14
+        set guifontwide=Osaka:h14
     endif
     " 插入モードや檢索で日本語入力状態になるのを防ぐ。
     " http://memo.officebrook.net/20080312.html
