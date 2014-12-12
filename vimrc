@@ -1,6 +1,4 @@
-" http://rbtnn.hateblo.jp/entry/2014/11/30/174749
-" http://www.kawaz.jp/pukiwiki/?vim#cb691f26
-" 起動時 ================================================== {{{
+" Startup ================================================= {{{
 if has('vim_starting')
     if !has('autocmd')
         echoerr "Recompile with +autocmd !"
@@ -1715,11 +1713,19 @@ endif
 " }}}
 
 
-" Vim 7.x 用の設定。
-
+" # Vim 7.x 用の設定。
+"
 " 基本は以下の URL を參照にした。
-" http://vim.wikia.com/wiki/VimTip1628
-" http://vimwiki.net/?vimrc/9
-" http://www.kawaz.jp/pukiwiki/?vim#hb6f6961
+"
+" *Example vimrc - Vim Tips Wiki*
+"   ~ http://vim.wikia.com/wiki/VimTip1628
+" *vimrc/9 - VimWiki*
+"   ~ http://vimwiki.net/?vimrc/9
+" *vimrcアンチパターン - rbtnn雑記*
+"   ~ http://rbtnn.hateblo.jp/entry/2014/11/30/174749
+" *ずんWiki - vim*
+"   ~ http://www.kawaz.jp/pukiwiki/?vim#hb6f6961
+" *文字コードの自動認識*
+"   ~ http://www.kawaz.jp/pukiwiki/?vim#cb691f26
 
 " vim:set fileencoding=utf-8 fileformat=unix foldmethod=marker:
