@@ -1156,6 +1156,40 @@ set nobackup
 set nowritebackup
 " }}}
 
+" Mark : マーク設定 ======================================= {{{
+" http://saihoooooooo.hatenablog.com/entry/2013/04/30/001908
+
+" 現在位置をマーク
+if !exists('s:markrement_chars')
+    let s:markrement_chars = [
+     \  'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
+     \  'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
+     \  'q', 'r', 's', 't', 'u', 'v', 'w', 'x',
+     \  'y', 'z'
+     \  ]
+endif
+
+function! s:AutoMarkrement()
+    if !exists('b:markrement_pos')
+        let b:markrement_pos = 0
+    else
+        let b:markrement_pos = (b:markrement_pos + 1) % len(s:markrement_chars)
+    endif
+    execute 'mark' s:markrement_chars[b:markrement_pos]
+    echo 'marked' s:markrement_chars[b:markrement_pos]
+endfunction
+
+noremap [Mark] <Nop>
+nmap    m      [Mark]
+
+nnoremap <silent>[Mark]m :<C-u>call <SID>AutoMarkrement()<CR>
+
+nnoremap [Mark]n ]` " 次のマーク
+nnoremap [Mark]p [` " 前のマーク
+
+nnoremap [Mark]l :<C-u>marks<CR> " マーク一覧
+" }}}
+
 " Edit : 編集設定 ========================================= {{{
 "ファイルタイプの自動識別を有効にする (':help incompatible-7' を参照)
 "更にファイルタイププラグインを有効にする。
