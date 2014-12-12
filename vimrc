@@ -1088,7 +1088,7 @@ if &loadplugins
          \  }})
 
         " http://qiita.com/martini3oz/items/2cebdb805f45e7b4b901
-        nnoremap <silent> [unite]o :<C-u>Unite -vertical -no-quit outline<CR>
+        nnoremap <silent> [unite]o :<C-u>Unite -vertical -ignorecase outline<CR>
 
         call neobundle#untap()
     endif
