@@ -1122,6 +1122,181 @@ if &loadplugins
 endif
 " }}}
 
+" FileType : ファイルタイプ別設定 ========================= {{{
+
+" FileType : Binary ======================================= {{{
+" バイナリ編集(xxd)モード（vim -b での起動、もしくは *.bin で発動します）
+" help xxd
+" http://www.kawaz.jp/pukiwiki/?vim#ib970976
+" http://jarp.does.notwork.org/diary/200606a.html#200606021
+autocmd MyVimrc BufReadPre   *.bin let &binary=1
+autocmd MyVimrc BufReadPost  *.bin if &binary | silent %!xxd -g 1
+autocmd MyVimrc BufReadPost  *.bin set ft=xxd | endif
+autocmd MyVimrc BufWritePre  *.bin if &binary | %!xxd -r | endif
+autocmd MyVimrc BufWritePost *.bin if &binary | silent %!xxd -g 1
+autocmd MyVimrc BufWritePost *.bin set nomod | endif
+" }}}
+
+" FileType : C  =========================================== {{{
+" ':h ft-c-omni' を参照)
+autocmd MyVimrc FileType c set omnifunc=ccomplete#Complete
+" }}}
+
+" FileType : CSS ========================================== {{{
+" ':h ft-css-omni' を参照
+autocmd MyVimrc FileType css set omnifunc=csscomplete#CompleteCSS
+" }}}
+
+" FileType : Git ========================================== {{{
+autocmd MyVimrc FileType gitcommit set fileencoding=utf-8
+" }}}
+
+" FileType : Haskell ====================================== {{{
+autocmd MyVimrc BufRead,BufNewFile *.hs set filetype=haskell
+autocmd MyVimrc FileType haskell set expandtab
+autocmd MyVimrc FileType haskell set nosmartindent
+autocmd MyVimrc FileType haskell set shiftwidth=2
+autocmd MyVimrc FileType haskell set softtabstop=2
+autocmd MyVimrc FileType haskell set tabstop=8
+" }}}
+
+" FileType : JavaScript =================================== {{{
+" ':h ft-javascript-omni' を参照
+autocmd MyVimrc FileType javascript set shiftwidth=2
+autocmd MyVimrc FileType javascript set softtabstop=2
+autocmd MyVimrc FileType javascript set tabstop=2
+autocmd MyVimrc FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+" }}}
+
+" FileType : PHP ========================================== {{{
+" ':h ft-php-omni' を参照
+autocmd MyVimrc BufRead,BufNewFile *.inc set filetype=php
+autocmd MyVimrc FileType php set omnifunc=phpcomplete#CompletePHP
+"	Exuberant ctags 5.7j1 が UTF-8 のソースでは
+"	うまく動かないのでコメントアウト。
+"	autocmd FileType php nmap <silent> <F4>
+"		\ :!ctags -f %:p:h/tags
+"		\ -R
+"		\ --jcode=utf8
+"		\ --exclude=*.js
+"		\ --exclude=*.css
+"		\ --exclude=*.htm
+"		\ --exclude=.snapshot
+"		\ --langmap="php:+.inc"
+"		\ -h ".php.inc"
+"		\ --totals=yes
+"		\ --tag-relative=yes
+"		\ --PHP-kinds=+cf-v %:p:h<CR>
+"	autocmd FileType php set tags=./tags,tags
+" }}}
+
+" FileType : Pandoc ======================================= {{{
+autocmd MyVimrc BufRead,BufNewFile *.md set filetype=pandoc
+" https://sites.google.com/site/vimdocja/usr_25-html#25.4
+" 禁則処理關係。
+autocmd MyVimrc FileType pandoc setlocal display=lastline
+autocmd MyVimrc FileType pandoc setlocal linebreak
+autocmd MyVimrc FileType pandoc setlocal textwidth=0
+" }}}
+
+" FileType : Perl ========================================= {{{
+autocmd MyVimrc BufRead,BufNewFile *.p[lm] set filetype=perl
+autocmd MyVimrc BufRead,BufNewFile *.psgi  set filetype=perl
+autocmd MyVimrc BufRead,BufNewFile *.t     set filetype=perl
+autocmd MyVimrc BufRead,BufNewFile *.cgi   set filetype=perl
+autocmd MyVimrc BufRead,BufNewFile *.tdy   set filetype=perl
+autocmd MyVimrc FileType perl set expandtab
+autocmd MyVimrc FileType perl set smarttab
+" Vimでカーソル下のPerlモジュールを開く
+" http://d.hatena.ne.jp/spiritloose/20060817/1155808744
+autocmd MyVimrc FileType perl set isfname-=-
+autocmd MyVimrc FileType perl nnoremap [perl]   <Nop>
+autocmd MyVimrc FileType perl nmap     <Space>p [perl]
+autocmd MyVimrc FileType perl nnoremap <buffer> [perl]f :%!perltidy<CR>
+autocmd MyVimrc FileType perl vnoremap [perl]   <Nop>
+autocmd MyVimrc FileType perl vmap     <Space>p [perl]
+autocmd MyVimrc FileType perl vnoremap <buffer> [perl]f :!perltidy<CR>
+" }}}
+
+" FileType : Python ======================================= {{{
+autocmd MyVimrc FileType python set expandtab
+autocmd MyVimrc FileType python set smarttab
+autocmd MyVimrc FileType python set omnifunc=pythoncomplete#Complete
+" http://vim.sourceforge.net/scripts/script.php?script_id=30
+" autocmd MyVimrc FileType python source $HOME/.vim/plugin/python.vim
+" http://stackoverflow.com/questions/15285032/autopep8-with-vim
+if executable('autopep8')
+    autocmd MyVimrc BufWritePost *.py,*.pt !autopep8 --in-place <afile>
+endif
+" }}}
+
+" FileType : R ============================================ {{{
+autocmd MyVimrc BufRead,BufNewFile *.R set filetype=r
+" }}}
+
+" FileType : Ruby ========================================= {{{
+" ':h ft-ruby-omni' を参照
+if has('ruby')
+    let g:rubycomplete_buffer_loading=1
+    let g:rubycomplete_classes_in_global=1
+    let g:rubycomplete_rails=1
+
+    autocmd MyVimrc FileType ruby set noexpandtab
+    autocmd MyVimrc FileType ruby set omnifunc=rubycomplete#CompleteTags
+endif
+" }}}
+
+" FileType : SQL ========================================== {{{
+" ':h ft-sql-omni' を参照
+autocmd MyVimrc FileType sql set omnifunc=sqlcomplete#CompleteTags
+" }}}
+
+" FileType : Vim ========================================== {{{
+" http://kannokanno.hatenablog.com/entry/20120805/1344115812
+" ':help ft-vim-indent' を参照。
+if &sw >= 3
+    let g:vim_indent_cont=&sw-3
+else
+    let g:vim_indent_cont=0
+endif
+" }}}
+
+" FileType : XML ========================================== {{{
+" ':h ft-xml-omni' を参照
+autocmd MyVimrc FileType xml set omnifunc=xmlcomplete#CompleteTags
+" }}}
+
+" FileType : (X)HTML ====================================== {{{
+" ':h ft-xhtml-omni' を参照
+autocmd MyVimrc BufRead,BufNewFile *.tmpl set filetype=html
+autocmd MyVimrc FileType html setlocal expandtab
+autocmd MyVimrc FileType html setlocal shiftwidth=2
+autocmd MyVimrc FileType html setlocal smarttab
+autocmd MyVimrc FileType html setlocal softtabstop=2
+autocmd MyVimrc FileType html setlocal tabstop=2
+autocmd MyVimrc FileType html setlocal omnifunc=htmlcomplete#CompleteTags
+" }}}
+
+" FileType : YAML ========================================= {{{
+autocmd MyVimrc FileType yaml setlocal expandtab
+autocmd MyVimrc FileType yaml setlocal shiftwidth=2
+autocmd MyVimrc FileType yaml setlocal softtabstop=2
+autocmd MyVimrc FileType yaml setlocal tabstop=8
+" }}}
+
+" その他 (File Type) ====================================== {{{
+" ':h ft-syntax-omni' を参照
+" ※これが一番最後。
+if exists("+omnifunc")
+    autocmd MyVimrc Filetype *
+     \   if &omnifunc == "" |
+     \           setlocal omnifunc=syntaxcomplete#Complete |
+     \   endif
+endif
+" }}}
+
+" }}}
+
 " Backup : バックアップ設定 =============================== {{{
 " :help backup 参照
 set nobackup
@@ -1469,182 +1644,6 @@ endif
 " }}}
 
 " }}}
-
-" FileType : ファイルタイプ別設定 ========================= {{{
-
-" FileType : Binary ======================================= {{{
-" バイナリ編集(xxd)モード（vim -b での起動、もしくは *.bin で発動します）
-" help xxd
-" http://www.kawaz.jp/pukiwiki/?vim#ib970976
-" http://jarp.does.notwork.org/diary/200606a.html#200606021
-autocmd MyVimrc BufReadPre   *.bin let &binary=1
-autocmd MyVimrc BufReadPost  *.bin if &binary | silent %!xxd -g 1
-autocmd MyVimrc BufReadPost  *.bin set ft=xxd | endif
-autocmd MyVimrc BufWritePre  *.bin if &binary | %!xxd -r | endif
-autocmd MyVimrc BufWritePost *.bin if &binary | silent %!xxd -g 1
-autocmd MyVimrc BufWritePost *.bin set nomod | endif
-" }}}
-
-" FileType : C  =========================================== {{{
-" ':h ft-c-omni' を参照)
-autocmd MyVimrc FileType c set omnifunc=ccomplete#Complete
-" }}}
-
-" FileType : CSS ========================================== {{{
-" ':h ft-css-omni' を参照
-autocmd MyVimrc FileType css set omnifunc=csscomplete#CompleteCSS
-" }}}
-
-" FileType : Git ========================================== {{{
-autocmd MyVimrc FileType gitcommit set fileencoding=utf-8
-" }}}
-
-" FileType : Haskell ====================================== {{{
-autocmd MyVimrc BufRead,BufNewFile *.hs set filetype=haskell
-autocmd MyVimrc FileType haskell set expandtab
-autocmd MyVimrc FileType haskell set nosmartindent
-autocmd MyVimrc FileType haskell set shiftwidth=2
-autocmd MyVimrc FileType haskell set softtabstop=2
-autocmd MyVimrc FileType haskell set tabstop=8
-" }}}
-
-" FileType : JavaScript =================================== {{{
-" ':h ft-javascript-omni' を参照
-autocmd MyVimrc FileType javascript set shiftwidth=2
-autocmd MyVimrc FileType javascript set softtabstop=2
-autocmd MyVimrc FileType javascript set tabstop=2
-autocmd MyVimrc FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-" }}}
-
-" FileType : PHP ========================================== {{{
-" ':h ft-php-omni' を参照
-autocmd MyVimrc BufRead,BufNewFile *.inc set filetype=php
-autocmd MyVimrc FileType php set omnifunc=phpcomplete#CompletePHP
-"	Exuberant ctags 5.7j1 が UTF-8 のソースでは
-"	うまく動かないのでコメントアウト。
-"	autocmd FileType php nmap <silent> <F4>
-"		\ :!ctags -f %:p:h/tags
-"		\ -R
-"		\ --jcode=utf8
-"		\ --exclude=*.js
-"		\ --exclude=*.css
-"		\ --exclude=*.htm
-"		\ --exclude=.snapshot
-"		\ --langmap="php:+.inc"
-"		\ -h ".php.inc"
-"		\ --totals=yes
-"		\ --tag-relative=yes
-"		\ --PHP-kinds=+cf-v %:p:h<CR>
-"	autocmd FileType php set tags=./tags,tags
-" }}}
-
-" FileType : Pandoc ======================================= {{{
-autocmd MyVimrc BufRead,BufNewFile *.md set filetype=pandoc
-" https://sites.google.com/site/vimdocja/usr_25-html#25.4
-" 禁則処理關係。
-autocmd MyVimrc FileType pandoc setlocal display=lastline
-autocmd MyVimrc FileType pandoc setlocal linebreak
-autocmd MyVimrc FileType pandoc setlocal textwidth=0
-" }}}
-
-" FileType : Perl ========================================= {{{
-autocmd MyVimrc BufRead,BufNewFile *.p[lm] set filetype=perl
-autocmd MyVimrc BufRead,BufNewFile *.psgi  set filetype=perl
-autocmd MyVimrc BufRead,BufNewFile *.t     set filetype=perl
-autocmd MyVimrc BufRead,BufNewFile *.cgi   set filetype=perl
-autocmd MyVimrc BufRead,BufNewFile *.tdy   set filetype=perl
-autocmd MyVimrc FileType perl set expandtab
-autocmd MyVimrc FileType perl set smarttab
-" Vimでカーソル下のPerlモジュールを開く
-" http://d.hatena.ne.jp/spiritloose/20060817/1155808744
-autocmd MyVimrc FileType perl set isfname-=-
-autocmd MyVimrc FileType perl nnoremap [perl]   <Nop>
-autocmd MyVimrc FileType perl nmap     <Space>p [perl]
-autocmd MyVimrc FileType perl nnoremap <buffer> [perl]f :%!perltidy<CR>
-autocmd MyVimrc FileType perl vnoremap [perl]   <Nop>
-autocmd MyVimrc FileType perl vmap     <Space>p [perl]
-autocmd MyVimrc FileType perl vnoremap <buffer> [perl]f :!perltidy<CR>
-" }}}
-
-" FileType : Python ======================================= {{{
-autocmd MyVimrc FileType python set expandtab
-autocmd MyVimrc FileType python set smarttab
-autocmd MyVimrc FileType python set omnifunc=pythoncomplete#Complete
-" http://vim.sourceforge.net/scripts/script.php?script_id=30
-" autocmd MyVimrc FileType python source $HOME/.vim/plugin/python.vim
-" http://stackoverflow.com/questions/15285032/autopep8-with-vim
-if executable('autopep8')
-    autocmd MyVimrc BufWritePost *.py,*.pt !autopep8 --in-place <afile>
-endif
-" }}}
-
-" FileType : R ============================================ {{{
-autocmd MyVimrc BufRead,BufNewFile *.R set filetype=r
-" }}}
-
-" FileType : Ruby ========================================= {{{
-" ':h ft-ruby-omni' を参照
-if has('ruby')
-    let g:rubycomplete_buffer_loading=1
-    let g:rubycomplete_classes_in_global=1
-    let g:rubycomplete_rails=1
-
-    autocmd MyVimrc FileType ruby set noexpandtab
-    autocmd MyVimrc FileType ruby set omnifunc=rubycomplete#CompleteTags
-endif
-" }}}
-
-" FileType : SQL ========================================== {{{
-" ':h ft-sql-omni' を参照
-autocmd MyVimrc FileType sql set omnifunc=sqlcomplete#CompleteTags
-" }}}
-
-" FileType : Vim ========================================== {{{
-" http://kannokanno.hatenablog.com/entry/20120805/1344115812
-" ':help ft-vim-indent' を参照。
-if &sw >= 3
-    let g:vim_indent_cont=&sw-3
-else
-    let g:vim_indent_cont=0
-endif
-" }}}
-
-" FileType : XML ========================================== {{{
-" ':h ft-xml-omni' を参照
-autocmd MyVimrc FileType xml set omnifunc=xmlcomplete#CompleteTags
-" }}}
-
-" FileType : (X)HTML ====================================== {{{
-" ':h ft-xhtml-omni' を参照
-autocmd MyVimrc BufRead,BufNewFile *.tmpl set filetype=html
-autocmd MyVimrc FileType html setlocal expandtab
-autocmd MyVimrc FileType html setlocal shiftwidth=2
-autocmd MyVimrc FileType html setlocal smarttab
-autocmd MyVimrc FileType html setlocal softtabstop=2
-autocmd MyVimrc FileType html setlocal tabstop=2
-autocmd MyVimrc FileType html setlocal omnifunc=htmlcomplete#CompleteTags
-" }}}
-
-" FileType : YAML ========================================= {{{
-autocmd MyVimrc FileType yaml setlocal expandtab
-autocmd MyVimrc FileType yaml setlocal shiftwidth=2
-autocmd MyVimrc FileType yaml setlocal softtabstop=2
-autocmd MyVimrc FileType yaml setlocal tabstop=8
-" }}}
-
-" その他 (File Type) ====================================== {{{
-" ':h ft-syntax-omni' を参照
-" ※これが一番最後。
-if exists("+omnifunc")
-    autocmd MyVimrc Filetype *
-     \   if &omnifunc == "" |
-     \           setlocal omnifunc=syntaxcomplete#Complete |
-     \   endif
-endif
-" }}}
-
-" }}}
-
 
 " # Vim 7.x 用の設定。
 "
