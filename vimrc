@@ -83,6 +83,7 @@ if has('vim_starting')
         set ambiwidth=double
     endif
     " }}}
+
 endif
 " }}}
 
@@ -1471,7 +1472,7 @@ endif
 
 " FileType : ファイルタイプ別設定 ========================= {{{
 
-" FileType : Binary ==================================:===== {{{
+" FileType : Binary ======================================= {{{
 " バイナリ編集(xxd)モード（vim -b での起動、もしくは *.bin で発動します）
 " help xxd
 " http://www.kawaz.jp/pukiwiki/?vim#ib970976
