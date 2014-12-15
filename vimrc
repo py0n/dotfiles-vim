@@ -780,13 +780,16 @@ if &loadplugins
     endif
 
     if neobundle#is_installed('unite.vim')
+        " バッファ及び最近使用したファイル一覧
+        nnoremap <C-P> :<C-u>Unite -buffer-name=file buffer file_mru<CR>
+        " ファイル一覧
+        nnoremap <C-N> :<C-u>Unite file<CR>
+        " 最近使用したファイル一覧
+        nnoremap <C-Z> :<C-u>Unite file_mru<CR>
+
         " http://deris.hatenablog.jp/entry/2013/05/02/192415
         nnoremap [unite]  <Nop>
         nmap     <Space>u [unite]
-        " バッファ及び最近使用したファイル一覧
-        nnoremap <silent> [unite]b :<C-u>Unite buffer file_mru<CR>
-        " ファイル一覧
-        nnoremap <silent> [unite]f :<C-u>Unite file<CR>
         " grep
         nnoremap <silent> [unite]g :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
         nnoremap <silent> [unite]r :<C-u>UniteResume search-buffer<CR>
