@@ -632,6 +632,7 @@ if &loadplugins
          \          'ref#complete',
          \          'ref#ref',
          \      ],
+         \      'unite_sources': ['ref'],
          \  }})
 
         call neobundle#untap()
@@ -646,7 +647,8 @@ if &loadplugins
          \      'functions': [
          \          'ref#complete',
          \          'ref#ref',
-         \      ]
+         \      ],
+         \      'unite_sources': ['ref'],
          \  }})
 
         function! neobundle#tapped.hooks.on_source(bundle)
