@@ -15,6 +15,9 @@ if has('vim_starting')
     elseif !has('multi_byte')
         echoerr "Recompile with +multi_bute !"
         finish
+    elseif !has('syntax')
+        echoerr "Recompile with +syntax !"
+        finish
     endif
 
     if &encoding !=# 'utf-8'
@@ -1076,16 +1079,14 @@ if &loadplugins
     " lightline.vimが共に無効である時の設定。
     if !neobundle#is_installed('lightline.vim')
         " 挿入モードの際、ステータスラインの色を変更する。
-        if has('syntax')
-            function! IntoInsertMode()
-                highlight StatusLine guifg=darkblue guibg=darkyellow gui=none ctermfg=blue ctermbg=yellow cterm=none
-            endfunction
-            function! OutInsertMode()
-                highlight StatusLine guifg=darkblue guibg=white gui=none ctermfg=blue ctermbg=grey cterm=none
-            endfunction
-            autocmd MyVimrc InsertEnter * call IntoInsertMode()
-            autocmd MyVimrc InsertLeave * call OutInsertMode()
-        endif
+        function! IntoInsertMode()
+            highlight StatusLine guifg=darkblue guibg=darkyellow gui=none ctermfg=blue ctermbg=yellow cterm=none
+        endfunction
+        function! OutInsertMode()
+            highlight StatusLine guifg=darkblue guibg=white gui=none ctermfg=blue ctermbg=grey cterm=none
+        endfunction
+        autocmd MyVimrc InsertEnter * call IntoInsertMode()
+        autocmd MyVimrc InsertLeave * call OutInsertMode()
         " カーソル下の文字コードを取得する
         " http://vimwiki.net/?tips%2F98
         function! GetB()
@@ -1442,42 +1443,40 @@ autocmd MyVimrc QuickfixCmdPost grep cwindow
 " }}}
 
 " Decoration : 装飾設定 =================================== {{{
-if has("syntax")
-    "シンタックスハイライトを有効にする
-    syntax enable
+" シンタックスハイライトを有効にする
+syntax enable
 
-    " http://vim-users.jp/2009/08/hack64/
-    " https://github.com/itchyny/lightline.vim
-    if !has('gui_running')
-        set t_Co=256
-    endif
-
-    if has('win32unix')
-        " minttyでモードによってカーソルの形状を変更する 。
-        " http://koturn.hatenablog.com/entry/2013/08/13/020116
-        " http://qiita.com/usamik26/items/f733add9ca910f6c5784
-        let &t_ti.="\e[1 q" " 端末をtermcapモードにする
-        let &t_SI.="\e[5 q" " 挿入モード開始でバー型
-        let &t_EI.="\e[1 q" " 挿入モード終了でブロック型
-        let &t_te.="\e[0 q" " termcapモードを抜ける
-    endif
-
-    " ノーマルモードで行を目立たせる
-    " http://blog.remora.cx/2012/10/spotlight-cursor-line.html
-    set cursorline
-    autocmd MyVimrc InsertEnter * set nocursorline
-    autocmd MyVimrc InsertLeave * set cursorline
-
-    " 行末の空白を目立たせる。
-    " 全角空白を目立たせる。
-    " http://d.hatena.ne.jp/tasukuchan/20070816/1187246177
-    " http://sites.google.com/site/fudist/Home/vim-nihongo-ban/-vimrc-sample#TOC-4
-    function! VisualizeInvisibleSpace()
-        highlight InvisibleSpace term=underline ctermbg=red guibg=red
-        match InvisibleSpace /　\|[　	 ]\+$/
-    endfunction
-    autocmd MyVimrc BufEnter * call VisualizeInvisibleSpace()
+" http://vim-users.jp/2009/08/hack64/
+" https://github.com/itchyny/lightline.vim
+if !has('gui_running')
+    set t_Co=256
 endif
+
+if has('win32unix')
+    " minttyでモードによってカーソルの形状を変更する 。
+    " http://koturn.hatenablog.com/entry/2013/08/13/020116
+    " http://qiita.com/usamik26/items/f733add9ca910f6c5784
+    let &t_ti.="\e[1 q" " 端末をtermcapモードにする
+    let &t_SI.="\e[5 q" " 挿入モード開始でバー型
+    let &t_EI.="\e[1 q" " 挿入モード終了でブロック型
+    let &t_te.="\e[0 q" " termcapモードを抜ける
+endif
+
+" ノーマルモードで行を目立たせる
+" http://blog.remora.cx/2012/10/spotlight-cursor-line.html
+set cursorline
+autocmd MyVimrc InsertEnter * set nocursorline
+autocmd MyVimrc InsertLeave * set cursorline
+
+" 行末の空白を目立たせる。
+" 全角空白を目立たせる。
+" http://d.hatena.ne.jp/tasukuchan/20070816/1187246177
+" http://sites.google.com/site/fudist/Home/vim-nihongo-ban/-vimrc-sample#TOC-4
+function! VisualizeInvisibleSpace()
+    highlight InvisibleSpace term=underline ctermbg=red guibg=red
+    match InvisibleSpace /　\|[　	 ]\+$/
+endfunction
+autocmd MyVimrc BufEnter * call VisualizeInvisibleSpace()
 "行番号を表示しない
 set nonumber
 " 音を鳴らさない、画面更新をしない
