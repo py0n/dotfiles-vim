@@ -165,7 +165,7 @@ if &loadplugins
     NeoBundleLazy 'Shougo/neosnippet.vim', {
      \  'depends' : ['Shougo/neocomplcache.vim']}
     NeoBundleLazy 'Shougo/unite-outline', {'depends':['Shougo/unite.vim']}
-    NeoBundleLazy 'Shougo/unite.vim'
+    NeoBundleLazy 'Shougo/unite.vim', {'depends':['Shougo/unite.vim']}
     NeoBundleLazy 'Shougo/vimproc', {
      \  'build' : {
      \      'cygwin'  : 'make -f make_cygwin.mak',
