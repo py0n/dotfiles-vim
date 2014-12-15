@@ -729,10 +729,12 @@ if &loadplugins
          \      'unite_sources': ['outline'],
          \  }})
 
+        call neobundle#untap()
+    endif
+
+    if neobundle#is_installed('unite-outline')
         " http://qiita.com/martini3oz/items/2cebdb805f45e7b4b901
         nnoremap <silent> [unite]o :<C-u>Unite -vertical -ignorecase outline<CR>
-
-        call neobundle#untap()
     endif
     " }}}
 
