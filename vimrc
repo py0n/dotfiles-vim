@@ -705,6 +705,97 @@ if &loadplugins
     endif
     " }}}
 
+    " Plugin : unite-mark {{{
+    " https://github.com/tacroe/unite-mark
+    if neobundle#tap('unite-mark')
+        call neobundle#config({
+         \  'autoload': {
+         \      'unite_sources':['mark']
+         \ }})
+
+        call neobundle#untap()
+    endif
+
+    if neobundle#is_installed('unite-mark')
+        nnoremap <silent> [unite]m :<C-u>Unite mark<CR>
+    endif
+    " }}}
+
+    " Plugin : unite-outline ================================== {{{
+    " https://github.com/Shougo/unite-outline
+    if neobundle#tap('unite-outline')
+        call neobundle#config({
+         \  'autoload': {
+         \      'unite_sources': ['outline'],
+         \  }})
+
+        " http://qiita.com/martini3oz/items/2cebdb805f45e7b4b901
+        nnoremap <silent> [unite]o :<C-u>Unite -vertical -ignorecase outline<CR>
+
+        call neobundle#untap()
+    endif
+    " }}}
+
+    " Plugun : unite.vim ====================================== {{{
+    " https://github.com/Shougo/unite.vim
+    " http://d.hatena.ne.jp/ruedap/20110110/vim_unite_plugin
+    " http://d.hatena.ne.jp/ruedap/20110117/vim_unite_plugin_1_week
+    if neobundle#tap('unite.vim')
+        call neobundle#config({
+         \  'autoload': {
+         \      'commands': ['Unite'],
+         \  }})
+
+        function! neobundle#tapped.hooks.on_source(bundle)
+            " 入力モードで開始する
+            let g:unite_enable_start_insert=1
+
+            " 大文字/小文字を区別しない
+            let g:unite_enable_ignore_case = 1
+            let g:unite_enable_smart_case  = 1
+
+            " unite grep で pt を利用する
+            " Ref. help unite-source-grep
+            " http://blog.monochromegane.com/blog/2013/09/18/ag-and-unite/
+            if executable('pt')
+                " Use pt in unite grep source.
+                " https://github.com/monochromegane/the_platinum_searcher
+                let g:unite_source_grep_command       = 'pt'
+                let g:unite_source_grep_default_opts  = '--nogroup --nocolor'
+                let g:unite_source_grep_recursive_opt = ''
+            elseif executable('ag')
+                " Use ag in unite grep source.
+                let g:unite_source_grep_command       = 'ag'
+                let g:unite_source_grep_default_opts  =
+                 \  '-i --line-numbers --nocolor --nogroup --hidden --ignore ' .
+                 \  '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
+                let g:unite_source_grep_recursive_opt = ''
+            elseif executable('ack-grep')
+                " Use ack in unite grep source.
+                let g:unite_source_grep_command       = 'ack-grep'
+                let g:unite_source_grep_default_opts  =
+                 \  '-i --no-heading --no-color -k -H'
+                let g:unite_source_grep_recursive_opt = ''
+            endif
+        endfunction
+
+        call neobundle#untap()
+    endif
+
+    if neobundle#is_installed('unite.vim')
+        " http://deris.hatenablog.jp/entry/2013/05/02/192415
+        nnoremap [unite]  <Nop>
+        nmap     <Space>u [unite]
+        " バッファ及び最近使用したファイル一覧
+        nnoremap <silent> [unite]b :<C-u>Unite buffer file_mru<CR>
+        " ファイル一覧
+        nnoremap <silent> [unite]f :<C-u>Unite file<CR>
+        " grep
+        nnoremap <silent> [unite]g :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
+        nnoremap <silent> [unite]r :<C-u>UniteResume search-buffer<CR>
+    endif
+    " }}}
+
     " Plugin : vim-alignta ==================================== {{{
     " https://github.com/h1mesuke/vim-alignta
     if neobundle#tap('vim-alignta')
@@ -1024,97 +1115,6 @@ if &loadplugins
     " http://m.designbits.jp/14030411/
     " https://github.com/gcmt/wildfire.vim
     let g:wildfire_objects = ["i'", 'i"', 'i)', 'i]', 'i}', 'ip', 'it', 'i>']
-    " }}}
-
-    " Plugun : unite.vim ====================================== {{{
-    " https://github.com/Shougo/unite.vim
-    " http://d.hatena.ne.jp/ruedap/20110110/vim_unite_plugin
-    " http://d.hatena.ne.jp/ruedap/20110117/vim_unite_plugin_1_week
-    if neobundle#tap('unite.vim')
-        call neobundle#config({
-         \  'autoload': {
-         \      'commands': ['Unite'],
-         \  }})
-
-        function! neobundle#tapped.hooks.on_source(bundle)
-            " 入力モードで開始する
-            let g:unite_enable_start_insert=1
-
-            " 大文字/小文字を区別しない
-            let g:unite_enable_ignore_case = 1
-            let g:unite_enable_smart_case  = 1
-
-            " unite grep で pt を利用する
-            " Ref. help unite-source-grep
-            " http://blog.monochromegane.com/blog/2013/09/18/ag-and-unite/
-            if executable('pt')
-                " Use pt in unite grep source.
-                " https://github.com/monochromegane/the_platinum_searcher
-                let g:unite_source_grep_command       = 'pt'
-                let g:unite_source_grep_default_opts  = '--nogroup --nocolor'
-                let g:unite_source_grep_recursive_opt = ''
-            elseif executable('ag')
-                " Use ag in unite grep source.
-                let g:unite_source_grep_command       = 'ag'
-                let g:unite_source_grep_default_opts  =
-                 \  '-i --line-numbers --nocolor --nogroup --hidden --ignore ' .
-                 \  '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
-                let g:unite_source_grep_recursive_opt = ''
-            elseif executable('ack-grep')
-                " Use ack in unite grep source.
-                let g:unite_source_grep_command       = 'ack-grep'
-                let g:unite_source_grep_default_opts  =
-                 \  '-i --no-heading --no-color -k -H'
-                let g:unite_source_grep_recursive_opt = ''
-            endif
-        endfunction
-
-        call neobundle#untap()
-    endif
-
-    if neobundle#is_installed('unite.vim')
-        " http://deris.hatenablog.jp/entry/2013/05/02/192415
-        nnoremap [unite]  <Nop>
-        nmap     <Space>u [unite]
-        " バッファ及び最近使用したファイル一覧
-        nnoremap <silent> [unite]b :<C-u>Unite buffer file_mru<CR>
-        " ファイル一覧
-        nnoremap <silent> [unite]f :<C-u>Unite file<CR>
-        " grep
-        nnoremap <silent> [unite]g :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
-        nnoremap <silent> [unite]r :<C-u>UniteResume search-buffer<CR>
-    endif
-    " }}}
-
-    " Plugin : unite-mark {{{
-    " https://github.com/tacroe/unite-mark
-    if neobundle#tap('unite-mark')
-        call neobundle#config({
-         \  'autoload': {
-         \      'unite_sources':['mark']
-         \ }})
-
-        call neobundle#untap()
-    endif
-
-    if neobundle#is_installed('unite-mark')
-        nnoremap <silent> [unite]m :<C-u>Unite mark<CR>
-    endif
-    " }}}
-
-    " Plugin : unite-outline ================================== {{{
-    " https://github.com/Shougo/unite-outline
-    if neobundle#tap('unite-outline')
-        call neobundle#config({
-         \  'autoload': {
-         \      'unite_sources': ['outline'],
-         \  }})
-
-        " http://qiita.com/martini3oz/items/2cebdb805f45e7b4b901
-        nnoremap <silent> [unite]o :<C-u>Unite -vertical -ignorecase outline<CR>
-
-        call neobundle#untap()
-    endif
     " }}}
 
     " Plugin ================================================== {{{
