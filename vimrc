@@ -749,12 +749,15 @@ if &loadplugins
          \  }})
 
         function! neobundle#tapped.hooks.on_source(bundle)
-            " 入力モードで開始する
-            let g:unite_enable_start_insert=1
-
-            " 大文字/小文字を区別しない
-            let g:unite_enable_ignore_case = 1
-            let g:unite_enable_smart_case  = 1
+            call unite#custom#profile('default', 'context', {
+             \  'auto_resize'      : 1,
+             \  'empty'            : 0,
+             \  'ignorecase'       : 1,
+             \  'prompt_direction' : 'top',
+             \  'smartcase'        : 1,
+             \  'split_rule'       : 'botright',
+             \  'start_insert'     : 1,
+             \  })
 
             " unite grep で pt を利用する
             " Ref. help unite-source-grep
