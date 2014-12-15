@@ -196,6 +196,7 @@ if &loadplugins
     NeoBundleLazy 'othree/html5.vim'
     NeoBundleLazy 'scrooloose/syntastic'
     NeoBundleLazy 'sgur/ctrlp-extensions.vim', {'depends':['kien/ctrlp.vim']}
+    NeoBundleLazy 'tacroe/unite-mark', {'depends':['Shougo/unite.vim']}
     NeoBundleLazy 'thinca/vim-quickrun', {'vim_version':'7.2'}
     NeoBundleLazy 'thinca/vim-ref'
     NeoBundleLazy 'tpope/vim-fugitive', {'external_commands':['git']}
@@ -1082,6 +1083,22 @@ if &loadplugins
         " grep
         nnoremap <silent> [unite]g :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
         nnoremap <silent> [unite]r :<C-u>UniteResume search-buffer<CR>
+    endif
+    " }}}
+
+    " Plugin : unite-mark {{{
+    " https://github.com/tacroe/unite-mark
+    if neobundle#tap('unite-mark')
+        call neobundle#config({
+         \  'autoload': {
+         \      'unite_sources':['mark']
+         \ }})
+
+        call neobundle#untap()
+    endif
+
+    if neobundle#is_installed('unite-mark')
+        nnoremap <silent> [unite]m :<C-u>Unite mark<CR>
     endif
     " }}}
 
