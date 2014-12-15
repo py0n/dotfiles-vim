@@ -91,10 +91,6 @@ endif
 " }}}
 
 " Functions =============================================== {{{
-function! s:IsCommand(cmd)
-    return !empty(findfile(a:cmd, substitute($PATH, ':', ',', 'g')))
-endfunction
-
 function! s:MkdirP(dir)
     if !isdirectory(a:dir)
         call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
@@ -139,7 +135,7 @@ if &loadplugins
     " neobundle.vimが無くてもgitコマンドが存在すれは
     " githubから持ってくる。
     if !filereadable(s:neobundle_dir . '/autoload/neobundle.vim')
-        if (has('unix') || has('win32unix')) && s:IsCommand('git')
+        if (has('unix') || has('win32unix')) && executable('git')
             " https://github.com/joedicastro/dotfiles/blob/master/vim/vimrc
             silent !git clone https://github.com/Shougo/neobundle.vim
              \  s:neobundle_dir
@@ -1462,11 +1458,11 @@ set wrapscan
 " http://blog.blueblack.net/item_160
 " http://d.hatena.ne.jp/secondlife/20080311/1205205348
 " https://github.com/monochromegane/the_platinum_searcher
-if s:IsCommand('pt')
+if executable('pt')
     set grepprg=pt
-elseif s:IsCommand('ack-grep')
+elseif executable('ack-grep')
     set grepprg=ack-grep
-elseif s:IsCommand('ack')
+elseif executable('ack')
     set grepprg=ack
 endif
 autocmd MyVimrc QuickfixCmdPost grep cwindow
