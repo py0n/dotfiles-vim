@@ -1046,6 +1046,30 @@ if &loadplugins
             " 大文字/小文字を区別しない
             let g:unite_enable_ignore_case = 1
             let g:unite_enable_smart_case  = 1
+
+            " unite grep で pt を利用する
+            " Ref. help unite-source-grep
+            " http://blog.monochromegane.com/blog/2013/09/18/ag-and-unite/
+            if executable('pt')
+                " Use pt in unite grep source.
+                " https://github.com/monochromegane/the_platinum_searcher
+                let g:unite_source_grep_command       = 'pt'
+                let g:unite_source_grep_default_opts  = '--nogroup --nocolor'
+                let g:unite_source_grep_recursive_opt = ''
+            elseif executable('ag')
+                " Use ag in unite grep source.
+                let g:unite_source_grep_command       = 'ag'
+                let g:unite_source_grep_default_opts  =
+                 \  '-i --line-numbers --nocolor --nogroup --hidden --ignore ' .
+                 \  '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
+                let g:unite_source_grep_recursive_opt = ''
+            elseif executable('ack-grep')
+                " Use ack in unite grep source.
+                let g:unite_source_grep_command       = 'ack-grep'
+                let g:unite_source_grep_default_opts  =
+                 \  '-i --no-heading --no-color -k -H'
+                let g:unite_source_grep_recursive_opt = ''
+            endif
         endfunction
 
         call neobundle#untap()
@@ -1059,6 +1083,8 @@ if &loadplugins
         nnoremap <silent> [unite]b :<C-u>Unite buffer file_mru<CR>
         " ファイル一覧
         nnoremap <silent> [unite]f :<C-u>Unite file<CR>
+        " grep
+        nnoremap <silent> [unite]g :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
         " レジスタ一覧
         nnoremap <silent> ,ur :<C-u>Unite -buffer-name=register register<CR>
     endif
