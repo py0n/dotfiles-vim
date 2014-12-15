@@ -1081,8 +1081,7 @@ if &loadplugins
         nnoremap <silent> [unite]f :<C-u>Unite file<CR>
         " grep
         nnoremap <silent> [unite]g :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
-        " レジスタ一覧
-        nnoremap <silent> ,ur :<C-u>Unite -buffer-name=register register<CR>
+        nnoremap <silent> [unite]r :<C-u>UniteResume search-buffer<CR>
     endif
     " }}}
 
