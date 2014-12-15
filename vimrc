@@ -750,12 +750,9 @@ if &loadplugins
 
         function! neobundle#tapped.hooks.on_source(bundle)
             call unite#custom#profile('default', 'context', {
-             \  'auto_resize'      : 1,
-             \  'empty'            : 0,
+             \  'direction'        : 'botright',
              \  'ignorecase'       : 1,
-             \  'prompt_direction' : 'top',
              \  'smartcase'        : 1,
-             \  'split_rule'       : 'botright',
              \  'start_insert'     : 1,
              \  })
 
@@ -789,17 +786,17 @@ if &loadplugins
 
     if neobundle#is_installed('unite.vim')
         " バッファ及び最近使用したファイル一覧
-        nnoremap <C-P> :<C-u>Unite -buffer-name=file buffer file_mru<CR>
+        nnoremap <C-P> :<C-u>Unite -auto-resize -buffer-name=file -prompt-direction=top buffer file_mru<CR>
         " ファイル一覧
-        nnoremap <C-N> :<C-u>Unite file<CR>
+        nnoremap <C-N> :<C-u>Unite -auto-resize -prompt-direction=top file<CR>
         " 最近使用したファイル一覧
-        nnoremap <C-Z> :<C-u>Unite file_mru<CR>
+        nnoremap <C-Z> :<C-u>Unite -auto-resize -prompt-direction=top file_mru<CR>
 
         " http://deris.hatenablog.jp/entry/2013/05/02/192415
         nnoremap [unite]  <Nop>
         nmap     <Space>u [unite]
         " grep
-        nnoremap <silent> [unite]g :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
+        nnoremap <silent> [unite]g :<C-u>Unite -buffer-name=search-buffer grep:.<CR>
         nnoremap <silent> [unite]r :<C-u>UniteResume search-buffer<CR>
         " ESC二回で終了
         autocmd MyVimrc FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
