@@ -740,7 +740,12 @@ if &loadplugins
     if neobundle#tap('unite.vim')
         call neobundle#config({
          \  'autoload': {
-         \      'commands': ['Unite'],
+         \      'commands': [
+         \          {
+         \              'name'     : 'Unite',
+         \              'complete' : 'customlist,unite#complete_source'
+         \          },
+         \      ],
          \  }})
 
         function! neobundle#tapped.hooks.on_source(bundle)
