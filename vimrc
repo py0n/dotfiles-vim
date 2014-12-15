@@ -622,6 +622,41 @@ if &loadplugins
     endif
     " }}}
 
+    " Plugin : ref-hoogle {{{
+    " https://github.com/ujihisa/ref-hoogle
+    if neobundle#tap('ref-hoogle')
+        call neobundle#config({
+         \  'autoload': {
+         \      'filetpyes': ['haskell'],
+         \      'functions': [
+         \          'ref#complete',
+         \          'ref#ref',
+         \      ],
+         \  }})
+
+        call neobundle#untap()
+    endif
+    " }}}
+
+    " Plugin : ref-sources.vim {{{
+    " https://github.com/mojako/ref-sources.vim
+    if neobundle#tap('ref-sources.vim')
+        call neobundle#config({
+         \  'autoload': {
+         \      'functions': [
+         \          'ref#complete',
+         \          'ref#ref',
+         \      ]
+         \  }})
+
+        function! neobundle#tapped.hooks.on_source(bundle)
+            let g:ref_auto_resize = 1
+        endfunction
+
+        call neobundle#untap()
+    endif
+    " }}}
+
     " Plugin : supertab ======================================= {{{
     " https://github.com/ervandew/supertab
     if neobundle#tap('supertab')
@@ -980,8 +1015,6 @@ if &loadplugins
 
     " Plugin : vim-ref ======================================== {{{
     " https://github.com/thinca/vim-ref
-    " https://github.com/mojako/ref-sources.vim
-    " https://github.com/ujihisa/ref-hoogle
     if neobundle#tap('vim-ref')
         " http://blog.supermomonga.com/articles/vim/neobundle-sugoi-setting.html
         " http://d.hatena.ne.jp/osyo-manga/20130201/1359699217
@@ -994,34 +1027,6 @@ if &loadplugins
          \      'on_source': [
          \          'ref-hoogle',
          \          'ref-sources.vim',
-         \      ],
-         \  }})
-        call neobundle#untap()
-    endif
-
-    if neobundle#tap('ref-sources.vim')
-        call neobundle#config({
-         \  'autoload': {
-         \      'functions': [
-         \          'ref#complete',
-         \          'ref#ref',
-         \      ]
-         \  }})
-
-        function! neobundle#tapped.hooks.on_source(bundle)
-            let g:ref_auto_resize = 1
-        endfunction
-
-        call neobundle#untap()
-    endif
-
-    if neobundle#tap('ref-hoogle')
-        call neobundle#config({
-         \  'autoload': {
-         \      'filetpyes': ['haskell'],
-         \      'functions': [
-         \          'ref#complete',
-         \          'ref#ref',
          \      ],
          \  }})
         call neobundle#untap()
