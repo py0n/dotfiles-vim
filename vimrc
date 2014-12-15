@@ -184,7 +184,6 @@ if &loadplugins
     NeoBundleLazy 'ervandew/supertab'
     NeoBundleLazy 'h1mesuke/vim-alignta'
     NeoBundleLazy 'kana/vim-filetype-haskell'
-    NeoBundleLazy 'kien/ctrlp.vim'
     NeoBundleLazy 'koron/codic-vim'
     NeoBundleLazy 'mattn/perlvalidate-vim'
     NeoBundleLazy 'mojako/ref-sources.vim', {
@@ -195,7 +194,6 @@ if &loadplugins
     NeoBundleLazy 'osyo-manga/vim-precious'
     NeoBundleLazy 'othree/html5.vim'
     NeoBundleLazy 'scrooloose/syntastic'
-    NeoBundleLazy 'sgur/ctrlp-extensions.vim', {'depends':['kien/ctrlp.vim']}
     NeoBundleLazy 'tacroe/unite-mark', {'depends':['Shougo/unite.vim']}
     NeoBundleLazy 'thinca/vim-quickrun', {'vim_version':'7.2'}
     NeoBundleLazy 'thinca/vim-ref'
@@ -260,46 +258,6 @@ if &loadplugins
         set csverb
         map g<C-]> :cs find 3 <C-R>=expand("<cword>")<CR><CR>
         map g<C-\> :cs find 0 <C-R>=expand("<cword>")<CR><CR>
-    endif
-    " }}}
-
-    " Plugin : ctrlp.vim ====================================== {{{
-    " https://github.com/kien/ctrlp.vim
-    if neobundle#tap('ctrlp.vim')
-        let g:ctrlp_map = '<C-p>'
-        let g:ctrlp_cmd = 'CtrlP'
-        nnoremap <silent> <C-p> :<C-u>CtrlP<CR>
-
-        call neobundle#config({
-         \ 'autoload': {
-         \      'commands': ['CtrlP'],
-         \      'mappings': ['<C-p>'],
-         \ }})
-
-        function! neobundle#tapped.hooks.on_source(bundle)
-            " http://qiita.com/items/5ece3f39481f6aab9bc5
-            let g:ctrlp_clear_cache_on_exit = 0
-            let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$'
-            let g:ctrlp_max_depth = 40
-            let g:ctrlp_max_files = 1000000
-        endfunction
-
-        call neobundle#untap()
-    endif
-
-    if neobundle#tap('ctrlp-extensions.vim')
-        call neobundle#config({
-         \  'autoload': {'on_source': ['ctrlp.vim']}
-         \  })
-
-        function! neobundle#tapped.hooks.on_source(bundle)
-            " http://sgur.tumblr.com/post/21848239550/ctrlp-vim
-            let g:ctrlp_extensions = [
-             \  'cmdline', 'yankring', 'menu'
-             \  ]
-        endfunction
-
-        call neobundle#untap()
     endif
     " }}}
 
