@@ -1589,6 +1589,13 @@ nnoremap g# g#zz
 " http://deris.hatenablog.jp/entry/2014/05/20/235807
 inoremap jk <Esc>
 vnoremap jk <Esc>
+
+" command履歴
+" http://lingr.com/room/vim/archives/2014/12/13#message-20830819
+cnoremap <Up>   <C-p>
+cnoremap <Down> <C-n>
+cnoremap <C-p>  <Up>
+cnoremap <C-n>  <Down>
 " }}}
 
 " GUI設定 ================================================= {{{
