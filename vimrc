@@ -121,7 +121,7 @@ if has('vim_starting')
 endif
 " }}}
 
-" NeoBundle : プラグイン読込 ============================= {{{
+" NeoBundle : プラグイン {{{
 " `loadplugins`がtrueならNeoBundleを実行する。
 " `--noplugin`で起動してもNeoBundleでの設定が中途半端に読み込まれるので、
 " `loadplugins`をチェックする。
@@ -716,7 +716,7 @@ if &loadplugins
     endif
     " }}}
 
-    " Plugin : unite-outline ================================== {{{
+    " Plugin : unite-outline {{{
     " https://github.com/Shougo/unite-outline
     if neobundle#tap('unite-outline')
         call neobundle#config({
@@ -733,7 +733,7 @@ if &loadplugins
     endif
     " }}}
 
-    " Plugun : unite.vim ====================================== {{{
+    " Plugun : unite.vim {{{
     " https://github.com/Shougo/unite.vim
     " http://d.hatena.ne.jp/ruedap/20110110/vim_unite_plugin
     " http://d.hatena.ne.jp/ruedap/20110117/vim_unite_plugin_1_week
@@ -749,12 +749,17 @@ if &loadplugins
          \  }})
 
         function! neobundle#tapped.hooks.on_source(bundle)
+            " 2014/12/16 原因分からないけどprompt-directionが効かない。
             call unite#custom#profile('default', 'context', {
              \  'direction'        : 'botright',
              \  'ignorecase'       : 1,
              \  'smartcase'        : 1,
              \  'start_insert'     : 1,
              \  })
+
+            " ESC二回で終了
+            autocmd MyVimrc FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
+            autocmd MyVimrc FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
 
             " unite grep で pt を利用する
             " Ref. help unite-source-grep
@@ -798,9 +803,6 @@ if &loadplugins
         " grep
         nnoremap <silent> [unite]g :<C-u>Unite -buffer-name=search-buffer grep:.<CR>
         nnoremap <silent> [unite]r :<C-u>UniteResume search-buffer<CR>
-        " ESC二回で終了
-        autocmd MyVimrc FileType unite nnoremap <silent> <buffer> <ESC><ESC> :q<CR>
-        autocmd MyVimrc FileType unite inoremap <silent> <buffer> <ESC><ESC> <ESC>:q<CR>
     endif
     " }}}
 
