@@ -194,6 +194,9 @@ if &loadplugins
     NeoBundleLazy 'osyo-manga/vim-anzu'
     NeoBundleLazy 'osyo-manga/vim-precious'
     NeoBundleLazy 'othree/html5.vim'
+    NeoBundleLazy 'rhysd/unite-codic.vim', {
+     \  'depends':['Shougo/unite.vim', 'koron/codic-vim'],
+     \  }
     NeoBundleLazy 'scrooloose/syntastic'
     NeoBundleLazy 'tacroe/unite-mark', {'depends':['Shougo/unite.vim']}
     NeoBundleLazy 'thinca/vim-quickrun', {'vim_version':'7.2'}
@@ -266,9 +269,10 @@ if &loadplugins
     " https://github.com/koron/codic-vim
     if neobundle#tap('codic-vim')
         call neobundle#config({
-         \ 'autoload': {
-         \     'commands': ['Codic'],
-         \ }})
+         \  'autoload': {
+         \      'commands'  : ['Codic'],
+         \      'on_source' : ['unite-codic.vim'],
+         \  }})
 
         call neobundle#untap()
     endif
@@ -696,6 +700,17 @@ if &loadplugins
                 endif
             endfunction
         endfunction
+
+        call neobundle#untap()
+    endif
+    " }}}
+
+    " Plugin : unite-codic.vim {{{
+    if neobundle#tap('unite-codic.vim')
+        call neobundle#config({
+         \  'autoload': {
+         \      'unite_sources': ['codic'],
+         \  }})
 
         call neobundle#untap()
     endif
