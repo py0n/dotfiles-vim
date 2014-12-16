@@ -781,7 +781,7 @@ if &loadplugins
         nnoremap [unite]  <Nop>
         nmap     <Space>u [unite]
         " grep
-        nnoremap <silent> [unite]g :<C-u>Unite -buffer-name=search-buffer -no-empty grep:.<CR>
+        nnoremap <silent> [unite]g :<C-u>Unite -buffer-name=search-buffer -no-empty grep<CR>
         nnoremap <silent> [unite]r :<C-u>UniteResume search-buffer<CR>
 
         " ESC二回で終了
@@ -1460,7 +1460,7 @@ set confirm
 autocmd MyVimrc BufWritePre * call s:MkdirP(expand('<afile>:p:h'))
 " }}}
 
-" Search : 検索設定 ======================================= {{{
+" Search : 検索設定 {{{
 " 検索文字列が小文字の場合は大文字小文字を区別なく検索する
 set ignorecase
 " 検索文字列入力時に順次対象文字列にヒットさせる
@@ -1470,19 +1470,23 @@ set smartcase
 " 検索時に最後まで行ったら最初に戻る
 set wrapscan
 
-" grepでptまたはackを使用。
+" grepでptまたはackを使用 (unite-grepが設定されていないときのみ)
 " http://beyondgrep.com/
 " http://blog.blueblack.net/item_160
 " http://d.hatena.ne.jp/secondlife/20080311/1205205348
 " https://github.com/monochromegane/the_platinum_searcher
-if executable('pt')
-    set grepprg=pt
-elseif executable('ack-grep')
-    set grepprg=ack-grep
-elseif executable('ack')
-    set grepprg=ack
+if !exists('g:unite_source_grep_command')
+    if executable('pt')
+        set grepprg=pt
+    elseif executable('ag')
+        set grepprg=ag
+    elseif executable('ack-grep')
+        set grepprg=ack-grep
+    elseif executable('ack')
+        set grepprg=ack
+    endif
+    autocmd MyVimrc QuickfixCmdPost grep cwindow
 endif
-autocmd MyVimrc QuickfixCmdPost grep cwindow
 " }}}
 
 " Decoration : 装飾設定 =================================== {{{
