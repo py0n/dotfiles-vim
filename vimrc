@@ -709,11 +709,9 @@ if &loadplugins
          \      'unite_sources':['mark']
          \ }})
 
-        call neobundle#untap()
-    endif
+        nnoremap <silent> [unite]m :<C-u>Unite -auto-resize -prompt-direction=top mark<CR>
 
-    if neobundle#is_installed('unite-mark')
-        nnoremap <silent> [unite]m :<C-u>Unite mark<CR>
+        call neobundle#untap()
     endif
     " }}}
 
@@ -725,12 +723,10 @@ if &loadplugins
          \      'unite_sources': ['outline'],
          \  }})
 
-        call neobundle#untap()
-    endif
-
-    if neobundle#is_installed('unite-outline')
         " http://qiita.com/martini3oz/items/2cebdb805f45e7b4b901
         nnoremap <silent> [unite]o :<C-u>Unite -vertical -ignorecase outline<CR>
+
+        call neobundle#untap()
     endif
     " }}}
 
@@ -770,7 +766,7 @@ if &loadplugins
         nnoremap [unite]  <Nop>
         nmap     <Space>u [unite]
         " grep
-        nnoremap <silent> [unite]g :<C-u>Unite -buffer-name=search-buffer grep:.<CR>
+        nnoremap <silent> [unite]g :<C-u>Unite -auto-resize -buffer-name=search-buffer -prompt-direction=top grep:.<CR>
         nnoremap <silent> [unite]r :<C-u>UniteResume search-buffer<CR>
 
         " ESC二回で終了
