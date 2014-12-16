@@ -709,7 +709,7 @@ if &loadplugins
          \      'unite_sources':['mark']
          \ }})
 
-        nnoremap <silent> [unite]m :<C-u>Unite -auto-resize -prompt-direction=top mark<CR>
+        nnoremap <silent> [unite]m :<C-u>Unite mark<CR>
 
         call neobundle#untap()
     endif
@@ -724,7 +724,7 @@ if &loadplugins
          \  }})
 
         " http://qiita.com/martini3oz/items/2cebdb805f45e7b4b901
-        nnoremap <silent> [unite]o :<C-u>Unite -vertical -ignorecase outline<CR>
+        nnoremap <silent> [unite]o :<C-u>Unite -vertical outline<CR>
 
         call neobundle#untap()
     endif
@@ -746,27 +746,27 @@ if &loadplugins
          \  }})
 
         function! neobundle#tapped.hooks.on_source(bundle)
-            " 2014/12/16 原因分からないけどprompt-directionが効かない。
             call unite#custom#profile('default', 'context', {
              \  'direction'        : 'botright',
              \  'ignorecase'       : 1,
+             \  'prompt_direction' : 'top',
              \  'smartcase'        : 1,
              \  'start_insert'     : 1,
              \  })
         endfunction
 
         " バッファ及び最近使用したファイル一覧
-        nnoremap <C-P> :<C-u>Unite -auto-resize -buffer-name=file -prompt-direction=top buffer file_mru<CR>
+        nnoremap <C-P> :<C-u>Unite -buffer-name=file buffer file_mru<CR>
         " ファイル一覧
-        nnoremap <C-N> :<C-u>Unite -auto-resize -prompt-direction=top file<CR>
+        nnoremap <C-N> :<C-u>Unite file<CR>
         " 最近使用したファイル一覧
-        nnoremap <C-Z> :<C-u>Unite -auto-resize -prompt-direction=top file_mru<CR>
+        nnoremap <C-Z> :<C-u>Unite file_mru<CR>
 
         " http://deris.hatenablog.jp/entry/2013/05/02/192415
         nnoremap [unite]  <Nop>
         nmap     <Space>u [unite]
         " grep
-        nnoremap <silent> [unite]g :<C-u>Unite -auto-resize -buffer-name=search-buffer -prompt-direction=top grep:.<CR>
+        nnoremap <silent> [unite]g :<C-u>Unite -buffer-name=search-buffer -no-empty grep:.<CR>
         nnoremap <silent> [unite]r :<C-u>UniteResume search-buffer<CR>
 
         " ESC二回で終了
