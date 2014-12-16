@@ -184,6 +184,7 @@ if &loadplugins
     NeoBundleLazy 'ervandew/supertab'
     NeoBundleLazy 'h1mesuke/vim-alignta'
     NeoBundleLazy 'kana/vim-filetype-haskell'
+    NeoBundleLazy 'kmnk/vim-unite-giti', {'depeneds':['Shougo/unite.vim']}
     NeoBundleLazy 'koron/codic-vim'
     NeoBundleLazy 'mattn/perlvalidate-vim'
     NeoBundleLazy 'mojako/ref-sources.vim', {
@@ -1088,6 +1089,17 @@ if &loadplugins
 
         call neobundle#untap()
     endif
+    " }}}
+
+    " Plugin : vim-unite-giti {{{
+    if neobundle#tap('vim-unite-giti')
+        call neobundle#config({
+         \  'autoload': {
+         \      'unite-sources': ['giti', 'giti/*'],
+         \  }})
+
+        call neobundle#untap()
+    endi
     " }}}
 
     " Plugin : wildfire.vim =================================== {{{
