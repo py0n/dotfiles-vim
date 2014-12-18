@@ -1055,14 +1055,10 @@ if &loadplugins
     endif
     " }}}
 
-    " Plugin : vim-rooter ===================================== {{{
+    " Plugin : vim-rooter {{{
     " https://github.com/airblade/vim-rooter
     if neobundle#tap('vim-rooter')
-        " 2013/05/24 プラグイン本体に含まれていないもの。
-        autocmd MyVimrc BufEnter *.hs                 :Rooter
-        autocmd MyVimrc BufEnter *.pl,*.pm,*.psgi,*.t :Rooter
-        autocmd MyVimrc BufEnter *.py                 :Rooter
-        autocmd MyVimrc BufEnter vimrc                :Rooter
+        autocmd BufEnter * :Rooter
 
         call neobundle#config({
          \  'autoload': {
