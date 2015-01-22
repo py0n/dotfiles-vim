@@ -186,6 +186,7 @@ if &loadplugins
     NeoBundleLazy 'kana/vim-filetype-haskell'
     NeoBundleLazy 'kmnk/vim-unite-giti', {'depeneds':['Shougo/unite.vim']}
     NeoBundleLazy 'koron/codic-vim'
+    NeoBundleLazy 'mattn/gist-vim', {'depends': 'mattn/webapi-vim'}
     NeoBundleLazy 'mattn/perlvalidate-vim'
     NeoBundleLazy 'mojako/ref-sources.vim', {
      \  'depends'           : ['thinca/vim-ref'],
@@ -296,6 +297,17 @@ if &loadplugins
             autocmd MyVimrc FileType haskell nnoremap <buffer> [ghcmod]t  :GhcModTypeClear<CR>:GhcModType<CR>
             autocmd MyVimrc FileType haskell nnoremap <buffer> [ghcmod]tc :GhcModTypeClear<CR>
         endfunction
+
+        call neobundle#untap()
+    endif
+    " }}}
+
+    " Plugin : gist-vim ======================================= {{{
+    if neobundle#tap('gist-vim')
+        call neobundle#config({
+         \  'autoload': {
+         \      'commands'  : ['Gist'],
+         \  }})
 
         call neobundle#untap()
     endif
