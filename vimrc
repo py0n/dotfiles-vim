@@ -979,7 +979,7 @@ if &loadplugins
     " https://github.com/thinca/vim-localrc
     " http://d.hatena.ne.jp/thinca/20110108/1294427418
     if neobundle#tap('vim-localrc')
-        "    call localrc#load('.local.vimrc', getcwd())
+        let g:localrc_filename = '.local.vim'
 
         call neobundle#untap()
     endif
