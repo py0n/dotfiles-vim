@@ -120,9 +120,13 @@ if has('vim_starting')
     call s:MkdirP(s:rc_dir . '/template')
 
     " gocode
-    let s:gocode_vim_dir = globpath($GOPATH, 'src/github.com/nsf/gocode/vim')
-    if isdirectory(s:gocode_vim_dir)
-        let &g:runtimepath = &g:runtimepath . ',' . s:gocode_vim_dir
+    if exists('$GOPATH')
+        let s:gocode_vim_dir = globpath($GOPATH, 'src/github.com/nsf/gocode/vim')
+        if isdirectory(s:gocode_vim_dir)
+            let &g:runtimepath = &g:runtimepath . ',' . s:gocode_vim_dir
+        endif
+    else
+        echoerr('Not defined GOPATH')
     endif
 endif
 " }}}
