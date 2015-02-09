@@ -1627,8 +1627,17 @@ nnoremap <Space>/ *zz
 nnoremap <C-f> <C-f>zz
 nnoremap <C-b> <C-b>zz
 " フレームサイズを怠惰に変更する
-map <kPlus>  <C-W>+
-map <kMinus> <C-W>-
+" Key repeat hack for resizing splits, i.e., <C-w>+++- vs <C-w>+<C-w>+<C-w>-
+" see: http://www.vim.org/scripts/script.php?script_id=2223
+nmap <C-w>+ <C-w>+<SID>ws
+nmap <C-w>- <C-w>-<SID>ws
+nmap <C-w>> <C-w>><SID>ws
+nmap <C-w>< <C-w><<SID>ws
+nnoremap <script> <SID>ws+ <C-w>+<SID>ws
+nnoremap <script> <SID>ws- <C-w>-<SID>ws
+nnoremap <script> <SID>ws> <C-w>><SID>ws
+nnoremap <script> <SID>ws< <C-w><<SID>ws
+nmap <SID>ws <Nop>
 " ヘルプ検索
 nnoremap <F1> K
 " 現在開いているviスクリプトを実行する
