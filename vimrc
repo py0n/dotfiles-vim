@@ -103,18 +103,18 @@ if has('vim_starting')
     let s:rc_dir = fnamemodify($MYVIMRC, ":p:h")
 
     " backup
-    let &g:backupdir = s:rc_dir . '/tmp'
-    call s:MkdirP(&g:backupdir)
+    let &backupdir = s:rc_dir . '/tmp'
+    call s:MkdirP(&backupdir)
 
     " neobundle
     let s:bundle_dir    = s:rc_dir . '/bundle'
     let s:neobundle_dir = s:bundle_dir . '/neobundle.vim'
-    let &g:runtimepath  = &g:runtimepath . ',' . s:neobundle_dir
+    let &runtimepath  = &runtimepath . ',' . s:neobundle_dir
     call s:MkdirP(s:neobundle_dir)
 
     " swap
-    let &g:directory = s:rc_dir . '/tmp'
-    call s:MkdirP(&g:directory)
+    let &directory = s:rc_dir . '/tmp'
+    call s:MkdirP(&directory)
 
     " template
     call s:MkdirP(s:rc_dir . '/template')
@@ -123,7 +123,7 @@ if has('vim_starting')
     if exists('$GOPATH')
         let s:gocode_vim_dir = globpath($GOPATH, 'src/github.com/nsf/gocode/vim')
         if isdirectory(s:gocode_vim_dir)
-            let &g:runtimepath = &g:runtimepath . ',' . s:gocode_vim_dir
+            let &runtimepath = &runtimepath . ',' . s:gocode_vim_dir
         endif
     else
         echoerr('Not defined GOPATH')
