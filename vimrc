@@ -98,7 +98,7 @@ function! s:MkdirP(dir)
 endfunction
 " }}}
 
-" Directories ============================================= {{{
+" Directories & Runtimepath =============================== {{{
 if has('vim_starting')
     let s:rc_dir = fnamemodify($MYVIMRC, ":p:h")
 
@@ -118,6 +118,16 @@ if has('vim_starting')
 
     " template
     call s:MkdirP(s:rc_dir . '/template')
+
+    " gocode
+    if exists('$GOPATH')
+        let s:gocode_vim_dir = globpath($GOPATH, 'src/github.com/nsf/gocode/vim')
+        if isdirectory(s:gocode_vim_dir)
+            let &g:runtimepath = &g:runtimepath . ',' . s:gocode_vim_dir
+        endif
+    else
+        echoerr('Not defined GOPATH')
+    endif
 endif
 " }}}
 
@@ -208,6 +218,7 @@ if &loadplugins
      \  'depends'           : ['thinca/vim-ref'],
      \  'external_commands' : ['hoogle'],
      \  }
+    NeoBundleLazy 'vim-jp/vim-go-extra'
     NeoBundleLazy 'vim-pandoc/vim-pandoc-syntax', {'vim_version':'7.4'}
     NeoBundleLazy 'vim-perl/vim-perl'
 
@@ -975,6 +986,28 @@ if &loadplugins
     endif
     " }}}
 
+    " Plugin : vim-go-extra =================================== {{{
+    if neobundle#tap('vim-go-extra')
+        call neobundle#config({
+         \  'autoload': {
+         \      'filetypes': ['go']
+         \  }})
+
+        function! neobundle#tapped.hooks.on_source(bundle)
+            silent !go get -u code.google.com/p/go.tools/cmd/goimports
+            silent !go get -u github.com/nsf/gocode
+            silent !go get -u github.com/golang/lint
+            silent !go get -u code.google.com/p/rog-go/exp/cmd/godef
+
+            let g:gofmt_command = 'goimports'
+            autocmd MyVimrc BufWritePre *.go Fmt
+            autocmd MyVimrc FileType go set completeopt=menu,preview
+        endfunction
+
+        call neobundle#untap()
+    endif
+    " }}}
+
     " Plugin : vim-localrc ==================================== {{{
     " https://github.com/thinca/vim-localrc
     " http://d.hatena.ne.jp/thinca/20110108/1294427418
@@ -1200,6 +1233,10 @@ autocmd MyVimrc FileType css set omnifunc=csscomplete#CompleteCSS
 
 " FileType : Git ========================================== {{{
 autocmd MyVimrc FileType gitcommit set fileencoding=utf-8
+" }}}
+
+" FileType : Go =========================================== {{{
+autocmd MyVimrc Filetype go compiler go
 " }}}
 
 " FileType : Haskell ====================================== {{{
@@ -1568,6 +1605,7 @@ set laststatus=2
 set noshowmode
 " タイトルを表示
 set title
+set scrolloff=4
 " }}}
 
 " Keymap : キーマップ設定 ================================= {{{
@@ -1601,8 +1639,17 @@ nnoremap <Space>/ *zz
 nnoremap <C-f> <C-f>zz
 nnoremap <C-b> <C-b>zz
 " フレームサイズを怠惰に変更する
-map <kPlus>  <C-W>+
-map <kMinus> <C-W>-
+" Key repeat hack for resizing splits, i.e., <C-w>+++- vs <C-w>+<C-w>+<C-w>-
+" see: http://www.vim.org/scripts/script.php?script_id=2223
+nmap <C-w>+ <C-w>+<SID>ws
+nmap <C-w>- <C-w>-<SID>ws
+nmap <C-w>> <C-w>><SID>ws
+nmap <C-w>< <C-w><<SID>ws
+nnoremap <script> <SID>ws+ <C-w>+<SID>ws
+nnoremap <script> <SID>ws- <C-w>-<SID>ws
+nnoremap <script> <SID>ws> <C-w>><SID>ws
+nnoremap <script> <SID>ws< <C-w><<SID>ws
+nmap <SID>ws <Nop>
 " ヘルプ検索
 nnoremap <F1> K
 " 現在開いているviスクリプトを実行する
