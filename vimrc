@@ -109,7 +109,7 @@ if has('vim_starting')
     " neobundle
     let s:bundle_dir    = s:rc_dir . '/bundle'
     let s:neobundle_dir = s:bundle_dir . '/neobundle.vim'
-    let &runtimepath  = &runtimepath . ',' . s:neobundle_dir
+    let &runtimepath    = &runtimepath . ',' . s:neobundle_dir
     call s:MkdirP(s:neobundle_dir)
 
     " swap
@@ -145,10 +145,10 @@ if &loadplugins
     " neobundle.vimが無くてもgitコマンドが存在すれは
     " githubから持ってくる。
     if !filereadable(s:neobundle_dir . '/autoload/neobundle.vim')
-        if (has('unix') || has('win32unix')) && executable('git')
+        if (has('macunix') || has('unix') || has('win32unix')) && executable('git')
             " https://github.com/joedicastro/dotfiles/blob/master/vim/vimrc
-            silent !git clone https://github.com/Shougo/neobundle.vim
-             \  s:neobundle_dir
+            silent exe '!git clone https://github.com/Shougo/neobundle.vim '
+             \  . s:neobundle_dir
         else
             echoerr "Not installed NeoBundle (neobundle.vim) plugin"
             finish
