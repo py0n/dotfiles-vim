@@ -150,14 +150,14 @@ if &loadplugins
             silent exe '!git clone https://github.com/Shougo/neobundle.vim '
              \  . s:neobundle_dir
         else
-            echoerr "Not installed NeoBundle (neobundle.vim) plugin"
+            echoerr "Install NeoBundle (neobundle.vim) plugin !"
             finish
         endif
     endif
 
     call neobundle#begin(s:bundle_dir)
 
-    " neobundle.vimをneobundle自信で管理する。
+    " neobundle.vimをneobundle自身で管理する。
     NeoBundleFetch 'Shougo/neobundle.vim'
 
     NeoBundle 'altercation/vim-colors-solarized'
