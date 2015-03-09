@@ -118,16 +118,6 @@ if has('vim_starting')
 
     " template
     call s:MkdirP(s:rc_dir . '/template')
-
-    " gocode
-    if exists('$GOPATH')
-        let s:gocode_vim_dir = globpath($GOPATH, 'src/github.com/nsf/gocode/vim')
-        if isdirectory(s:gocode_vim_dir)
-            let &runtimepath = &runtimepath . ',' . s:gocode_vim_dir
-        endif
-    else
-        echoerr('Not defined GOPATH')
-    endif
 endif
 " }}}
 
@@ -201,6 +191,9 @@ if &loadplugins
     NeoBundleLazy 'mojako/ref-sources.vim', {
      \  'depends'           : ['thinca/vim-ref'],
      \  'external_commands' : ['curl'],
+     \  }
+    NeoBundleLazy 'nsf/gocode', {
+     \  'rtp': '~/.vim/bundle/nsf/gocode/vim',
      \  }
     NeoBundleLazy 'osyo-manga/vim-anzu'
     NeoBundleLazy 'osyo-manga/vim-precious'
@@ -319,6 +312,26 @@ if &loadplugins
          \  'autoload': {
          \      'commands'  : ['Gist'],
          \  }})
+
+        call neobundle#untap()
+    endif
+    " }}}
+
+    " Plugin : gocode ========================================= {{{
+    if neobundle#tap('gocode')
+        call neobundle#config({
+         \  'autoload': {'filetype': ['go']},
+         \  })
+
+        function! neobundle#tapped.hooks.on_source(bundle)
+            if !exists('$GOPATH')
+                echoerr('Not defined GOPATH')
+            endif
+
+            if neobundle#is_installed('vimproc')
+                call vimproc#system_bg('go get -u github.com/nsf/gocode')
+            endif
+        endfunction
 
         call neobundle#untap()
     endif
