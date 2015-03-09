@@ -994,10 +994,15 @@ if &loadplugins
          \  }})
 
         function! neobundle#tapped.hooks.on_source(bundle)
-            silent !go get -u code.google.com/p/go.tools/cmd/goimports
-            silent !go get -u github.com/nsf/gocode
-            silent !go get -u github.com/golang/lint
-            silent !go get -u code.google.com/p/rog-go/exp/cmd/godef
+            if !exists('$GOPATH')
+                echoerr('Not defined GOPATH')
+            endif
+
+            if neobundle#is_installed('vimproc')
+                call vimproc#system_bg('go get -u code.google.com/p/go.tools/cmd/goimports')
+                call vimproc#system_bg('go get -u github.com/golang/lint')
+                call vimproc#system_bg('go get -u code.google.com/p/rog-go/exp/cmd/godef')
+            endif
 
             let g:gofmt_command = 'goimports'
             autocmd MyVimrc BufWritePre *.go Fmt
