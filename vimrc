@@ -192,10 +192,6 @@ if &loadplugins
      \  'depends'           : ['thinca/vim-ref'],
      \  'external_commands' : ['curl'],
      \  }
-    NeoBundleLazy 'nsf/gocode', {
-     \  'external_commands' : ['go'],
-     \  'rtp'               : '~/.vim/bundle/gocode/vim',
-     \  }
     NeoBundleLazy 'osyo-manga/vim-anzu'
     NeoBundleLazy 'osyo-manga/vim-precious'
     NeoBundleLazy 'othree/html5.vim'
@@ -315,26 +311,6 @@ if &loadplugins
          \  'autoload': {
          \      'commands'  : ['Gist'],
          \  }})
-
-        call neobundle#untap()
-    endif
-    " }}}
-
-    " Plugin : gocode ========================================= {{{
-    if neobundle#tap('gocode')
-        call neobundle#config({
-         \  'autoload': {'filetype': ['go']},
-         \  })
-
-        function! neobundle#tapped.hooks.on_source(bundle)
-            if !exists('$GOPATH')
-                echoerr('Not defined GOPATH')
-            endif
-
-            if neobundle#is_installed('vimproc')
-                call vimproc#system_bg('go get -u github.com/nsf/gocode')
-            endif
-        endfunction
 
         call neobundle#untap()
     endif
@@ -1016,12 +992,14 @@ if &loadplugins
 
             if neobundle#is_installed('vimproc')
                 call vimproc#system_bg('go get -u code.google.com/p/go.tools/cmd/goimports')
-                call vimproc#system_bg('go get -u github.com/golang/lint')
                 call vimproc#system_bg('go get -u code.google.com/p/rog-go/exp/cmd/godef')
+                call vimproc#system_bg('go get -u github.com/golang/lint/golint')
+                call vimproc#system_bg('go get -u github.com/nsf/gocode')
+                call vimproc#system_bg('go get -u golang.org/x/tools/cmd/godoc')
             endif
 
             let g:gofmt_command = 'goimports'
-            autocmd MyVimrc BufWritePre *.go Fmt
+            autocmd MyVimrc FileType go autocmd BufWritePre <buffer> Fmt
             autocmd MyVimrc FileType go set completeopt=menu,preview
         endfunction
 
