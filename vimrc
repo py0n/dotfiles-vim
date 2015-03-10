@@ -193,7 +193,7 @@ if &loadplugins
      \  'external_commands' : ['curl'],
      \  }
     NeoBundleLazy 'nsf/gocode', {
-     \  'external_commands' : ['go']
+     \  'external_commands' : ['go'],
      \  'rtp'               : '~/.vim/bundle/gocode/vim',
      \  }
     NeoBundleLazy 'osyo-manga/vim-anzu'
