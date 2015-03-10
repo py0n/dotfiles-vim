@@ -193,7 +193,8 @@ if &loadplugins
      \  'external_commands' : ['curl'],
      \  }
     NeoBundleLazy 'nsf/gocode', {
-     \  'rtp': '~/.vim/bundle/nsf/gocode/vim',
+     \  'external_commands' : ['go']
+     \  'rtp'               : '~/.vim/bundle/gocode/vim',
      \  }
     NeoBundleLazy 'osyo-manga/vim-anzu'
     NeoBundleLazy 'osyo-manga/vim-precious'
@@ -211,7 +212,9 @@ if &loadplugins
      \  'depends'           : ['thinca/vim-ref'],
      \  'external_commands' : ['hoogle'],
      \  }
-    NeoBundleLazy 'vim-jp/vim-go-extra'
+    NeoBundleLazy 'vim-jp/vim-go-extra', {
+     \  'external_commands' : ['go']
+     \  }
     NeoBundleLazy 'vim-pandoc/vim-pandoc-syntax', {'vim_version':'7.4'}
     NeoBundleLazy 'vim-perl/vim-perl'
 
