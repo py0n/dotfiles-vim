@@ -20,12 +20,15 @@ if has('vim_starting')
         finish
     endif
 
+    " http://rbtnn.hateblo.jp/entry/2014/11/30/174749
     if &encoding !=# 'utf-8'
         set encoding=japan
         set fileencoding=japan
     endif
 
     scriptencoding utf-8
+    " ↑より前に日本語のコメントを書いてはいけない。
+    " http://rbtnn.hateblo.jp/entry/2014/11/30/174749
 
     " Encoding : 文字コード自動判定 ========================== {{{
     " http://www.kawaz.jp/pukiwiki/?vim#cb691f26
@@ -105,10 +108,6 @@ endfunction
 " Directories & Runtimepath =============================== {{{
 if has('vim_starting')
     let s:rc_dir = fnamemodify($MYVIMRC, ":p:h")
-
-    " backup
-    let &backupdir = s:rc_dir . '/tmp'
-    call s:MkdirP(&backupdir)
 
     " neobundle
     let s:bundle_dir    = s:rc_dir . '/bundle'
