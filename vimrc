@@ -186,7 +186,7 @@ if &loadplugins
     NeoBundleLazy 'kana/vim-filetype-haskell'
     NeoBundleLazy 'kmnk/vim-unite-giti', {'depeneds':['Shougo/unite.vim']}
     NeoBundleLazy 'koron/codic-vim'
-    NeoBundleLazy 'mattn/gist-vim', {'depends': 'mattn/webapi-vim'}
+    NeoBundleLazy 'lambdalisue/vim-gista'
     NeoBundleLazy 'mattn/perlvalidate-vim'
     NeoBundleLazy 'mojako/ref-sources.vim', {
      \  'depends'           : ['thinca/vim-ref'],
@@ -300,17 +300,6 @@ if &loadplugins
             autocmd MyVimrc FileType haskell nnoremap <buffer> [ghcmod]t  :GhcModTypeClear<CR>:GhcModType<CR>
             autocmd MyVimrc FileType haskell nnoremap <buffer> [ghcmod]tc :GhcModTypeClear<CR>
         endfunction
-
-        call neobundle#untap()
-    endif
-    " }}}
-
-    " Plugin : gist-vim ======================================= {{{
-    if neobundle#tap('gist-vim')
-        call neobundle#config({
-         \  'autoload': {
-         \      'commands'  : ['Gist'],
-         \  }})
 
         call neobundle#untap()
     endif
@@ -957,6 +946,19 @@ if &loadplugins
         endfunction
 
         call neobundle#untap()
+    endif
+    " }}}
+
+    " Plugin : vim-gista ====================================== {{{
+    " http://lambdalisue.hatenablog.com/entry/2014/07/01/203015
+    " https://github.com/lambdalisue/vim-gista
+    if neobundle#tap('vim-gista')
+        call neobundle#config({
+         \  'autoload': {
+         \      'commands'      : ['Gista'],
+         \      'mappings'      : '<Plug>(gista-',
+         \      'unite_sources' : 'gista',
+         \  }})
     endif
     " }}}
 
