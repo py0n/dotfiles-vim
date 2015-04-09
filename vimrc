@@ -83,7 +83,11 @@ if has('vim_starting')
 
     " □とか○の文字があってもカーソル位置がずれないようにする
     if exists('&ambiwidth')
-        set ambiwidth=double
+        if has('macunix')
+            set ambiwidth=single
+        else
+            set ambiwidth=double
+        endif
     endif
     " }}}
 
