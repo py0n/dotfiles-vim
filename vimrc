@@ -194,7 +194,10 @@ if &loadplugins
     NeoBundleLazy 'kana/vim-filetype-haskell'
     NeoBundleLazy 'kmnk/vim-unite-giti', {'depeneds':['Shougo/unite.vim']}
     NeoBundleLazy 'koron/codic-vim'
-    NeoBundleLazy 'lambdalisue/vim-gista'
+    NeoBundleLazy 'lambdalisue/vim-gista', {
+     \  'depends'           : ['Shougo/unite.vim', 'tyru/open-browser.vim'],
+     \  'external_commands' : ['curl'],
+     \  }
     NeoBundleLazy 'mattn/perlvalidate-vim'
     NeoBundleLazy 'mojako/ref-sources.vim', {
      \  'depends'           : ['thinca/vim-ref'],
@@ -967,6 +970,10 @@ if &loadplugins
          \      'mappings'      : '<Plug>(gista-',
          \      'unite_sources' : 'gista',
          \  }})
+
+        function! neobundle#tapped.hooks.on_source(bundle)
+            let g:gista#github_user = 'py0n'
+        endfunction
 
         call neobundle#untap()
     endif
