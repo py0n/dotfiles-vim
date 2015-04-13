@@ -962,6 +962,8 @@ if &loadplugins
          \      'mappings'      : '<Plug>(gista-',
          \      'unite_sources' : 'gista',
          \  }})
+
+        call neobundle#untap()
     endif
     " }}}
 
