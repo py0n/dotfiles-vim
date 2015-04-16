@@ -121,6 +121,11 @@ if has('vim_starting')
 
     " template
     call s:MkdirP(s:rc_dir . '/template')
+
+    " runtimepath
+    if executable('gocode') && exists('$GOPATH')
+        let &runtimepath = &runtimepath . ',' . globpath($GOPATH, 'src/github.com/nsf/gocode/vim')
+    endif
 endif
 " }}}
 
