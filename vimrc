@@ -115,10 +115,6 @@ if has('vim_starting')
     let &runtimepath    = &runtimepath . ',' . s:neobundle_dir
     call s:MkdirP(s:neobundle_dir)
 
-    " swap
-    let &directory = &directory . ',' . s:rc_dir . '/tmp'
-    call s:MkdirP(&directory)
-
     " template
     call s:MkdirP(s:rc_dir . '/template')
 
