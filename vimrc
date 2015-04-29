@@ -823,6 +823,7 @@ if &loadplugins
             let g:unite_source_grep_recursive_opt = ''
         endif
 
+        let g:unite_source_history_yank_list = 10000
         call neobundle#untap()
     endif
     " }}}
