@@ -969,7 +969,9 @@ if &loadplugins
          \  }})
 
         function! neobundle#tapped.hooks.on_source(bundle)
-            let g:gista#github_user = 'py0n'
+            if g:gista#gist_api_url == 'https://api.github.com/'
+                let g:gista#github_user = 'py0n'
+            endif
         endfunction
 
         call neobundle#untap()
