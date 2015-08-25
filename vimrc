@@ -157,6 +157,7 @@ if &loadplugins
     NeoBundle 'altercation/vim-colors-solarized'
     NeoBundle 'gcmt/wildfire.vim'
     NeoBundle 'itchyny/lightline.vim'
+    NeoBundle 'scrooloose/syntastic'
     NeoBundle 'thinca/vim-localrc', {'disabled':has('win32unix')}
     NeoBundle 'tpope/vim-surround'
     NeoBundle 'vim-scripts/cecutil.git'
@@ -205,7 +206,6 @@ if &loadplugins
     NeoBundleLazy 'rhysd/unite-codic.vim', {
      \  'depends':['Shougo/unite.vim', 'koron/codic-vim'],
      \  }
-    NeoBundleLazy 'scrooloose/syntastic'
     NeoBundleLazy 'tacroe/unite-mark', {'depends':['Shougo/unite.vim']}
     NeoBundleLazy 'thinca/vim-quickrun', {'vim_version':'7.2'}
     NeoBundleLazy 'thinca/vim-ref'
