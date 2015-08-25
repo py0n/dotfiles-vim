@@ -209,7 +209,7 @@ if &loadplugins
     NeoBundleLazy 'tacroe/unite-mark', {'depends':['Shougo/unite.vim']}
     NeoBundleLazy 'thinca/vim-quickrun', {'vim_version':'7.2'}
     NeoBundleLazy 'thinca/vim-ref'
-    NeoBundleLazy 'tpope/vim-fugitive', {'external_commands':['git']}
+"    NeoBundleLazy 'tpope/vim-fugitive', {'external_commands':['git']}
     NeoBundleLazy 'ujihisa/neco-ghc', {'external_commands':['ghc-mod']}
     NeoBundleLazy 'ujihisa/ref-hoogle', {
      \  'depends'           : ['thinca/vim-ref'],
