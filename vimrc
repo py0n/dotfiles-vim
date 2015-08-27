@@ -465,13 +465,11 @@ if &loadplugins
             if !neobundle#is_installed('vim-fugitive')
                 return ''
             endif
-            try
-                if &filetype !~? '\v(vimfiler|gundo)'
-                    let l:fg = fugitive#head()
-                endif
-            catch
+	    if &filetype !~? '\v(vimfiler|gundo)' && exists('*fugitive#head') && strlen(fugitive#head())
+                let l:fg = fugitive#head()
+            else
                 let l:fg = ''
-            endtry
+            endif
             return s:is_display(strlen(l:fg), 'MyFugitive') ? l:fg : ''
         endfunction " }}}
 
