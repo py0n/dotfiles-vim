@@ -462,14 +462,15 @@ if &loadplugins
         endfunction " }}}
 
         function! MyFugitive() " {{{
-            if !neobundle#is_installed('vim-fugitive')
-                return ''
-            endif
-	    if &filetype !~? '\v(vimfiler|gundo)' && exists('*fugitive#head') && strlen(fugitive#head())
-                let l:fg = fugitive#head()
-            else
+            try
+                if &filetype !~? '\v(vimfiler|gundo)'
+                    let l:fg = fugitive#head()
+                else
+                    throw 'vimfiler_or_gundo'
+                endif
+            catch
                 let l:fg = ''
-            endif
+            endtry
             return s:is_display(strlen(l:fg), 'MyFugitive') ? l:fg : ''
         endfunction " }}}
 
@@ -895,8 +896,8 @@ if &loadplugins
     if neobundle#tap('vim-fugitive')
         call neobundle#config({
          \  'autoload': {
-         \      'commands': ['Gblame', 'Gdiff', 'Gwrite'],
-         \      'function_prefix': 'fugitive',
+         \      'commands'  : ['Gblame', 'Gdiff', 'Gwrite'],
+         \      'functions' : ['fugitive#head'],
          \  }})
 
         " http://leafcage.hateblo.jp/entry/nebulavim_intro
