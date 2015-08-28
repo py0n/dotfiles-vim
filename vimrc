@@ -157,7 +157,6 @@ if &loadplugins
     NeoBundle 'altercation/vim-colors-solarized'
     NeoBundle 'gcmt/wildfire.vim'
     NeoBundle 'itchyny/lightline.vim'
-    NeoBundle 'scrooloose/syntastic'
     NeoBundle 'thinca/vim-localrc', {'disabled':has('win32unix')}
     NeoBundle 'tpope/vim-surround'
     NeoBundle 'vim-scripts/cecutil.git'
@@ -206,6 +205,7 @@ if &loadplugins
     NeoBundleLazy 'rhysd/unite-codic.vim', {
      \  'depends':['Shougo/unite.vim', 'koron/codic-vim'],
      \  }
+    NeoBundleLazy 'scrooloose/syntastic'
     NeoBundleLazy 'tacroe/unite-mark', {'depends':['Shougo/unite.vim']}
     NeoBundleLazy 'thinca/vim-quickrun', {'vim_version':'7.2'}
     NeoBundleLazy 'thinca/vim-ref'
@@ -340,13 +340,13 @@ if &loadplugins
          \     [ 'fugitive', 'gitgutter', 'filename', 'anzu' ]
          \   ],
          \   'right': [
-         \     [ 'lineinfo', 'syntastic' ],
+         \     [ 'syntastic', 'lineinfo' ],
          \     [ 'percent' ],
          \     [ 'charcode', 'fileformat', 'fileencoding', 'filetype' ]
          \   ],
          \ },
          \ 'component_expand': {
-         \   'syntastic': 'MySyntasticStatuslineFlag'
+         \   'syntastic': 'SyntasticStatuslineFlag'
          \ },
          \ 'component_function': {
          \   'anzu'         : 'MyAnzu',
@@ -516,15 +516,6 @@ if &loadplugins
              \ ? ''  : '-'
         endfunction " }}}
 
-        " http://d.hatena.ne.jp/itchyny/20130918/1379461406
-        function! MySyntasticStatuslineFlag() "{{{
-            if neobundle#is_installed('syntastic')
-                return SyntasticStatuslineFlag()
-            else
-                return ''
-            endif
-        endfunction " }}}
-
         function! MyPercent() " {{{
             let l:cl = line('.')
             let l:ll = line('$')
@@ -691,23 +682,27 @@ if &loadplugins
     if neobundle#tap('syntastic')
         call neobundle#config({
          \  'autoload': {
-         \      'functions': [
-         \          'SyntasticCheck',
-         \          'SyntasticStatuslineFlag',
-         \      ],
+         \      'commands'  : 'SyntasticCheck',
+         \      'functions' : 'SyntasticStatuslineFlag',
          \  }})
 
-        function! neobundle#tapped.hooks.on_source(bundle)
-            let g:syntastic_mode_map = {'mode': 'passive'}
-            autocmd MyVimrc BufWritePost *.pl,*.pm call s:syntastic()
-            autocmd MyVimrc BufWritePost *.py      call s:syntastic()
-            autocmd MyVimrc BufWritePost *.t       call s:syntastic()
-            function! s:syntastic()
-                SyntasticCheck
-                if neobundle#is_installed('lightline.vim')
-                    call lightline#update()
-                endif
-            endfunction
+        " 作者が教える！ lightline.vimの設定方法！ 〜 中級編 - 展開コンポーネントを理解しよう - プログラムモグモグ
+        " http://itchyny.hatenablog.com/entry/20130918/1379461406
+        " syntasticでperlのsyntaxcheckが動かなくなった件 - 呆備録
+        " http://d.hatena.ne.jp/oppara/20140515/p1
+        let g:syntastic_debug               = 0
+        let g:syntastic_enable_perl_checker = 1
+        let g:syntastic_mode_map            = {'mode': 'passive'}
+        let g:syntastic_perl_checkers       = ['perl', 'perlcritic', 'podchecker']
+        augroup MyVimrc
+            autocmd!
+            autocmd BufWritePost *.pl,*.pm call s:syntastic()
+            autocmd BufWritePost *.py      call s:syntastic()
+            autocmd BufWritePost *.t       call s:syntastic()
+        augroup END
+        function! s:syntastic()
+            SyntasticCheck
+            call lightline#update()
         endfunction
 
         call neobundle#untap()
