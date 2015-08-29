@@ -1018,7 +1018,6 @@ if &loadplugins
 
             let g:gofmt_command = 'goimports'
             autocmd MyVimrc FileType go autocmd BufWritePre <buffer> Fmt
-            autocmd MyVimrc FileType go set completeopt=menu,preview
         endfunction
 
         call neobundle#untap()
