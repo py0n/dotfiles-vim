@@ -1254,7 +1254,15 @@ autocmd MyVimrc FileType gitcommit set fileencoding=utf-8
 " }}}
 
 " FileType : Go =========================================== {{{
-autocmd MyVimrc Filetype go compiler go
+" 【Go × Vim】 VimでGoを書く - 2015 Spring
+" http://qiita.com/izumin5210/items/1f3c312edd7f0075b09c
+augroup MyVimrc
+    autocmd Filetype go compiler go
+    autocmd Filetype go setlocal noexpandtab
+    autocmd Filetype go setlocal shiftwidth=4
+    autocmd Filetype go setlocal softtabstop=0
+    autocmd Filetype go setlocal tabstop=4
+augroup END
 " }}}
 
 " FileType : Haskell ====================================== {{{
