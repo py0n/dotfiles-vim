@@ -216,6 +216,7 @@ if &loadplugins
      \  'external_commands' : ['hoogle'],
      \  }
     NeoBundleLazy 'vim-jp/vim-go-extra', {
+     \  'depends'           : ['Shougo/vimproc'],
      \  'external_commands' : ['go']
      \  }
     NeoBundleLazy 'vim-pandoc/vim-pandoc-syntax', {'vim_version':'7.4'}
@@ -691,12 +692,18 @@ if &loadplugins
         " http://itchyny.hatenablog.com/entry/20130918/1379461406
         " syntasticでperlのsyntaxcheckが動かなくなった件 - 呆備録
         " http://d.hatena.ne.jp/oppara/20140515/p1
+        " 【Go × Vim】 VimでGoを書く - 2015 Spring
+        " http://qiita.com/izumin5210/items/1f3c312edd7f0075b09c
         let g:syntastic_debug               = 0
         let g:syntastic_enable_perl_checker = 1
         let g:syntastic_mode_map            = {'mode': 'passive'}
-        let g:syntastic_perl_checkers       = ['perl', 'perlcritic', 'podchecker']
+
+        let g:syntastic_go_checkers   = ['go', 'golint']
+        let g:syntastic_perl_checkers = ['perl', 'perlcritic', 'podchecker']
+
         augroup MyVimrc
             autocmd!
+            autocmd BufWritePost *.go      call s:syntastic()
             autocmd BufWritePost *.pl,*.pm call s:syntastic()
             autocmd BufWritePost *.py      call s:syntastic()
             autocmd BufWritePost *.t       call s:syntastic()
