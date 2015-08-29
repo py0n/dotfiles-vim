@@ -702,7 +702,6 @@ if &loadplugins
         let g:syntastic_perl_checkers = ['perl', 'perlcritic', 'podchecker']
 
         augroup MyVimrc
-            autocmd!
             autocmd BufWritePost *.go      call s:syntastic()
             autocmd BufWritePost *.pl,*.pm call s:syntastic()
             autocmd BufWritePost *.py      call s:syntastic()
