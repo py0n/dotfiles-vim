@@ -1530,6 +1530,9 @@ set confirm
 " 自動的にディレクトリを作成する。
 " http://vim-users.jp/2011/02/hack202/
 autocmd MyVimrc BufWritePre * call s:MkdirP(expand('<afile>:p:h'))
+" インサートモードから抜ける際にペーストモードも抜ける
+" http://qiita.com/quwa/items/019250dbca167985fe32
+autocmd MyVimrc InsertLeave * set nopaste
 " }}}
 
 " Search : 検索設定 {{{
