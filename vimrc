@@ -1510,12 +1510,6 @@ set nrformats-=octal
 " http://stackoverflow.com/questions/23946748/vim-imap-jk-esc-not-working-even-with-escape-character
 "set timeout timeoutlen=1000 ttimeoutlen=75
 
-" 挿入モードでのEsc押下後の待ちを無くす
-" http://ttssh2.sourceforge.jp/manual/ja/usage/tips/vim.html
-let &t_SI .= "\e[?7727h"
-let &t_EI .= "\e[?7727l"
-inoremap <special> <Esc>O[ <Esc>
-
 "" Visual blockモードでフリーカーソルを有効にする
 "set virtualedit=block
 "" カーソルキーで行末/行頭を移動可能に設定
@@ -1714,6 +1708,11 @@ inoremap (<Enter> ()<Left>
 inoremap <<Enter> <><Left>
 inoremap [<Enter> []<Left>
 inoremap {<Enter> {}<Left>
+" 挿入モードでのEsc押下後の待ちを無くす
+" http://ttssh2.sourceforge.jp/manual/ja/usage/tips/vim.html
+let &t_SI .= "\e[?7727h"
+let &t_EI .= "\e[?7727l"
+inoremap <special> <Esc>O[ <Esc>
 " }}}
 
 " GUI設定 ================================================= {{{
