@@ -1476,6 +1476,9 @@ set clipboard&
 set clipboard+=unnamed,autoselect
 " コマンドラインの高さ
 set cmdheight=1
+" バッファが変更されているとき、コマンドをエラーにするのではなく、
+" 保存するかどうかを確認する
+set confirm
 "C プログラムの自動インデントを無効にする(smartindent の為)
 set nocindent
 " 日本語行を連結する際に空白を挿入しない
@@ -1494,8 +1497,6 @@ set modelines=10
 "	set mouse=a
 "	set ttymouse=xterm2
 "endif
-"「賢い」インデントする
-set smartindent
 "" 暫く入力が無い時に保存する
 "" http://vim-users.jp/2009/07/hack36/
 "autocmd CursorHold  * wall
@@ -1503,24 +1504,21 @@ set smartindent
 " 8進数を無効にする (C-a, C-xなどに影響する)
 set nrformats&
 set nrformats-=octal
-
+"" 画面最下行にルーラを表示する
+"set ruler
+"「賢い」インデントする
+set smartindent
 " Escの反応を素早くする。
 " 但し、この設定を使用するときはEscを含むマッピングを全て無効にする。
 " http://gajumaru.ddo.jp/wordpress/?p=1101
 " http://stackoverflow.com/questions/23946748/vim-imap-jk-esc-not-working-even-with-escape-character
 "set timeout timeoutlen=1000 ttimeoutlen=75
-
 "" Visual blockモードでフリーカーソルを有効にする
 "set virtualedit=block
 "" カーソルキーで行末/行頭を移動可能に設定
 "set whichwrap=b,s,[,],<,>
 " 強化されたコマンドライン補完
 set wildmenu
-"" 画面最下行にルーラを表示する
-"set ruler
-" バッファが変更されているとき、コマンドをエラーにするのではなく、
-" 保存するかどうかを確認する
-set confirm
 " 自動的にディレクトリを作成する。
 " http://vim-users.jp/2011/02/hack202/
 autocmd MyVimrc BufWritePre * call s:MkdirP(expand('<afile>:p:h'))
