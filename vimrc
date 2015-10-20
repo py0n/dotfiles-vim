@@ -1696,18 +1696,24 @@ nnoremap *  *zz
 nnoremap #  #zz
 nnoremap g* g*zz
 nnoremap g# g#zz
-
 " Escをjkで代用する。
 " http://deris.hatenablog.jp/entry/2014/05/20/235807
 inoremap jk <Esc>
 vnoremap jk <Esc>
-
 " command履歴
 " http://lingr.com/room/vim/archives/2014/12/13#message-20830819
 cnoremap <Up>   <C-p>
 cnoremap <Down> <C-n>
 cnoremap <C-p>  <Up>
 cnoremap <C-n>  <Down>
+" 括弧の補完
+" http://qiita.com/kuwana/items/d9778a9ec42a53b3aa10
+inoremap "        ""<LEFT>
+inoremap '        ''<LEFT>
+inoremap (<Enter> ()<Left>
+inoremap <<Enter> <><Left>
+inoremap [<Enter> []<Left>
+inoremap {<Enter> {}<Left>
 " }}}
 
 " GUI設定 ================================================= {{{
