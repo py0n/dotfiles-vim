@@ -167,7 +167,10 @@ if &loadplugins
     NeoBundleLazy 'Shougo/neocomplcache.vim'
     NeoBundleLazy 'Shougo/neomru.vim', {'depends':['Shougo/unite.vim']}
     NeoBundleLazy 'Shougo/neosnippet.vim', {
-     \  'depends' : ['Shougo/neocomplcache.vim']}
+     \  'depends' : [
+     \      'Shougo/neocomplcache.vim',
+     \      'Shougo/neosnippet-snippets',
+     \  ]}
     NeoBundleLazy 'Shougo/unite-outline', {'depends':['Shougo/unite.vim']}
     NeoBundleLazy 'Shougo/unite.vim', {'depends':['Shougo/vimproc']}
     NeoBundleLazy 'Shougo/vimproc', {
@@ -1274,9 +1277,9 @@ autocmd MyVimrc FileType haskell set tabstop=8
 
 " FileType : JavaScript =================================== {{{
 " ':h ft-javascript-omni' を参照
-autocmd MyVimrc FileType javascript set shiftwidth=2
-autocmd MyVimrc FileType javascript set softtabstop=2
-autocmd MyVimrc FileType javascript set tabstop=2
+autocmd MyVimrc FileType javascript set shiftwidth=4
+autocmd MyVimrc FileType javascript set softtabstop=4
+autocmd MyVimrc FileType javascript set tabstop=4
 autocmd MyVimrc FileType javascript set omnifunc=javascriptcomplete#CompleteJS
 " }}}
 
