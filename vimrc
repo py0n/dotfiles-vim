@@ -250,10 +250,12 @@ if &loadplugins
     " Plguin : Agit.vim ======================================= {{{
     " https://github.com/cohama/agit.vim
     if neobundle#tap('agit.vim')
+        call neobundle#append()
         call neobundle#config({
          \ 'autoload': {
          \     'commands':['Agit', 'AgitFile'],
          \ }})
+        call neobundle#end()
 
         call neobundle#untap()
     endif
@@ -283,11 +285,13 @@ if &loadplugins
     " Plugin : codic-vim ====================================== {{{
     " https://github.com/koron/codic-vim
     if neobundle#tap('codic-vim')
+        call neobundle#append()
         call neobundle#config({
          \  'autoload': {
          \      'commands'  : ['Codic'],
          \      'on_source' : ['unite-codic.vim'],
          \  }})
+        call neobundle#end()
 
         call neobundle#untap()
     endif
@@ -296,10 +300,12 @@ if &loadplugins
     " Plugin : ghcmod-vim ===================================== {{{
     " https://github.com/eagletmt/ghcmod-vim
     if neobundle#tap('ghcmod-vim')
+        call neobundle#append()
         call neobundle#config({
          \  'autoload'  : {'filetypes' : ['haskell']},
          \  'on_source' : ['Shougo/vimproc'],
          \ })
+        call neobundle#end()
 
         function! neobundle#tapped.hooks.on_source(bundel)
             let g:haddock_browser = "firefox"
@@ -318,9 +324,11 @@ if &loadplugins
 
     " Plugin : html5 ========================================== {{{
     if neobundle#tap('html5')
+        call neobundle#append()
         call neobundle#config({
          \  'autoload': {'filetypes': ['html']},
          \ })
+        call neobundle#end()
 
         call neobundle#untap()
     endif
@@ -542,10 +550,12 @@ if &loadplugins
     " https://github.com/AndrewRadev/linediff.vim
     " http://deris.hatenablog.jp/entry/2013/12/15/235606
     if neobundle#tap('linediff.vim')
+        call neobundle#append()
         call neobundle#config({
          \  'autoload': {
          \      'commands': ['Linediff', 'LinediffReset']
          \  }})
+        call neobundle#end()
 
         call neobundle#untap()
     endif
@@ -554,9 +564,11 @@ if &loadplugins
     " Plugin : neocomplcache.vim ============================== {{{
     " https://github.com/Shougo/neocomplcache.vim
     if neobundle#tap('neocomplcache.vim')
+        call neobundle#append()
         call neobundle#config({
          \  'autoload': {'on_source': ['neosnippet.vim']}
          \ })
+        call neobundle#end()
 
         function! neobundle#tapped.hooks.on_source(bundle)
             let g:neocomplcache_enable_at_startup = 1
@@ -568,10 +580,12 @@ if &loadplugins
 
     " Plugin : neomru.vim ===================================== {{{
     if neobundle#tap('neomru.vim')
+        call neobundle#append()
         call neobundle#config({
          \  'autoload': {
          \      'unite_sources': ['file_mru']
          \  }})
+        call neobundle#end()
 
         call neobundle#untap()
     endif
@@ -580,9 +594,11 @@ if &loadplugins
     " Plugin : neosnippet.vim ================================= {{{
     " https://github.com/Shougo/neosnippet.vim
     if neobundle#tap('neosnippet.vim')
+        call neobundle#append()
         call neobundle#config({
          \  'autoload': {'insert': 1}
          \  })
+        call neobundle#end()
 
         function! neobundle#tapped.hooks.on_source(bundle)
             let $SNIPPETDIRPATH=s:rc_dir.'/snippets'
@@ -607,9 +623,11 @@ if &loadplugins
     " Plugin : perlomni.vim =================================== {{{
     " https://github.com/c9s/perlomni.vim
     if neobundle#tap('perlomni.vim')
+        call neobundle#append()
         call neobundle#config({
          \  'autoload': {'filetypes': ['perl']},
          \  })
+        call neobundle#end()
 
         function! neobundle#tapped.hooks.on_source(bundle)
         endfunction
@@ -621,9 +639,11 @@ if &loadplugins
     " Plugin : perlvalidate-vim =============================== {{{
     " https://github.com/kana/vim-filetype-haskell
     if neobundle#tap('perlvalidate-vim')
+        call neobundle#append()
         call neobundle#config({
          \  'autoload': {'filetypes': ['perl']},
          \  })
+        call neobundle#end()
 
         function! neobundle#tapped.hooks.on_source(bundle)
         endfunction
@@ -635,6 +655,7 @@ if &loadplugins
     " Plugin : ref-hoogle {{{
     " https://github.com/ujihisa/ref-hoogle
     if neobundle#tap('ref-hoogle')
+        call neobundle#append()
         call neobundle#config({
          \  'autoload': {
          \      'filetpyes': ['haskell'],
@@ -644,6 +665,7 @@ if &loadplugins
          \      ],
          \      'unite_sources': ['ref'],
          \  }})
+        call neobundle#end()
 
         call neobundle#untap()
     endif
@@ -652,6 +674,7 @@ if &loadplugins
     " Plugin : ref-sources.vim {{{
     " https://github.com/mojako/ref-sources.vim
     if neobundle#tap('ref-sources.vim')
+        call neobundle#append()
         call neobundle#config({
          \  'autoload': {
          \      'functions': [
@@ -660,6 +683,7 @@ if &loadplugins
          \      ],
          \      'unite_sources': ['ref'],
          \  }})
+        call neobundle#end()
 
         function! neobundle#tapped.hooks.on_source(bundle)
             let g:ref_auto_resize = 1
@@ -672,9 +696,11 @@ if &loadplugins
     " Plugin : supertab ======================================= {{{
     " https://github.com/ervandew/supertab
     if neobundle#tap('supertab')
+        call neobundle#append()
         call neobundle#config({
          \  'autoload': {'insert': 1}
          \ })
+        call neobundle#end()
 
         call neobundle#untap()
     endif
@@ -685,11 +711,13 @@ if &loadplugins
     " http://d.hatena.ne.jp/heavenshell/20120106/1325866974
     " http://d.hatena.ne.jp/itchyny/20130918/1379461406
     if neobundle#tap('syntastic')
+        call neobundle#append()
         call neobundle#config({
          \  'autoload': {
          \      'commands'  : 'SyntasticCheck',
          \      'functions' : 'SyntasticStatuslineFlag',
          \  }})
+        call neobundle#end()
 
         " 作者が教える！ lightline.vimの設定方法！ 〜 中級編 - 展開コンポーネントを理解しよう - プログラムモグモグ
         " http://itchyny.hatenablog.com/entry/20130918/1379461406
@@ -721,10 +749,12 @@ if &loadplugins
 
     " Plugin : unite-codic.vim {{{
     if neobundle#tap('unite-codic.vim')
+        call neobundle#append()
         call neobundle#config({
          \  'autoload': {
          \      'unite_sources': ['codic'],
          \  }})
+        call neobundle#end()
 
         call neobundle#untap()
     endif
@@ -733,10 +763,12 @@ if &loadplugins
     " Plugin : unite-mark {{{
     " https://github.com/tacroe/unite-mark
     if neobundle#tap('unite-mark')
+        call neobundle#append()
         call neobundle#config({
          \  'autoload': {
          \      'unite_sources':['mark']
          \ }})
+        call neobundle#end()
 
         nnoremap <silent> [unite]m :<C-u>Unite mark<CR>
 
@@ -747,10 +779,12 @@ if &loadplugins
     " Plugin : unite-outline {{{
     " https://github.com/Shougo/unite-outline
     if neobundle#tap('unite-outline')
+        call neobundle#append()
         call neobundle#config({
          \  'autoload': {
          \      'unite_sources': ['outline'],
          \  }})
+        call neobundle#end()
 
         " http://qiita.com/martini3oz/items/2cebdb805f45e7b4b901
         nnoremap <silent> [unite]o :<C-u>Unite -vertical outline<CR>
@@ -764,6 +798,7 @@ if &loadplugins
     " http://d.hatena.ne.jp/ruedap/20110110/vim_unite_plugin
     " http://d.hatena.ne.jp/ruedap/20110117/vim_unite_plugin_1_week
     if neobundle#tap('unite.vim')
+        call neobundle#append()
         call neobundle#config({
          \  'autoload': {
          \      'commands': [
@@ -773,6 +808,7 @@ if &loadplugins
          \          },
          \      ],
          \  }})
+        call neobundle#end()
 
         function! neobundle#tapped.hooks.on_source(bundle)
             call unite#custom#profile('default', 'context', {
@@ -834,6 +870,7 @@ if &loadplugins
     " Plugin : vim-alignta ==================================== {{{
     " https://github.com/h1mesuke/vim-alignta
     if neobundle#tap('vim-alignta')
+        call neobundle#append()
         call neobundle#config({
          \  'autoload': {
          \      'commands': [
@@ -842,6 +879,7 @@ if &loadplugins
          \          'Alignta',
          \      ],
          \  }})
+        call neobundle#end()
 
         function! neobundle#tapped.hooks.on_source(bundle)
             " http://nanasi.jp/articles/vim/align/align_vim_ext.html
@@ -861,10 +899,12 @@ if &loadplugins
     " Plugin : vim-anzu ======================================= {{{
     " https://github.com/osyo-manga/vim-anzu
     if neobundle#tap('vim-anzu')
+        call neobundle#append()
         call neobundle#config({
          \  'autoload': {
          \      'function_prefix': 'anzu',
          \  }})
+        call neobundle#end()
 
         function! neobundle#tapped.hooks.on_source(undle)
             " ヒットした檢索語が畫面中段に來るやうに
@@ -889,9 +929,11 @@ if &loadplugins
     " Plugin : vim-filetype-haskell =========================== {{{
     " https://github.com/c9s/perlomni.vim
     if neobundle#tap('vim-filetype-haskell')
+        call neobundle#append()
         call neobundle#config({
          \  'autoload': {'filetypes': ['haskell']},
          \ })
+        call neobundle#end()
 
         function! neobundle#tapped.hooks.on_source(bundle)
         endfunction
@@ -903,11 +945,13 @@ if &loadplugins
     " Plugin : vim-fugitive =================================== {{{
     " https://github.com/tpope/vim-fugitive
     if neobundle#tap('vim-fugitive')
+        call neobundle#append()
         call neobundle#config({
          \  'autoload': {
          \      'commands'  : ['Gblame', 'Gdiff', 'Gwrite'],
          \      'functions' : ['fugitive#head'],
          \  }})
+        call neobundle#end()
 
         " http://leafcage.hateblo.jp/entry/nebulavim_intro
         function! neobundle#tapped.hooks.on_post_source(bundle)
@@ -922,9 +966,11 @@ if &loadplugins
     " http://haya14busa.com/mastering-vim-easymotion/
     " https://github.com/Lokaltog/vim-easymotion
     if neobundle#tap('vim-easymotion')
+        call neobundle#append()
         call neobundle#config({
          \  'autoload': {'mappings': ['/', '<Space>h', '<Space>j', '<Space>k', '<Space>l']}
          \ })
+        call neobundle#end()
 
         function! neobundle#tapped.hooks.on_source(bundle)
             " Disable default mappings
@@ -964,12 +1010,14 @@ if &loadplugins
     " http://lambdalisue.hatenablog.com/entry/2014/07/01/203015
     " https://github.com/lambdalisue/vim-gista
     if neobundle#tap('vim-gista')
+        call neobundle#append()
         call neobundle#config({
          \  'autoload': {
          \      'commands'      : ['Gista'],
          \      'mappings'      : '<Plug>(gista-',
          \      'unite_sources' : 'gista',
          \  }})
+        call neobundle#end()
 
         function! neobundle#tapped.hooks.on_source(bundle)
             if g:gista#gist_api_url == 'https://api.github.com/'
@@ -984,10 +1032,12 @@ if &loadplugins
     " Plugin : vim-gitgutter ================================== {{{
     " https://github.com/airblade/vim-gitgutter
     if neobundle#tap('vim-gitgutter')
+        call neobundle#append()
         call neobundle#config({
          \  'autoload': {
          \      'functions': ['GitGutterGetHunkSummary'],
          \  }})
+        call neobundle#end()
 
         function! neobundle#tapped.hooks.on_source(bundle)
             let g:gitgutter_sign_added = '✚'
@@ -1040,10 +1090,12 @@ if &loadplugins
     " Plugin : vim-pandoc-syntax ============================== {{{
     " https://github.com/vim-pandoc/vim-pandoc-syntax
     if neobundle#tap('vim-pandoc-syntax')
+        call neobundle#append()
         call neobundle#config({
          \  'autoload': {
          \      'filetypes': ['markdown', 'pandoc', 'rst']
          \  }})
+        call neobundle#end()
 
         function! neobundle#tapped.hooks.on_source(bundle)
         endfunction
@@ -1055,9 +1107,11 @@ if &loadplugins
     " Plugin : vim-perl ======================================= {{{
     " https://github.com/vim-perl/vim-perl
     if neobundle#tap('vim-perl')
+        call neobundle#append()
         call neobundle#config({
          \  'autoload': {'filetypes': ['perl']},
          \  })
+        call neobundle#end()
 
         function! neobundle#tapped.hooks.on_source(bundle)
         endfunction
@@ -1068,10 +1122,12 @@ if &loadplugins
 
     " Plugin : vim-precious =================================== {{{
     if neobundle#tap('vim-precious')
+        call neobundle#append()
         call neobundle#config({
          \  'autoload': {
          \      'filetypes': ['html']
          \  }})
+        call neobundle#end()
 
         function! neobundle#tapped.hooks.on_source(bundel)
             let g:context_filetype#filetypes = {
@@ -1091,9 +1147,11 @@ if &loadplugins
     " Plugin : vim-quickrun =================================== {{{
     " https://github.com/thinca/vim-quickrun
     if neobundle#tap('vim-quickrun')
+        call neobundle#append()
         call neobundle#config({
          \  'autoload': {'commands': ['QuickRun']}
          \ })
+        call neobundle#end()
 
         call neobundle#untap()
     endif
@@ -1104,6 +1162,7 @@ if &loadplugins
     if neobundle#tap('vim-ref')
         " http://blog.supermomonga.com/articles/vim/neobundle-sugoi-setting.html
         " http://d.hatena.ne.jp/osyo-manga/20130201/1359699217
+        call neobundle#append()
         call neobundle#config({
          \  'autoload': {
          \      'commands': [{
@@ -1115,6 +1174,7 @@ if &loadplugins
          \          'ref-sources.vim',
          \      ],
          \  }})
+        call neobundle#end()
         call neobundle#untap()
     endif
     " }}}
@@ -1124,10 +1184,12 @@ if &loadplugins
     if neobundle#tap('vim-rooter')
         autocmd BufEnter * :Rooter
 
+        call neobundle#append()
         call neobundle#config({
          \  'autoload': {
          \      'commands': ['Rooter'],
          \  }})
+        call neobundle#end()
 
         function! neobundle#tapped.hooks.on_source(bundle)
             let g:rooter_use_lcd = 1
@@ -1162,10 +1224,12 @@ if &loadplugins
 
     " Plugin : vim-unite-giti {{{
     if neobundle#tap('vim-unite-giti')
+        call neobundle#append()
         call neobundle#config({
          \  'autoload': {
          \      'unite-sources': ['giti', 'giti/*'],
          \  }})
+        call neobundle#end()
 
         call neobundle#untap()
     endi
