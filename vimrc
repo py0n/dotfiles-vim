@@ -1701,14 +1701,6 @@ cnoremap <Up>   <C-p>
 cnoremap <Down> <C-n>
 cnoremap <C-p>  <Up>
 cnoremap <C-n>  <Down>
-" 括弧の補完
-" http://qiita.com/kuwana/items/d9778a9ec42a53b3aa10
-inoremap "        ""<LEFT>
-inoremap '        ''<LEFT>
-inoremap (<Enter> ()<Left>
-inoremap <<Enter> <><Left>
-inoremap [<Enter> []<Left>
-inoremap {<Enter> {}<Left>
 " 挿入モードでのEsc押下後の待ちを無くす
 " http://ttssh2.sourceforge.jp/manual/ja/usage/tips/vim.html
 let &t_SI .= "\e[?7727h"
