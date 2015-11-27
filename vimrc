@@ -1051,10 +1051,12 @@ if &loadplugins
 
     " Plugin : vim-go-extra =================================== {{{
     if neobundle#tap('vim-go-extra')
+        call neobundle#append()
         call neobundle#config({
          \  'autoload': {
          \      'filetypes': ['go']
          \  }})
+        call neobundle#end()
 
         function! neobundle#tapped.hooks.on_source(bundle)
             if executable('go') && exists('$GOPATH')
