@@ -926,6 +926,24 @@ if &loadplugins
     endif
     " }}}
 
+    " Plugin : vim-colors-solarized {{{
+    "  https://github.com/altercation/vim-colors-solarized
+    if neobundle#tap('vim-colors-solarized')
+        " http://ethanschoonover.com/solarized
+        let g:solarized_contrast="high"
+        let g:solarized_hitrail=1
+        let g:solarized_termcolors=256
+        let g:solarized_termtrans=1
+        let g:solarized_visibility="high"
+        set background=dark
+        colorscheme solarized
+        " toggle bg
+        call togglebg#map("<F5>")
+
+        call neobundle#untap()
+    endif
+    " }}}
+
     " Plugin : vim-filetype-haskell =========================== {{{
     " https://github.com/c9s/perlomni.vim
     if neobundle#tap('vim-filetype-haskell')
@@ -1205,24 +1223,6 @@ if &loadplugins
     " バッファを削除してもウィンドウのレイアウトを崩さない
     " http://nanasi.jp/articles/vim/kwbd_vim.html
     command! Kwbd let kwbd_bn= bufnr("%")|enew|exe "bdel ".kwbd_bn|unlet kwbd_bn
-
-    " Plugin : vim-colors-solarized =========================== {{{
-    "  https://github.com/altercation/vim-colors-solarized
-    if neobundle#tap('vim-colors-solarized')
-        " http://ethanschoonover.com/solarized
-        let g:solarized_contrast="high"
-        let g:solarized_hitrail=1
-        let g:solarized_termcolors=256
-        let g:solarized_termtrans=1
-        let g:solarized_visibility="high"
-        set background=dark
-        colorscheme solarized
-        " toggle bg
-        call togglebg#map("<F5>")
-
-        call neobundle#untap()
-    endif
-    " }}}
 
     " Plugin : vim-unite-giti {{{
     if neobundle#tap('vim-unite-giti')
