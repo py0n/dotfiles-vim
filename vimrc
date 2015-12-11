@@ -190,6 +190,9 @@ if &loadplugins
      \  }
     NeoBundleLazy 'ervandew/supertab'
     NeoBundleLazy 'h1mesuke/vim-alignta'
+    NeoBundle 'py0n/vim-slack', {
+     \  'depends' : ['mattn/webapi-vim']
+     \  }
     NeoBundleLazy 'kana/vim-filetype-haskell'
     NeoBundleLazy 'kmnk/vim-unite-giti', {'depeneds':['Shougo/unite.vim']}
     NeoBundleLazy 'koron/codic-vim'
@@ -1215,6 +1218,17 @@ if &loadplugins
             let g:rooter_use_lcd = 1
         endfunction
 
+        call neobundle#untap()
+    endif
+    " }}}
+
+    " Plugin : vim-slack {{{
+    if neobundle#tap('vim-slack')
+        call neobundle#append()
+        call neobundle#config({
+         \  'autoload': {'commands':['Slack']}
+         \  })
+        call neobundle#end()
         call neobundle#untap()
     endif
     " }}}
