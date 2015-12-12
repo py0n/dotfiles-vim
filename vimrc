@@ -165,67 +165,38 @@ if &loadplugins
     NeoBundleLazy 'Lokaltog/vim-easymotion'
     NeoBundleLazy 'Shougo/context_filetype.vim'
     NeoBundleLazy 'Shougo/neocomplcache.vim'
-    NeoBundleLazy 'Shougo/neomru.vim', {'depends':['Shougo/unite.vim']}
-    NeoBundleLazy 'Shougo/neosnippet.vim', {
-     \  'depends' : [
-     \      'Shougo/neocomplcache.vim',
-     \      'Shougo/neosnippet-snippets',
-     \  ]}
-    NeoBundleLazy 'Shougo/unite-outline', {'depends':['Shougo/unite.vim']}
-    NeoBundleLazy 'Shougo/unite.vim', {'depends':['Shougo/vimproc']}
-    NeoBundleLazy 'Shougo/vimproc', {
-     \  'build' : {
-     \      'cygwin'  : 'make -f make_cygwin.mak',
-     \      'mac'     : 'make -f make_mac.mak',
-     \      'unix'    : 'make -f make_unix.mak',
-     \      'windows' : 'make -f make_mingw32.mak',
-     \  }}
-    NeoBundleLazy 'airblade/vim-gitgutter', {'vim_version':'7.3.105'}
+    NeoBundleLazy 'Shougo/neomru.vim'
+    NeoBundleLazy 'Shougo/neosnippet.vim'
+    NeoBundleLazy 'Shougo/unite-outline'
+    NeoBundleLazy 'Shougo/unite.vim'
+    NeoBundleLazy 'Shougo/vimproc'
+    NeoBundleLazy 'airblade/vim-gitgutter'
     NeoBundleLazy 'airblade/vim-rooter'
     NeoBundleLazy 'c9s/perlomni.vim'
     NeoBundleLazy 'cohama/agit.vim'
-    NeoBundleLazy 'eagletmt/ghcmod-vim', {
-     \  'depends'           : ['Shougo/vimproc'],
-     \  'external_commands' : ['ghc-mod'],
-     \  }
+    NeoBundleLazy 'eagletmt/ghcmod-vim'
+    NeoBundleLazy 'eagletmt/neco-ghc'
     NeoBundleLazy 'ervandew/supertab'
     NeoBundleLazy 'h1mesuke/vim-alignta'
-    NeoBundle 'py0n/vim-slack', {
-     \  'depends' : ['mattn/webapi-vim']
-     \  }
     NeoBundleLazy 'kana/vim-filetype-haskell'
-    NeoBundleLazy 'kmnk/vim-unite-giti', {'depeneds':['Shougo/unite.vim']}
+    NeoBundleLazy 'kmnk/vim-unite-giti'
     NeoBundleLazy 'koron/codic-vim'
-    NeoBundleLazy 'lambdalisue/vim-gista', {
-     \  'depends'           : ['Shougo/unite.vim', 'tyru/open-browser.vim'],
-     \  'external_commands' : ['curl'],
-     \  }
+    NeoBundleLazy 'lambdalisue/vim-gista'
     NeoBundleLazy 'mattn/perlvalidate-vim'
-    NeoBundleLazy 'mojako/ref-sources.vim', {
-     \  'depends'           : ['thinca/vim-ref'],
-     \  'external_commands' : ['curl'],
-     \  }
+    NeoBundleLazy 'mojako/ref-sources.vim'
     NeoBundleLazy 'osyo-manga/vim-anzu'
     NeoBundleLazy 'osyo-manga/vim-precious'
     NeoBundleLazy 'othree/html5.vim'
-    NeoBundleLazy 'rhysd/unite-codic.vim', {
-     \  'depends':['Shougo/unite.vim', 'koron/codic-vim'],
-     \  }
+    NeoBundleLazy 'py0n/vim-slack'
+    NeoBundleLazy 'rhysd/unite-codic.vim'
     NeoBundleLazy 'scrooloose/syntastic'
-    NeoBundleLazy 'tacroe/unite-mark', {'depends':['Shougo/unite.vim']}
-    NeoBundleLazy 'thinca/vim-quickrun', {'vim_version':'7.2'}
+    NeoBundleLazy 'tacroe/unite-mark'
+    NeoBundleLazy 'thinca/vim-quickrun'
     NeoBundleLazy 'thinca/vim-ref'
-    NeoBundleLazy 'tpope/vim-fugitive', {'external_commands':['git']}
-    NeoBundleLazy 'ujihisa/neco-ghc', {'external_commands':['ghc-mod']}
-    NeoBundleLazy 'ujihisa/ref-hoogle', {
-     \  'depends'           : ['thinca/vim-ref'],
-     \  'external_commands' : ['hoogle'],
-     \  }
-    NeoBundleLazy 'vim-jp/vim-go-extra', {
-     \  'depends'           : ['Shougo/vimproc'],
-     \  'external_commands' : ['go']
-     \  }
-    NeoBundleLazy 'vim-pandoc/vim-pandoc-syntax', {'vim_version':'7.4'}
+    NeoBundleLazy 'tpope/vim-fugitive'
+    NeoBundleLazy 'ujihisa/ref-hoogle'
+    NeoBundleLazy 'vim-jp/vim-go-extra'
+    NeoBundleLazy 'vim-pandoc/vim-pandoc-syntax'
     NeoBundleLazy 'vim-perl/vim-perl'
 
     call neobundle#end()
@@ -305,8 +276,10 @@ if &loadplugins
     if neobundle#tap('ghcmod-vim')
         call neobundle#append()
         call neobundle#config({
-         \  'autoload'  : {'filetypes' : ['haskell']},
-         \  'on_source' : ['Shougo/vimproc'],
+         \  'autoload'          : {'filetypes' : ['haskell']},
+         \  'depends'           : ['Shougo/vimproc'],
+         \  'external_commands' : ['ghc-mod'],
+         \  'on_source'         : ['Shougo/vimproc'],
          \ })
         call neobundle#end()
 
@@ -564,6 +537,18 @@ if &loadplugins
     endif
     " }}}
 
+    " Plugin : neco-ghc {{{
+    " https://github.com/eagletmt/neco-ghc
+    if neobundle#tap('neco-ghc')
+        call neobundle#append()
+        call neobundle#config({
+         \  'external_commands' : ['ghc-mod']
+         \  })
+        call neobundle#end()
+        call neobundle#untap()
+    endif
+    " }}}
+
     " Plugin : neocomplcache.vim ============================== {{{
     " https://github.com/Shougo/neocomplcache.vim
     if neobundle#tap('neocomplcache.vim')
@@ -585,9 +570,11 @@ if &loadplugins
     if neobundle#tap('neomru.vim')
         call neobundle#append()
         call neobundle#config({
-         \  'autoload': {
-         \      'unite_sources': ['file_mru']
-         \  }})
+         \  'autoload' : {
+         \      'unite_sources' : ['file_mru']
+         \  },
+         \  'depends' : ['Shougo/unite.vim'],
+         \  })
         call neobundle#end()
 
         call neobundle#untap()
@@ -599,8 +586,11 @@ if &loadplugins
     if neobundle#tap('neosnippet.vim')
         call neobundle#append()
         call neobundle#config({
-         \  'autoload': {'insert': 1}
-         \  })
+         \  'autoload': {'insert': 1},
+         \  'depends' : [
+         \      'Shougo/neocomplcache.vim',
+         \      'Shougo/neosnippet-snippets',
+         \  ]})
         call neobundle#end()
 
         function! neobundle#tapped.hooks.on_source(bundle)
@@ -660,14 +650,14 @@ if &loadplugins
     if neobundle#tap('ref-hoogle')
         call neobundle#append()
         call neobundle#config({
-         \  'autoload': {
-         \      'filetpyes': ['haskell'],
-         \      'functions': [
-         \          'ref#complete',
-         \          'ref#ref',
-         \      ],
-         \      'unite_sources': ['ref'],
-         \  }})
+         \  'autoload' : {
+         \      'filetpyes'     : ['haskell'],
+         \      'functions'     : ['ref#complete', 'ref#ref'],
+         \      'unite_sources' : ['ref'],
+         \  },
+         \  'depends'           : ['thinca/vim-ref'],
+         \  'external_commands' : ['hoogle'],
+         \  })
         call neobundle#end()
 
         call neobundle#untap()
@@ -679,13 +669,13 @@ if &loadplugins
     if neobundle#tap('ref-sources.vim')
         call neobundle#append()
         call neobundle#config({
-         \  'autoload': {
-         \      'functions': [
-         \          'ref#complete',
-         \          'ref#ref',
-         \      ],
-         \      'unite_sources': ['ref'],
-         \  }})
+         \  'autoload' : {
+         \      'functions'     : ['ref#complete', 'ref#ref'],
+         \      'unite_sources' : ['ref'],
+         \  },
+         \  'depends'           : ['thinca/vim-ref'],
+         \  'external_commands' : ['curl'],
+         \  })
         call neobundle#end()
 
         function! neobundle#tapped.hooks.on_source(bundle)
@@ -754,9 +744,11 @@ if &loadplugins
     if neobundle#tap('unite-codic.vim')
         call neobundle#append()
         call neobundle#config({
-         \  'autoload': {
-         \      'unite_sources': ['codic'],
-         \  }})
+         \  'autoload' : {
+         \      'unite_sources' : ['codic'],
+         \  },
+         \  'depends' : ['Shougo/unite.vim', 'koron/codic-vim'],
+         \  })
         call neobundle#end()
 
         call neobundle#untap()
@@ -768,9 +760,11 @@ if &loadplugins
     if neobundle#tap('unite-mark')
         call neobundle#append()
         call neobundle#config({
-         \  'autoload': {
-         \      'unite_sources':['mark']
-         \ }})
+         \  'autoload' : {
+         \      'unite_sources' : ['mark']
+         \  },
+         \  'depends' : ['Shougo/unite.vim']
+         \  })
         call neobundle#end()
 
         nnoremap <silent> [unite]m :<C-u>Unite mark<CR>
@@ -786,6 +780,7 @@ if &loadplugins
         call neobundle#config({
          \  'autoload': {
          \      'unite_sources': ['outline'],
+         \  'depends' : ['Shougo/unite.vim'],
          \  }})
         call neobundle#end()
 
@@ -804,12 +799,13 @@ if &loadplugins
         call neobundle#append()
         call neobundle#config({
          \  'autoload': {
-         \      'commands': [
+         \      'commands' : [
          \          {
          \              'name'     : 'Unite',
          \              'complete' : 'customlist,unite#complete_source'
          \          },
          \      ],
+         \  'depends' : ['Shougo/vimproc'],
          \  }})
         call neobundle#end()
 
@@ -968,10 +964,12 @@ if &loadplugins
     if neobundle#tap('vim-fugitive')
         call neobundle#append()
         call neobundle#config({
-         \  'autoload': {
+         \  'autoload' : {
          \      'commands'  : ['Gblame', 'Gdiff', 'Gwrite'],
          \      'functions' : ['fugitive#head'],
-         \  }})
+         \  },
+         \  'external_commands' : ['git'],
+         \  })
         call neobundle#end()
 
         " http://leafcage.hateblo.jp/entry/nebulavim_intro
@@ -1037,6 +1035,12 @@ if &loadplugins
          \      'commands'      : ['Gista'],
          \      'mappings'      : '<Plug>(gista-',
          \      'unite_sources' : 'gista',
+         \  'depends' : [
+         \      'Shougo/unite.vim',
+         \      'tyru/open-browser.vim',
+         \  ],
+         \  'external_commands' : ['curl'],
+         \  'lazy'              : 1,
          \  }})
         call neobundle#end()
 
@@ -1057,7 +1061,9 @@ if &loadplugins
         call neobundle#config({
          \  'autoload': {
          \      'functions': ['GitGutterGetHunkSummary'],
-         \  }})
+         \  },
+         \  'vim_version' : '7.3.105',
+         \  })
         call neobundle#end()
 
         function! neobundle#tapped.hooks.on_source(bundle)
@@ -1074,9 +1080,12 @@ if &loadplugins
     if neobundle#tap('vim-go-extra')
         call neobundle#append()
         call neobundle#config({
-         \  'autoload': {
-         \      'filetypes': ['go']
-         \  }})
+         \  'autoload' : {
+         \      'filetypes' : ['go']
+         \  },
+         \  'depends'           : ['Shougo/vimproc'],
+         \  'external_commands' : ['go']
+         \  })
         call neobundle#end()
 
         function! neobundle#tapped.hooks.on_source(bundle)
@@ -1115,9 +1124,11 @@ if &loadplugins
     if neobundle#tap('vim-pandoc-syntax')
         call neobundle#append()
         call neobundle#config({
-         \  'autoload': {
-         \      'filetypes': ['markdown', 'pandoc', 'rst']
-         \  }})
+         \  'autoload' : {
+         \      'filetypes' : ['markdown', 'pandoc', 'rst'],
+         \  },
+         \  'vim_version' : '7.4',
+         \  })
         call neobundle#end()
 
         function! neobundle#tapped.hooks.on_source(bundle)
@@ -1172,7 +1183,8 @@ if &loadplugins
     if neobundle#tap('vim-quickrun')
         call neobundle#append()
         call neobundle#config({
-         \  'autoload': {'commands': ['QuickRun']}
+         \  'autoload'    : {'commands' : ['QuickRun']},
+         \  'vim_version' : '7.2',
          \ })
         call neobundle#end()
 
@@ -1226,7 +1238,8 @@ if &loadplugins
     if neobundle#tap('vim-slack')
         call neobundle#append()
         call neobundle#config({
-         \  'autoload': {'commands':['Slack']}
+         \  'autoload' : {'commands':['Slack']},
+         \  'depends'  : ['mattn/webapi-vim'],
          \  })
         call neobundle#end()
         call neobundle#untap()
@@ -1242,13 +1255,31 @@ if &loadplugins
     if neobundle#tap('vim-unite-giti')
         call neobundle#append()
         call neobundle#config({
-         \  'autoload': {
-         \      'unite-sources': ['giti', 'giti/*'],
-         \  }})
+         \  'autoload' : {
+         \      'unite-sources' : ['giti', 'giti/*'],
+         \  },
+         \  'depeneds' : ['Shougo/unite.vim'],
+         \  })
         call neobundle#end()
 
         call neobundle#untap()
     endi
+    " }}}
+
+    " Plugin : vimproc {{{
+    " https://github.com/Shougo/vimproc.vim
+    if neobundle#tap('vimproc')
+        call neobundle#append()
+        call neobundle#config({
+         \  'build' : {
+         \      'cygwin'  : 'make -f make_cygwin.mak',
+         \      'mac'     : 'make -f make_mac.mak',
+         \      'unix'    : 'make -f make_unix.mak',
+         \      'windows' : 'make -f make_mingw32.mak',
+         \  }})
+        call neobundle#end()
+        call neobundle#untap()
+    endif
     " }}}
 
     " Plugin : wildfire.vim =================================== {{{
