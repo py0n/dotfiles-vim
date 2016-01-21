@@ -1033,7 +1033,7 @@ if &loadplugins
         call neobundle#config({
          \  'autoload': {
          \      'commands'      : ['Gista'],
-         \      'mappings'      : '<Plug>(gista-',
+         \      'on_func'       : 'gista#',
          \      'unite_sources' : 'gista',
          \  'depends' : [
          \      'Shougo/unite.vim',
@@ -1045,9 +1045,15 @@ if &loadplugins
         call neobundle#end()
 
         function! neobundle#tapped.hooks.on_source(bundle)
-            if g:gista#gist_api_url == 'https://api.github.com/'
-                let g:gista#github_user = 'py0n'
-            endif
+            for k in keys(g:gista#client#apinames)
+                " 以下の変数は `$HOME/.local.vim` で定義する
+                " g:gista#client#apinames (非標準の配列変数)
+                " g:gista#client#default_apiname
+                " g:gista#client#default_username
+                if exists('g:gista#client#apinames')
+                    call gista#client#register(k, g:gista#client#apinames[k])
+                endif
+            endfor
         endfunction
 
         call neobundle#untap()
