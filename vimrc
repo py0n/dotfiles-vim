@@ -1126,7 +1126,8 @@ if &loadplugins
     if neobundle#tap('vim-precious')
         call neobundle#append()
         call neobundle#config({
-         \  'on_ft' : ['html']
+         \  'depends' : ['Shougo/context_filetype.vim'],
+         \  'on_ft'   : ['html']
          \  })
         call neobundle#end()
 
