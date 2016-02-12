@@ -567,8 +567,7 @@ if &loadplugins
     if neobundle#tap('neomru.vim')
         call neobundle#append()
         call neobundle#config({
-         \  'depends'  : ['Shougo/unite.vim'],
-         \  'on_unite' : ['file_mru']
+         \  'on_source' : 'unite.vim'
          \  })
         call neobundle#end()
 
@@ -762,8 +761,7 @@ if &loadplugins
     if neobundle#tap('unite-outline')
         call neobundle#append()
         call neobundle#config({
-         \  'depends'  : ['Shougo/unite.vim'],
-         \  'on_unite' : ['outline']
+         \  'on_source' : 'unite.vim'
          \  })
         call neobundle#end()
 
@@ -803,8 +801,6 @@ if &loadplugins
         nnoremap <C-P> :<C-u>Unite -buffer-name=file buffer file_mru<CR>
         " ファイル一覧
         nnoremap <C-N> :<C-u>Unite file<CR>
-        " 最近使用したファイル一覧
-        nnoremap <C-Z> :<C-u>Unite file_mru<CR>
 
         " http://deris.hatenablog.jp/entry/2013/05/02/192415
         nnoremap [unite]  <Nop>
