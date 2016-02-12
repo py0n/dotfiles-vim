@@ -646,7 +646,7 @@ if &loadplugins
          \  'external_commands' : ['hoogle'],
          \  'on_ft'             : ['haskell'],
          \  'on_func'           : ['ref#complete', 'ref#ref'],
-         \  'on_unite'          : ['ref'],
+         \  'on_source'         : ['unite.vim'],
          \  })
         call neobundle#end()
 
@@ -662,7 +662,7 @@ if &loadplugins
          \  'depends'           : ['thinca/vim-ref'],
          \  'external_commands' : ['curl'],
          \  'on_ft'             : ['ref#complete', 'ref#ref'],
-         \  'on_unite'          : ['ref'],
+         \  'on_source'         : ['unite.vim'],
          \  })
         call neobundle#end()
 
@@ -731,8 +731,8 @@ if &loadplugins
     if neobundle#tap('unite-codic.vim')
         call neobundle#append()
         call neobundle#config({
-         \  'depends'  : ['Shougo/unite.vim', 'koron/codic-vim'],
-         \  'on_unite' : ['codic'],
+         \  'depends'   : ['koron/codic-vim'],
+         \  'on_source' : 'unite.vim'
          \  })
         call neobundle#end()
 
@@ -745,8 +745,7 @@ if &loadplugins
     if neobundle#tap('unite-mark')
         call neobundle#append()
         call neobundle#config({
-         \  'depends'  : ['Shougo/unite.vim'],
-         \  'on_unite' : ['mark']
+         \  'on_source' : 'unite.vim'
          \  })
         call neobundle#end()
 
@@ -806,7 +805,7 @@ if &loadplugins
         nnoremap [unite]  <Nop>
         nmap     <Space>u [unite]
         " grep
-        nnoremap <silent> [unite]g :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
+        nnoremap <silent> [unite]g :<C-u>Unite grep -buffer-name=search-buffer<CR>
         nnoremap <silent> [unite]r :<C-u>UniteResume search-buffer<CR>
 
         " ESC二回で終了
@@ -1000,11 +999,10 @@ if &loadplugins
     if neobundle#tap('vim-gista')
         call neobundle#append()
         call neobundle#config({
-         \  'depends'           : ['Shougo/unite.vim', 'tyru/open-browser.vim'],
+         \  'depends'           : ['tyru/open-browser.vim'],
          \  'external_commands' : ['curl'],
-         \  'lazy'              : 1,
          \  'on_cmd'            : ['Gista'],
-         \  'on_unite'          : 'gista',
+         \  'on_source'         : 'unite.vim',
          \  'pre_func'          : 'gista#',
          \  })
         call neobundle#end()
@@ -1212,11 +1210,12 @@ if &loadplugins
     command! Kwbd let kwbd_bn= bufnr("%")|enew|exe "bdel ".kwbd_bn|unlet kwbd_bn
 
     " Plugin : vim-unite-giti {{{
+    " https://github.com/kmnk/vim-unite-giti
+    " Uniteからgitを扱う。
     if neobundle#tap('vim-unite-giti')
         call neobundle#append()
         call neobundle#config({
-         \  'depeneds' : ['Shougo/unite.vim'],
-         \  'on_unite' : ['giti', 'giti/*'],
+         \  'on_source' : ['unite.vim']
          \  })
         call neobundle#end()
 
