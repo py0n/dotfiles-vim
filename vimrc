@@ -810,7 +810,7 @@ if &loadplugins
         nnoremap [unite]  <Nop>
         nmap     <Space>u [unite]
         " grep
-        nnoremap <silent> [unite]g :<C-u>Unite -buffer-name=search-buffer -no-empty grep<CR>
+        nnoremap <silent> [unite]g :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
         nnoremap <silent> [unite]r :<C-u>UniteResume search-buffer<CR>
 
         " ESC二回で終了
@@ -825,6 +825,7 @@ if &loadplugins
             " https://github.com/monochromegane/the_platinum_searcher
             let g:unite_source_grep_command       = 'pt'
             let g:unite_source_grep_default_opts  = '--nogroup --nocolor'
+            let g:unite_source_grep_encoding      = 'utf-8'
             let g:unite_source_grep_recursive_opt = ''
         elseif executable('ag')
             " Use ag in unite grep source.
