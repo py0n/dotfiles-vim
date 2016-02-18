@@ -1002,21 +1002,20 @@ if &loadplugins
          \  'depends'           : ['tyru/open-browser.vim'],
          \  'external_commands' : ['curl'],
          \  'on_cmd'            : ['Gista'],
-         \  'on_source'         : 'unite.vim',
          \  'pre_func'          : 'gista#',
          \  })
         call neobundle#end()
 
         function! neobundle#tapped.hooks.on_source(bundle)
-            for k in keys(g:gista#client#apinames)
-                " 以下の変数は `$HOME/.local.vim` で定義する
-                " g:gista#client#apinames (非標準の配列変数)
-                " g:gista#client#default_apiname
-                " g:gista#client#default_username
-                if exists('g:gista#client#apinames')
+            if exists('g:gista#client#apinames')
+                for k in keys(g:gista#client#apinames)
+                    " 以下の変数は `$HOME/.local.vim` で定義する
+                    " g:gista#client#apinames (非標準の配列変数)
+                    " g:gista#client#default_apiname
+                    " g:gista#client#default_username
                     call gista#client#register(k, g:gista#client#apinames[k])
-                endif
-            endfor
+                endfor
+            endif
         endfunction
 
         call neobundle#untap()
