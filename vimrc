@@ -170,6 +170,7 @@ if &loadplugins
     NeoBundleLazy 'Shougo/unite-outline'
     NeoBundleLazy 'Shougo/unite.vim'
     NeoBundleLazy 'Shougo/vimproc'
+    NeoBundleLazy 'Valloric/MatchTagAlways'
     NeoBundleLazy 'airblade/vim-gitgutter'
     NeoBundleLazy 'airblade/vim-rooter'
     NeoBundleLazy 'c9s/perlomni.vim'
@@ -530,6 +531,19 @@ if &loadplugins
          \  })
         call neobundle#end()
 
+        call neobundle#untap()
+    endif
+    " }}}
+
+    " Plugin : MatchTagAlways {{{
+    " 対応するタグをハイライトする
+    " https://github.com/Valloric/MatchTagAlways
+    if neobundle#tap('MatchTagAlways')
+        call neobundle#append()
+        call neobundle#config({
+         \  'on_ft' : ['html', 'xml']
+         \  })
+        call neobundle#end()
         call neobundle#untap()
     endif
     " }}}
