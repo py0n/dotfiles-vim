@@ -1667,6 +1667,8 @@ endif
 " ノーマルモードで行を目立たせる
 " http://blog.remora.cx/2012/10/spotlight-cursor-line.html
 set cursorline
+highlight clear CursorLine
+highlight CursorLine ctermbg=DarkBlue ctermfg=White cterm=NONE term=reverse
 autocmd MyVimrc InsertEnter * set nocursorline
 autocmd MyVimrc InsertLeave * set cursorline
 
